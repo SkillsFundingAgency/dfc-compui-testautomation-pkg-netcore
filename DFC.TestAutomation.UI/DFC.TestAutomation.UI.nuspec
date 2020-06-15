@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>compui</id>
+    <version>0.1</version>
+    <title>Comp UI Automation support</title>
+    <authors>ESFA</authors>
+    <owners>ESFA</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Automation support</description>
+    <releaseNotes>initial commit.</releaseNotes>
+    <copyright>Copyright 2020</copyright>
+    <tags>automation</tags>
+  </metadata>
+</package>
