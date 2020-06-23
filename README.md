@@ -1,28 +1,65 @@
-# Project template repository
+# National Careers Service - UI Automation Framework
+This is a SpecFlow-Selenium functional testing framework created using Selenium WebDriver with NUnit and C# in SpecFlow BDD methodology and Page Object Pattern.
 
-This directory contains a "template repo" for creating new repositories from.
+# Initialisation
 
-It defaults to .dotnet core 2.2, but if you update global.json, it will support netcore 3.0 and 3.1.
+The various configuturation frameworks are intialised by supplying appsetting.json files containing the required values
 
-When using this,  please run
+# Example Usage
 
-`Scripts\New-InitialDotNetCoreProjects.ps1 -Prefix <project name> -ProjectType <project type>`
+```
+[Binding]
+    public class ContactUsConfigurationSetup
+    {
+        private readonly ScenarioContext _context;
+        private readonly ObjectContext _objectContext;
+        //private readonly IConfigurationRoot _configurationRoot;
+        private readonly IConfigSection _configSection;
 
-to create the project structure and correctly populate the project guids in the csproj files.
+        public ContactUsConfigurationSetup(ScenarioContext context)
+        {
+            _context = context;
+            _objectContext = context.Get<ObjectContext>();
+            Configurator.InitializeHostingConfig("appsettings.Environment.json");
+            Configurator.InitializeConfig(new[] { "appsettings.json", "appsettings.Project.json", "appsettings.local.Project.json", "appsettings.local.json", "appsettings.RestApi.json" });
+            _configSection = new ConfigSection(Configurator.GetConfig());
+        }
 
-Supported project types are currently:
+        [BeforeScenario(Order = 1)]
+        public void SetUpConfiguration()
+        {
+            _context.Set(_configSection);
 
-* mvc
-* console
-* classlib
-* function
+            var configuration = new FrameworkConfig
+            {
+                TimeOutConfig = _configSection.GetConfigSection<TimeOutConfig>(),
+                BrowserStackSetting = _configSection.GetConfigSection<BrowserStackSetting>(),
+                TakeEveryPageScreenShot = Configurator.IsVstsExecution
+            };
 
-Then delete this section, and remove the Scripts folder from the repo.
+            _context.Set(configuration);
 
-Then it can be PR'd into the appropriate branch
+            var executionConfig = new EnvironmentConfig { EnvironmentName = Configurator.EnvironmentName, ProjectName = Configurator.ProjectName };
 
-# SomeProjectName
+            _context.Set(executionConfig);
 
-## Introduction
+            var testExecutionConfig = _configSection.GetConfigSection<TestExecutionConfig>();
 
-An introduction to the project goes here!
+            _objectContext.SetBrowser(testExecutionConfig.Browser);
+
+            var config = _configSection.GetConfigSection<ContactUs>();
+            
+          
+            _context.SetContactUsConfig(config);
+
+            var mongoDbconfig = _configSection.GetConfigSection<MongoDbConfig>();
+            _context.SetMongoDbConfig(mongoDbconfig);
+
+            _objectContext.Replace("browser", config.Browser);
+            _objectContext.Replace("build", config.BuildNumber);
+            _objectContext.Replace("EnvironmentName", config.EnvironmentName);
+            
+            
+        }
+    }
+```
