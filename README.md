@@ -3,7 +3,7 @@ This is a SpecFlow-Selenium functional testing framework created using Selenium 
 
 # Initialisation
 
-The various configuturation frameworks are intialised by supplying appsetting.json files containing the required values
+The various configuration frameworks are intialised by supplying appsetting.json files containing the required values
 
 # Example Usage
 
