@@ -15,13 +15,14 @@ The various configuration frameworks are intialised by supplying appsetting.json
         private readonly ObjectContext _objectContext;
         //private readonly IConfigurationRoot _configurationRoot;
         //private readonly IConfigSection _configSection;
-        private readonly Configurator _configurator = new Configurator();
+        private readonly Configurator _configurator;
         private readonly IConfigSection _configSection;
 
         public ContactUsConfigurationSetup(ScenarioContext context)
         {
             _context = context;
             _objectContext = context.Get<ObjectContext>();
+            _configurator = new Configurator();
             _configurator.InitializeHostingConfig("appsettings.Environment.json");
 
             _configurator.AddSettingsFile("appsettings.json")
