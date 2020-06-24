@@ -6,51 +6,43 @@ using System.Text;
 
 namespace DFC.TestAutomation.UI.TestSupport
 {
-    internal static class Configurator
+    public static class Configurator
     {
-        private readonly static IConfigurationRoot _config;
+        private static IConfigurationRoot _config;
 
-        private readonly static IConfigurationRoot _hostingConfig;
+        private static IConfigurationRoot _hostingConfig;
 
-        internal readonly static bool IsVstsExecution;
+        public static bool IsVstsExecution { get; set; }
 
-        internal readonly static string EnvironmentName;
+        public static string EnvironmentName { get; set; }
 
-        internal readonly static string ProjectName;
+        public static string ProjectName { get; set; }
 
-        static Configurator()
+        public static IConfigurationRoot GetConfig() => _config;
+
+        public static IConfigurationRoot InitializeConfig(string[] settingsFiles)
         {
-            _hostingConfig = InitializeHostingConfig();
+            var config = ConfigurationBuilder();
+            foreach (var file in settingsFiles)
+            {
+                config.AddJsonFile(file, true);
+            }
+            config.AddEnvironmentVariables();
+            _config = config.Build();
+            return _config;
+        }
+
+        public static void InitializeHostingConfig(string settingsFile)
+        {
+            _hostingConfig = ConfigurationBuilder()
+                 .AddJsonFile(settingsFile, true)
+                .AddEnvironmentVariables()
+                .Build();
             IsVstsExecution = TestsExecutionInVsts();
             EnvironmentName = GetEnvironmentName();
             ProjectName = GetProjectName();
-            _config = InitializeConfig();
         }
 
-        internal static IConfigurationRoot GetConfig() => _config;
-
-        private static IConfigurationRoot InitializeConfig()
-        {
-            //var EnvironmentName = _hostingConfig.GetSection("Release_EnvironmentName").Value;
-            //var ProjectName = _hostingConfig.GetSection("ProjectName").Value;
-
-            return ConfigurationBuilder()
-            .AddJsonFile("appsettings.json", true)
-            .AddJsonFile("appsettings.Project.json", true)
-            .AddJsonFile("appsettings.local.Project.json", true)
-            .AddJsonFile("appsettings.local.json", true)
-            .AddJsonFile("appsettings.RestApi.json", true)
-            .AddEnvironmentVariables()
-            //.AddUserSecrets("BrowserStackSecrets")
-            //.AddUserSecrets($"{ProjectName}_{EnvironmentName}_Secrets")
-            //.AddUserSecrets("MongoDbSecrets")
-            .Build();
-        }
-
-        private static IConfigurationRoot InitializeHostingConfig() => ConfigurationBuilder()
-                .AddJsonFile("appsettings.Environment.json", true)
-                .AddEnvironmentVariables()
-                .Build();
 
         private static IConfigurationBuilder ConfigurationBuilder() => new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory());
