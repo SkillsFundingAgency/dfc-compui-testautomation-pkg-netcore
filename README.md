@@ -8,7 +8,7 @@ The various configuration frameworks are intialised by supplying appsetting.json
 # Example Usage
 
 ```
-[   [Binding]
+[Binding]
     public class ContactUsConfigurationSetup
     {
         private readonly ScenarioContext _context;
