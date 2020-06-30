@@ -13,16 +13,25 @@ The various configuration frameworks are intialised by supplying appsetting.json
     {
         private readonly ScenarioContext _context;
         private readonly ObjectContext _objectContext;
-        //private readonly IConfigurationRoot _configurationRoot;
+        private readonly Configurator _configurator;
         private readonly IConfigSection _configSection;
 
         public ContactUsConfigurationSetup(ScenarioContext context)
         {
             _context = context;
             _objectContext = context.Get<ObjectContext>();
-            Configurator.InitializeHostingConfig("appsettings.Environment.json");
-            Configurator.InitializeConfig(new[] { "appsettings.json", "appsettings.Project.json", "appsettings.local.Project.json", "appsettings.local.json", "appsettings.RestApi.json" });
-            _configSection = new ConfigSection(Configurator.GetConfig());
+            _configurator = new Configurator();
+            _configurator.InitializeHostingConfig("appsettings.Environment.json");
+
+            _configurator.AddSettingsFile("appsettings.json")
+                         .AddSettingsFile("appsettings.Project.json")
+                         .AddSettingsFile("appsettings.local.Project.json")
+                         .AddSettingsFile("appsettings.local.json")
+                         .AddSettingsFile("appsettings.RestApi.json")
+                         .BuildConfig();
+
+            _configSection = new ConfigSection(_configurator.GetConfig());
+
         }
 
         [BeforeScenario(Order = 1)]
@@ -34,12 +43,12 @@ The various configuration frameworks are intialised by supplying appsetting.json
             {
                 TimeOutConfig = _configSection.GetConfigSection<TimeOutConfig>(),
                 BrowserStackSetting = _configSection.GetConfigSection<BrowserStackSetting>(),
-                TakeEveryPageScreenShot = Configurator.IsVstsExecution
+                TakeEveryPageScreenShot = _configurator.IsVstsExecution
             };
 
             _context.Set(configuration);
 
-            var executionConfig = new EnvironmentConfig { EnvironmentName = Configurator.EnvironmentName, ProjectName = Configurator.ProjectName };
+            var executionConfig = new EnvironmentConfig { EnvironmentName = _configurator.EnvironmentName, ProjectName = _configurator.ProjectName };
 
             _context.Set(executionConfig);
 
@@ -48,8 +57,6 @@ The various configuration frameworks are intialised by supplying appsetting.json
             _objectContext.SetBrowser(testExecutionConfig.Browser);
 
             var config = _configSection.GetConfigSection<ContactUs>();
-            
-          
             _context.SetContactUsConfig(config);
 
             var mongoDbconfig = _configSection.GetConfigSection<MongoDbConfig>();

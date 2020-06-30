@@ -2,9 +2,9 @@
 {
     public class EnvironmentConfig
     {
-        public string EnvironmentName { get; internal set; }
+        public string EnvironmentName { get; set; }
 
-        public string ProjectName { get; internal set; }
+        public string ProjectName { get; set; }
 
     }
 }
