@@ -17,7 +17,6 @@
     <IncludeSymbols>true</IncludeSymbols>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <BuildPackage>true</BuildPackage>
     <Description>
       Automation support for CompUI
     </Description>
