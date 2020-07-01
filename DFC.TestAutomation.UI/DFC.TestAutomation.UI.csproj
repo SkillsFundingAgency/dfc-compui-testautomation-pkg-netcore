@@ -1,27 +1,22 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <ProjectGuid>{12B1A410-DE8B-4F45-97E1-E0B502FDECC7}</ProjectGuid>
-   <AssemblyName>DFC.TestAutomation.UI</AssemblyName>
+    <AssemblyName>DFC.TestAutomation.UI</AssemblyName>
     <OutputType>Library</OutputType>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Version>0.0.1</Version>
-   <Company>Education and Skills Funding Agency</Company>
+    <Company>Education and Skills Funding Agency</Company>
     <Authors>Education and Skills Funding Agency Team</Authors>
     <Copyright>Copyright (c) 2020 Education and Skills Funding Agency Team</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/SkillsFundingAgency/dfc-compui-testautomation-pkg-netcore</RepositoryUrl>
     <PackageTags>CompUI, Automation</PackageTags>
-    <EmbedUntrackedSources>false</EmbedUntrackedSources>
-    <IncludeSymbols>true</IncludeSymbols>
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <Description>
       Automation support for CompUI
     </Description>
   </PropertyGroup>
-  
   <ItemGroup>
     <PackageReference Include="CsvHelper" Version="15.0.5" />
     <PackageReference Include="Dapper" Version="2.0.35" />
@@ -41,6 +36,5 @@
     <PackageReference Include="Specflow.nunit" Version="3.3.16-beta" />
     <PackageReference Include="Specflow.tools.msbuild.generation" Version="3.3.16-beta" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.1" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/>
   </ItemGroup>
 </Project>
