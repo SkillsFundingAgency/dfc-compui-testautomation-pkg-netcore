@@ -28,7 +28,7 @@ namespace DFC.TestAutomation.UI.Config
 
         public string Resolution { get; set; }
 
-        public string Name { get; internal set; }
+        public string Name { get; set; }
 
         public bool EnableNetworkLogs { get; set; }
 
