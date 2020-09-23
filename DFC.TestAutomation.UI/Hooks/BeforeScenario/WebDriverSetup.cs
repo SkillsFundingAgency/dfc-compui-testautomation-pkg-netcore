@@ -1,6 +1,5 @@
 ﻿using DFC.TestAutomation.UI.Config;
 using DFC.TestAutomation.UI.TestSupport;
-using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
@@ -102,16 +101,11 @@ namespace DFC.TestAutomation.UI.Hooks.BeforeScenario
             _context.SetWebDriver(WebDriver);
         }
 
-        private string FindDriverService(string executableName)
+        private static string FindDriverService(string executableName)
         {
-            TestContext.Progress.WriteLine($"DriverPath : {DriverPath}, Executable Name : {executableName}");
-
-            FileInfo[] file = Directory.GetParent(DriverPath).GetFiles(executableName, SearchOption.AllDirectories);
-
-            var info = file.Length != 0 ? file[0].DirectoryName : DriverPath;
-
-            TestContext.Progress.WriteLine($"Driver Service should be available under: {info}");
-
+            string driverPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            FileInfo[] file = Directory.GetParent(driverPath).GetFiles(executableName, SearchOption.AllDirectories);
+            var info = file.Length != 0 ? file[0].DirectoryName : driverPath;
             return info;
         }
 
@@ -130,7 +124,7 @@ namespace DFC.TestAutomation.UI.Hooks.BeforeScenario
             WebDriver = new ChromeDriver(FindDriverService(ChromeDriverServiceName), chromeOptions);
         }
 
-        public ChromeDriver ChromeDriver(List<string> arguments)
+        private ChromeDriver ChromeDriver(List<string> arguments)
         {
             arguments.Add("no-sandbox");
             return new ChromeDriver(FindDriverService(ChromeDriverServiceName),
