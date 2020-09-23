@@ -101,7 +101,7 @@ namespace DFC.TestAutomation.UI.Hooks.BeforeScenario
             _context.SetWebDriver(WebDriver);
         }
 
-        private static string FindDriverService(string executableName)
+        public static string FindDriverService(string executableName)
         {
             string driverPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             FileInfo[] file = Directory.GetParent(driverPath).GetFiles(executableName, SearchOption.AllDirectories);
