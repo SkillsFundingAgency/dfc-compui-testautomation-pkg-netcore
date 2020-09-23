@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
-    <metadata>
-        <!-- Required elements-->
-        <id>DFC.TestAutomation.UI</id>
-        <version>1.0.0</version>
-        <description>A user interface test automation framework built on top of Selenium.</description>
-        <authors>National Careers Service</authors>
+  <metadata>
+    <!-- Required elements-->
+    <id>DFC.TestAutomation.UI</id>
+    <version>1.0.0</version>
+    <description>A user interface test automation framework built on top of Selenium.</description>
+    <authors>National Careers Service</authors>
 
-        <!-- Optional elements -->
-        <!-- ... -->
-    </metadata>
-    <!-- Optional 'files' node -->
+    <!-- Optional elements -->
+    <files>
+      <file src="bin\chromedriver.exe" target="lib\"/>
+      <file src="bin\geckodriver.exe" target="lib\"/>
+    </files>
+    
+    <contentFiles>
+      <files include="bin\chromedriver.exe" buildAction="None" copyToOutput="true" />
+      <files include="bin\geckodriver.exe" buildAction="None" copyToOutput="true" />
+    </contentFiles>
+    <!-- ... -->
+  </metadata>
+  <!-- Optional 'files' node -->
 </package>
