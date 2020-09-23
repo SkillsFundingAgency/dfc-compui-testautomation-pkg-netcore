@@ -130,7 +130,7 @@ namespace DFC.TestAutomation.UI.Hooks.BeforeScenario
             WebDriver = new ChromeDriver(FindDriverService(ChromeDriverServiceName), chromeOptions);
         }
 
-        private ChromeDriver ChromeDriver(List<string> arguments)
+        public ChromeDriver ChromeDriver(List<string> arguments)
         {
             arguments.Add("no-sandbox");
             return new ChromeDriver(FindDriverService(ChromeDriverServiceName),
