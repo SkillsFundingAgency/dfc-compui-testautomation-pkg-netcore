@@ -1,23 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+<package >
   <metadata>
-    <!-- Required elements-->
     <id>DFC.TestAutomation.UI</id>
-    <version>1.0.0</version>
+    <version>5.0.0</version>
+    <authors>Education and Skills Funding Agency Team</authors>
+    <owners>Education and Skills Funding Agency Team</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
     <description>A user interface test automation framework built on top of Selenium.</description>
-    <authors>National Careers Service</authors>
-
-    <!-- Optional elements -->
-    <files>
-      <file src="bin\chromedriver.exe" target="lib\"/>
-      <file src="bin\geckodriver.exe" target="lib\"/>
-    </files>
-    
-    <contentFiles>
-      <files include="bin\chromedriver.exe" buildAction="None" copyToOutput="true" />
-      <files include="bin\geckodriver.exe" buildAction="None" copyToOutput="true" />
-    </contentFiles>
-    <!-- ... -->
+    <tags>UI Automation National Careers Service DFC CompUI</tags>
+    <copyright>Copyright (c) 2020 Education and Skills Funding Agency Team</copyright>
+    <dependencies>
+        <dependency id="Selenium.WebDriver.ChromeDriver" version="85.0.4183.8700" />
+        <dependency id="Selenium.Firefox.WebDriver" version="0.27.0" />
+        <dependency id="CsvHelper" version="15.0.5" />
+        <dependency id="Dapper" version="2.0.35" />
+        <dependency id="DotNetSeleniumExtras.WaitHelpers" version="3.11.0" />
+        <dependency id="Microsoft.Extensions.Configuration" version="3.1.8" />
+        <dependency id="Microsoft.Extensions.Configuration.Binder" version="3.1.8" />
+        <dependency id="Microsoft.Extensions.Configuration.EnvironmentVariables" version="3.1.8" />
+        <dependency id="Microsoft.Extensions.Configuration.Json" version="3.1.8" />
+        <dependency id="MongoDB.Driver" version="2.11.2" />
+        <dependency id="NUnit" version="3.12.0" />
+        <dependency id="Polly" version="7.2.1" />
+        <dependency id="RestSharp" version="106.11.5" />
+        <dependency id="Selenium.Axe" version="1.5.2" />
+        <dependency id="Selenium.Support" version="3.141.0" />
+        <dependency id="Selenium.WebDriver" version="3.141.0" />
+        <dependency id="Specflow" version="3.4.8" />
+        <dependency id="Specflow.nunit" version="3.4.8" />
+        <dependency id="Specflow.tools.msbuild.generation" version="3.4.8" />
+        <dependency id="System.Data.SqlClient" version="4.8.2" />
+    </dependencies>
   </metadata>
-  <!-- Optional 'files' node -->
+  <files>
+    <file src="DFC.TestAutomation.UI\bin\Debug\netcoreapp3.1\DFC.TestAutomation.UI.dll" target="lib\netcoreapp3.1" />
+    <file src="DFC.TestAutomation.UI\bin\Debug\netcoreapp3.1\DFC.TestAutomation.UI.pdb" target="lib\netcoreapp3.1" />
+  </files>
 </package>
