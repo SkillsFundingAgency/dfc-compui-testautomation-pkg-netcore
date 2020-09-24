@@ -57,17 +57,17 @@ namespace DFC.TestAutomation.UI.TestSupport
             return objectContext.Get(FileKey);
         }
 
-        internal static string GetUrl(this ObjectContext objectContext)
+        public static string GetUrl(this ObjectContext objectContext)
         {
             return objectContext.Get(WebDriverUrl);
         }
 
-        internal static void SetUrl(this ObjectContext objectContext, string value)
+        public static void SetUrl(this ObjectContext objectContext, string value)
         {
             objectContext.Set(WebDriverUrl, value);
         }
 
-        internal static void SetBrowserstackResponse(this ObjectContext objectContext)
+        public static void SetBrowserstackResponse(this ObjectContext objectContext)
         {
             objectContext.Set(BrowserstackFailedToUpdateTestResult, true);
         }
@@ -77,18 +77,18 @@ namespace DFC.TestAutomation.UI.TestSupport
             return objectContext.KeyExists<bool>(BrowserstackFailedToUpdateTestResult);
         }
 
-        internal static void SetAfterScenarioException(this ObjectContext objectContext, Exception value)
+        public static void SetAfterScenarioException(this ObjectContext objectContext, Exception value)
         {
             var exceptions = objectContext.GetAfterScenarioExceptions();
             exceptions.Add(value);
         }
 
-        internal static void SetAfterScenarioExceptions(this ObjectContext objectContext, List<Exception> afterscenarioexceptions)
+        public static void SetAfterScenarioExceptions(this ObjectContext objectContext, List<Exception> afterscenarioexceptions)
         {
             objectContext.Set(AfterScenarioExceptions, afterscenarioexceptions);
         }
 
-        internal static List<Exception> GetAfterScenarioExceptions(this ObjectContext objectContext)
+        public static List<Exception> GetAfterScenarioExceptions(this ObjectContext objectContext)
         {
             return objectContext.Get<List<Exception>>(AfterScenarioExceptions);
         }
