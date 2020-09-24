@@ -17,20 +17,20 @@ namespace DFC.TestAutomation.UI.Helpers
             ((IJavaScriptExecutor)_webDriver).ExecuteScript("arguments[0].click();", webElement);
         }
 
-        public void ExecuteScript(string javascript, IWebElement webElement)
+        public object ExecuteScript(string javascript, IWebElement webElement)
         {
-            ((IJavaScriptExecutor)_webDriver).ExecuteScript(javascript, webElement);
+            return ((IJavaScriptExecutor)_webDriver).ExecuteScript(javascript, webElement);
         }
 
-        public void ExecuteScript(string javascript, By locator)
+        public object ExecuteScript(string javascript, By locator)
         {
             var webElement = _webDriver.FindElement(locator);
-            ExecuteScript(javascript, webElement);
+            return ExecuteScript(javascript, webElement);
         }
 
-        public void ExecuteScript(string javascript)
+        public object ExecuteScript(string javascript)
         {
-            ((IJavaScriptExecutor)_webDriver).ExecuteScript(javascript);
+            return ((IJavaScriptExecutor)_webDriver).ExecuteScript(javascript);
         }
     }
 }
