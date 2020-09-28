@@ -34,7 +34,7 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="DFC.TestAutomation.UI\bin\Debug\netcoreapp3.1\DFC.TestAutomation.UI.dll" target="lib\netcoreapp3.1" />
-    <file src="DFC.TestAutomation.UI\bin\Debug\netcoreapp3.1\DFC.TestAutomation.UI.pdb" target="lib\netcoreapp3.1" />
+    <file src="$id$\bin\$configuration$\netcoreapp3.1\$id$.dll" target="lib\netcoreapp3.1" />
+    <file src="$id$\bin\$configuration$\netcoreapp3.1\$id$.pdb" target="lib\netcoreapp3.1" />
   </files>
 </package>
