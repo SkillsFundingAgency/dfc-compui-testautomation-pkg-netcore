@@ -1,60 +1,23 @@
 ﻿using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace DFC.TestAutomation.UI.TestSupport
 {
-    public static class Configurator
+    public class Configurator
     {
-        private static IConfigurationRoot _config;
+        public IConfigurationRoot configurationRoot { get; private set; }
 
-        private static IConfigurationRoot _hostingConfig;
+        public bool IsExecutingInVSTS => !string.IsNullOrEmpty(configurationRoot.GetSection("AGENT_MACHINENAME")?.Value);
 
-        public static bool IsVstsExecution { get; set; }
+        public string EnvironmentName => IsExecutingInVSTS ? configurationRoot.GetSection("RELEASE_ENVIRONMENTNAME")?.Value : configurationRoot.GetSection("EnvironmentName")?.Value;
 
-        public static string EnvironmentName { get; set; }
+        public string ProjectName => configurationRoot.GetSection("ProjectName").Value;
 
-        public static string ProjectName { get; set; }
-
-        public static IConfigurationRoot GetConfig() => _config;
-
-        public static IConfigurationRoot InitializeConfig(string[] settingsFiles)
+        public Configurator()
         {
-            var config = ConfigurationBuilder();
-            foreach (var file in settingsFiles)
-            {
-                config.AddJsonFile(file, true);
-            }
-            config.AddEnvironmentVariables();
-            _config = config.Build();
-            return _config;
+            var configurationBuilder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
+            configurationBuilder.AddEnvironmentVariables();
+            configurationRoot = configurationBuilder.Build();
         }
-
-        public static void InitializeHostingConfig(string settingsFile)
-        {
-            _hostingConfig = ConfigurationBuilder()
-                 .AddJsonFile(settingsFile, true)
-                .AddEnvironmentVariables()
-                .Build();
-            IsVstsExecution = TestsExecutionInVsts();
-            EnvironmentName = GetEnvironmentName();
-            ProjectName = GetProjectName();
-        }
-
-
-        private static IConfigurationBuilder ConfigurationBuilder() => new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory());
-
-        private static bool TestsExecutionInVsts() => !string.IsNullOrEmpty(GetAgentMachineName());
-
-        private static string GetAgentMachineName() => GetHostingConfigSection("AGENT_MACHINENAME");
-
-        private static string GetEnvironmentName() => IsVstsExecution ? GetHostingConfigSection("RELEASE_ENVIRONMENTNAME") : GetHostingConfigSection("EnvironmentName");
-
-        private static string GetProjectName() => GetHostingConfigSection("ProjectName");
-
-        private static string GetHostingConfigSection(string name) => _hostingConfig.GetSection(name)?.Value;
     }
 }
