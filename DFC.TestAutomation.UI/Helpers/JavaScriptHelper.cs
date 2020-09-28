@@ -1,7 +1,4 @@
 ﻿using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DFC.TestAutomation.UI.Helpers
 {
@@ -18,6 +15,22 @@ namespace DFC.TestAutomation.UI.Helpers
         {
             var webElement = _webDriver.FindElement(locator);
             ((IJavaScriptExecutor)_webDriver).ExecuteScript("arguments[0].click();", webElement);
+        }
+
+        public object ExecuteScript(string javascript, IWebElement webElement)
+        {
+            return ((IJavaScriptExecutor)_webDriver).ExecuteScript(javascript, webElement);
+        }
+
+        public object ExecuteScript(string javascript, By locator)
+        {
+            var webElement = _webDriver.FindElement(locator);
+            return ExecuteScript(javascript, webElement);
+        }
+
+        public object ExecuteScript(string javascript)
+        {
+            return ((IJavaScriptExecutor)_webDriver).ExecuteScript(javascript);
         }
     }
 }
