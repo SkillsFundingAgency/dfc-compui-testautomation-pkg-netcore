@@ -3,15 +3,33 @@ using System.IO;
 
 namespace DFC.TestAutomation.UI.TestSupport
 {
-    public class Configurator
+    public class Configurator : IConfigurator
     {
         public IConfigurationRoot configurationRoot { get; private set; }
 
-        public bool IsExecutingInVSTS => !string.IsNullOrEmpty(configurationRoot.GetSection("AGENT_MACHINENAME")?.Value);
+        public bool IsExecutingInVSTS
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(configurationRoot.GetSection("AGENT_MACHINENAME")?.Value);
+            }
+        }
 
-        public string EnvironmentName => IsExecutingInVSTS ? configurationRoot.GetSection("RELEASE_ENVIRONMENTNAME")?.Value : configurationRoot.GetSection("EnvironmentName")?.Value;
+        public string EnvironmentName
+        {
+            get
+            {
+                return IsExecutingInVSTS ? configurationRoot.GetSection("RELEASE_ENVIRONMENTNAME")?.Value : configurationRoot.GetSection("EnvironmentName")?.Value;
+            }
+        }
 
-        public string ProjectName => configurationRoot.GetSection("ProjectName").Value;
+        public string ProjectName
+        {
+            get
+            {
+                return configurationRoot.GetSection("ProjectName").Value;
+            }
+        }
 
         public Configurator()
         {
