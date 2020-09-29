@@ -15,6 +15,7 @@ namespace DFC.TestAutomation.UI.TestSupport
         private readonly ScreenShotTitleGenerator _screenShotTitleGenerator;
         private readonly string _directory;
         private readonly string _browser;
+        private readonly BrowserHelper BrowserHelper;
         #endregion
 
         protected virtual By PageHeader => By.ClassName("govuk-heading-xl");
@@ -23,6 +24,7 @@ namespace DFC.TestAutomation.UI.TestSupport
 
         public BasePage(ScenarioContext context)
         {
+            this.BrowserHelper = new BrowserHelper(context.GetConfiguration().Data.BrowserConfiguration.BrowserName);
             _projectConfig = context.Get<ProjectConfiguration>();
             _webDriver = context.GetWebDriver();
             _pageInteractionHelper = context.Get<PageInteractionHelper>();
@@ -34,7 +36,7 @@ namespace DFC.TestAutomation.UI.TestSupport
 
         public bool VerifyPage()
         {
-            if (_projectConfig.TakeScreenshots && !_browser.IsCloudExecution())
+            if (_projectConfig.TakeScreenshots && !BrowserHelper.IsExecutingInTheCloud())
             {
                 ScreenshotHelper.TakeScreenShot(_webDriver, _directory, _screenShotTitleGenerator.GetNextCount());
             }

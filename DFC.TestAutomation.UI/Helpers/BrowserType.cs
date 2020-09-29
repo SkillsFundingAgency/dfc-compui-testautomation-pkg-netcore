@@ -1,6 +1,6 @@
 ﻿namespace DFC.TestAutomation.UI.Helpers
 {
-    public enum WebDriverType
+    public enum BrowserType
     {
         Chrome,
         Firefox,

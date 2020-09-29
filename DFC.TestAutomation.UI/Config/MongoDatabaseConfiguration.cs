@@ -1,6 +1,6 @@
 ﻿namespace DFC.TestAutomation.UI.Config
 {
-    public class MongoDbConfig
+    public class MongoDatabaseConfiguration
     {
         public string Uri { get; set; }
 

@@ -8,12 +8,12 @@
 
         BrowserConfiguration BrowserConfiguration { get; set; }
 
-        TimeoutConfiguration TimeOutConfiguration { get; set; }
+        TimeoutConfiguration TimeoutConfiguration { get; set; }
 
         BrowserStackConfiguration BrowserStackConfiguration { get; set; }
 
         EnvironmentConfiguration EnvironmentConfiguration { get; set; }
 
-        MongoDbConfig MongoDatabaseConfiguration { get; set; }
+        MongoDatabaseConfiguration MongoDatabaseConfiguration { get; set; }
     }
 }

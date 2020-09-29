@@ -120,14 +120,14 @@ namespace DFC.TestAutomation.UI.TestSupport
             return Get<T>(context, MatchYourSkillsToCareerConfigKey);
         }
 
-        public static void SetMongoDbConfig(this ScenarioContext context, MongoDbConfig value)
+        public static void SetMongoDbConfig(this ScenarioContext context, MongoDatabaseConfiguration value)
         {
             Set(context, value, MongoDbConfigKey);
         }
 
-        public static MongoDbConfig GetMongoDbConfig(this ScenarioContext context)
+        public static MongoDatabaseConfiguration GetMongoDbConfig(this ScenarioContext context)
         {
-            return Get<MongoDbConfig>(context, MongoDbConfigKey);
+            return Get<MongoDatabaseConfiguration>(context, MongoDbConfigKey);
         }
 
         public static void SetWebDriver(this ScenarioContext context, IWebDriver webDriver)

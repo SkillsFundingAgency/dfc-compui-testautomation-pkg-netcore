@@ -46,64 +46,6 @@ namespace DFC.TestAutomation.UI.Hooks.BeforeScenario
             _executionConfig = context.Get<EnvironmentConfiguration>();
         }
 
-
-        [BeforeScenario(Order = 3)]
-        public void SetupWebDriver()
-        {
-            var browser = _objectContext.GetBrowser();
-
-            switch (true)
-            {
-                case bool _ when browser.IsFirefox():
-                    WebDriver = new FirefoxDriver(FindDriverService(FirefoxDriverServiceName));
-                    WebDriver.Manage().Window.Maximize();
-                    break;
-
-                case bool _ when browser.IsChrome():
-
-                    WebDriver = ChromeDriver(new List<string>());
-                    break;
-
-                case bool _ when browser.IsInternetExplorer():
-                    WebDriver = new InternetExplorerDriver(FindDriverService(InternetExplorerDriverServiceName));
-                    WebDriver.Manage().Window.Maximize();
-                    break;
-
-                case bool _ when browser.IsZapProxy():
-                    InitialiseZapProxyChrome();
-                    break;
-
-                case bool _ when browser.IsChromeHeadless():
-                    WebDriver = ChromeDriver(new List<string>() { "--headless" });
-                    break;
-
-                case bool _ when browser.IsCloudExecution():
-                    _browserStackConfig.Name = _context.ScenarioInfo.Title;
-                    WebDriver = BrowserStackSetup.Init(this._context.GetConfiguration());
-                    break;
-
-                default:
-                    throw new Exception("Driver name - " + browser + " does not match OR this framework does not support the webDriver specified");
-            }
-
-            WebDriver.Manage().Window.Maximize();
-            WebDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(this._timeoutConfig.PageNavigation);
-            var currentWindow = WebDriver.CurrentWindowHandle;
-            WebDriver.SwitchTo().Window(currentWindow);
-            WebDriver.Manage().Cookies.DeleteAllCookies();
-
-            if (!browser.IsCloudExecution())
-            {
-                var wb = WebDriver as RemoteWebDriver;
-                var cap = wb.Capabilities;
-
-                _objectContext.SetBrowserName(cap["browserName"]);
-                _objectContext.SetBrowserVersion(cap["browserVersion"]);
-            }
-
-            _context.SetWebDriver(WebDriver);
-        }
-
         public static string FindDriverService(string executableName)
         {
             string driverPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);

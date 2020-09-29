@@ -9,5 +9,9 @@ namespace DFC.TestAutomation.UI.Config
         public string BrowserVersion { get; set; }
 
         public List<string> BrowserArguements { get; set; }
+
+        public bool UseProxy { get; set; }
+
+        public string Proxy { get; set; }
     }
 }

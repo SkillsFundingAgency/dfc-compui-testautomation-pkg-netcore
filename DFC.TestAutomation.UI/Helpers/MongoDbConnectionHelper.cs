@@ -6,9 +6,9 @@ namespace DFC.TestAutomation.UI.Helpers
 {
     public class MongoDbConnectionHelper
     {
-        private readonly MongoDbConfig _config;
+        private readonly MongoDatabaseConfiguration _config;
 
-        public MongoDbConnectionHelper(MongoDbConfig config)
+        public MongoDbConnectionHelper(MongoDatabaseConfiguration config)
         {
             _config = config;
         }
