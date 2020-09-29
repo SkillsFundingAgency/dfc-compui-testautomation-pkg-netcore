@@ -1,5 +1,6 @@
 ﻿using DFC.TestAutomation.UI.Helpers;
 using OpenQA.Selenium;
+using System.Runtime.CompilerServices;
 using TechTalk.SpecFlow;
 
 namespace DFC.TestAutomation.UI.TestSupport
@@ -18,6 +19,26 @@ namespace DFC.TestAutomation.UI.TestSupport
         private const string MongoDbConfigKey = "mongodbconfig";
         private const string WebDriverKey = "webdriver";
         #endregion
+
+        public static IConfigurator<T> GetConfiguration<T>(this ScenarioContext context)
+        {
+            return context.Get<IConfigurator<T>>();
+        }
+
+        public static void SetConfiguration<T>(this ScenarioContext context, IConfigurator<T> configuration)
+        {
+            context.Set(configuration);
+        }
+
+        public static ObjectContext GetObjectContext(this ScenarioContext context)
+        {
+            return context.Get<ObjectContext>();
+        }
+
+        public static void SetObjectContext(this ScenarioContext context, ObjectContext objectContext)
+        {
+            context.Set<ObjectContext>(objectContext);
+        }
 
         public static void SetExploreCareersConfig<T>(this ScenarioContext context, T value)
         {

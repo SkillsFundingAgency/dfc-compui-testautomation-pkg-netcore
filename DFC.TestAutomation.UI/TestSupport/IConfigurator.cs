@@ -2,9 +2,9 @@
 
 namespace DFC.TestAutomation.UI.TestSupport
 {
-    public interface IConfigurator
+    public interface IConfigurator<T>
     {
-        IConfigurationRoot configurationRoot { get; }
+        T Data { get; }
 
         bool IsExecutingInVSTS { get; }
 

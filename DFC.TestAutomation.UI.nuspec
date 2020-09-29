@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>DFC.TestAutomation.UI</id>
-    <version>1.0.0</version>
+    <version>23.0.0</version>
     <authors>Education and Skills Funding Agency Team</authors>
     <owners>Education and Skills Funding Agency Team</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -11,6 +11,7 @@
     <tags>UI Automation National Careers Service DFC CompUI</tags>
     <copyright>Copyright (c) 2020 Education and Skills Funding Agency Team</copyright>
     <dependencies>
+      <group targetFramework="netcoreapp3.1">
         <dependency id="Selenium.WebDriver.ChromeDriver" version="85.0.4183.8700" />
         <dependency id="Selenium.Firefox.WebDriver" version="0.27.0" />
         <dependency id="CsvHelper" version="15.0.5" />
@@ -31,6 +32,7 @@
         <dependency id="Specflow.nunit" version="3.4.8" />
         <dependency id="Specflow.tools.msbuild.generation" version="3.4.8" />
         <dependency id="System.Data.SqlClient" version="4.8.2" />
+      </group>
     </dependencies>
   </metadata>
   <files>

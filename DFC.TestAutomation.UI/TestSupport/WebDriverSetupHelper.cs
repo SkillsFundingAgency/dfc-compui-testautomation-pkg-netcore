@@ -9,12 +9,12 @@ namespace DFC.TestAutomation.UI.TestSupport
             return browser.CompareToIgnoreCase("browserstack") || browser.CompareToIgnoreCase("cloud");
         }
 
-        public static bool IsZap(this string browser)
+        public static bool IsZapProxy(this string browser)
         {
             return browser.CompareToIgnoreCase("zapProxyChrome");
         }
 
-        public static bool IsIe(this string browser)
+        public static bool IsInternetExplorer(this string browser)
         {
             return browser.CompareToIgnoreCase("ie") || browser.CompareToIgnoreCase("internetexplorer");
         }

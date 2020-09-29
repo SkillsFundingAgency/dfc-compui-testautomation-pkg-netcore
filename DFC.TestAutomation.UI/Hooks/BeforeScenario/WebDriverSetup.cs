@@ -61,12 +61,12 @@ namespace DFC.TestAutomation.UI.Hooks.BeforeScenario
                     WebDriver = ChromeDriver(new List<string>());
                     break;
 
-                case bool _ when browser.IsIe():
+                case bool _ when browser.IsInternetExplorer():
                     WebDriver = new InternetExplorerDriver(FindDriverService(InternetExplorerDriverServiceName));
                     WebDriver.Manage().Window.Maximize();
                     break;
 
-                case bool _ when browser.IsZap():
+                case bool _ when browser.IsZapProxy():
                     InitialiseZapProxyChrome();
                     break;
 

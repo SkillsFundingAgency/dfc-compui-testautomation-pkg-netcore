@@ -3,15 +3,17 @@ using System.IO;
 
 namespace DFC.TestAutomation.UI.TestSupport
 {
-    public class Configurator : IConfigurator
+    public class Configurator<T> : IConfigurator<T>
     {
-        public IConfigurationRoot configurationRoot { get; private set; }
+        public T Data { get; private set; }
+
+        private IConfigurationRoot ConfigurationRoot { get; set; }
 
         public bool IsExecutingInVSTS
         {
             get
             {
-                return !string.IsNullOrEmpty(configurationRoot.GetSection("AGENT_MACHINENAME")?.Value);
+                return !string.IsNullOrEmpty(ConfigurationRoot.GetSection("AGENT_MACHINENAME")?.Value);
             }
         }
 
@@ -19,7 +21,7 @@ namespace DFC.TestAutomation.UI.TestSupport
         {
             get
             {
-                return IsExecutingInVSTS ? configurationRoot.GetSection("RELEASE_ENVIRONMENTNAME")?.Value : configurationRoot.GetSection("EnvironmentName")?.Value;
+                return IsExecutingInVSTS ? ConfigurationRoot.GetSection("RELEASE_ENVIRONMENTNAME")?.Value : ConfigurationRoot.GetSection("EnvironmentName")?.Value;
             }
         }
 
@@ -27,7 +29,7 @@ namespace DFC.TestAutomation.UI.TestSupport
         {
             get
             {
-                return configurationRoot.GetSection("ProjectName").Value;
+                return ConfigurationRoot.GetSection("ProjectName").Value;
             }
         }
 
@@ -35,7 +37,8 @@ namespace DFC.TestAutomation.UI.TestSupport
         {
             var configurationBuilder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
             configurationBuilder.AddEnvironmentVariables();
-            configurationRoot = configurationBuilder.Build();
+            ConfigurationRoot = configurationBuilder.Build();
+            Data = ConfigurationRoot.Get<T>();
         }
     }
 }
