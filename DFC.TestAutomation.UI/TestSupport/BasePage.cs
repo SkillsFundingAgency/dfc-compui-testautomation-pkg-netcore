@@ -6,7 +6,7 @@ using TechTalk.SpecFlow;
 
 namespace DFC.TestAutomation.UI.TestSupport
 {
-    public abstract class BasePage
+    public abstract class BasePage<T> where T : IConfiguration
     {
         #region Helpers and Context
         private readonly PageInteractionHelper _pageInteractionHelper;
@@ -24,7 +24,7 @@ namespace DFC.TestAutomation.UI.TestSupport
 
         public BasePage(ScenarioContext context)
         {
-            this.BrowserHelper = new BrowserHelper(context.GetConfiguration().Data.BrowserConfiguration.BrowserName);
+            this.BrowserHelper = new BrowserHelper(context.GetConfiguration<T>().Data.BrowserConfiguration.BrowserName);
             _projectConfig = context.Get<ProjectConfiguration>();
             _webDriver = context.GetWebDriver();
             _pageInteractionHelper = context.Get<PageInteractionHelper>();

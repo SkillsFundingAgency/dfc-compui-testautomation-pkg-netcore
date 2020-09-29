@@ -8,12 +8,7 @@ namespace DFC.TestAutomation.UI.TestSupport
 {
     public class BrowserStackSetup
     {
-
-        static BrowserStackSetup()
-        {
-        }
-
-        public static IWebDriver Init(IConfigurator<IConfiguration> configuration)
+        public static IWebDriver Init<T>(IConfigurator<T> configuration) where T : IConfiguration
         {
             var browserStackConfig = configuration.Data.BrowserStackConfiguration;
             var browserConfig = configuration.Data.BrowserConfiguration;

@@ -1,4 +1,5 @@
-﻿using DFC.TestAutomation.UI.Helpers;
+﻿using DFC.TestAutomation.UI.Config;
+using DFC.TestAutomation.UI.Helpers;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
@@ -10,7 +11,7 @@ using TechTalk.SpecFlow;
 
 namespace DFC.TestAutomation.UI.TestSupport
 {
-    public class WebDriverConfigurator : IWebDriverConfigurator
+    public class WebDriverConfigurator<T> : IWebDriverConfigurator where T : IConfiguration
     {
         private string ChromeDriverPath => GetWebDriverPathForExecutable("chromedriver.exe");
         private string FirefoxDriverPath => GetWebDriverPathForExecutable("geckodriver.exe");
@@ -23,9 +24,11 @@ namespace DFC.TestAutomation.UI.TestSupport
         public WebDriverConfigurator(ScenarioContext scenarioContext)
         {
             this.Context = scenarioContext;
-            this.BrowserHelper = new BrowserHelper(this.Context.GetConfiguration().Data.BrowserConfiguration.BrowserName);
+
+            var config = this.Context.GetConfiguration<T>();
+            this.BrowserHelper = new BrowserHelper(this.Context.GetConfiguration<T>().Data.BrowserConfiguration.BrowserName);
             this.ChromeOptions = new ChromeOptions();
-            ChromeOptions.AddArguments(this.Context.GetConfiguration().Data.BrowserConfiguration.BrowserArguements);
+            ChromeOptions.AddArguments(this.Context.GetConfiguration<T>().Data.BrowserConfiguration.BrowserArguements);
         }
 
         private string GetWebDriverPathForExecutable(string executableName)
@@ -47,11 +50,11 @@ namespace DFC.TestAutomation.UI.TestSupport
             switch(this.BrowserHelper.GetBrowserType())
             {
                 case BrowserType.Chrome:
-                    this.ChromeOptions.AddArguments(this.Context.GetConfiguration().Data.BrowserConfiguration.BrowserArguements);
+                    this.ChromeOptions.AddArguments(this.Context.GetConfiguration<T>().Data.BrowserConfiguration.BrowserArguements);
 
-                    if (this.Context.GetConfiguration().Data.BrowserConfiguration.UseProxy)
+                    if (this.Context.GetConfiguration<T>().Data.BrowserConfiguration.UseProxy)
                     {
-                        var proxy = this.Context.GetConfiguration().Data.BrowserConfiguration.Proxy;
+                        var proxy = this.Context.GetConfiguration<T>().Data.BrowserConfiguration.Proxy;
 
                         this.ChromeOptions.Proxy = new Proxy
                         {
@@ -67,7 +70,7 @@ namespace DFC.TestAutomation.UI.TestSupport
                     return new FirefoxDriver(this.FirefoxDriverPath);
 
                 case BrowserType.BrowserStack:
-                    return BrowserStackSetup.Init(this.Context.GetConfiguration());
+                    return BrowserStackSetup.Init(this.Context.GetConfiguration<T>());
 
                 case BrowserType.InternetExplorer:
                     return new InternetExplorerDriver(this.InternetExplorerDriverPath);
