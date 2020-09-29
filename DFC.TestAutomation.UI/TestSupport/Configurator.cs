@@ -3,7 +3,7 @@ using System.IO;
 
 namespace DFC.TestAutomation.UI.TestSupport
 {
-    public class Configurator<T> : IConfigurator<T> where T : IConfiguration
+    public class Configurator<T> : IConfigurator<T> where T : Config.IConfiguration
     {
         public T Data { get; private set; }
 
