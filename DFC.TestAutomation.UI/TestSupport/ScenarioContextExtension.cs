@@ -1,6 +1,6 @@
-﻿using DFC.TestAutomation.UI.Helpers;
+﻿using DFC.TestAutomation.UI.Config;
+using DFC.TestAutomation.UI.Helpers;
 using OpenQA.Selenium;
-using System.Runtime.CompilerServices;
 using TechTalk.SpecFlow;
 
 namespace DFC.TestAutomation.UI.TestSupport
@@ -20,12 +20,12 @@ namespace DFC.TestAutomation.UI.TestSupport
         private const string WebDriverKey = "webdriver";
         #endregion
 
-        public static IConfigurator<T> GetConfiguration<T>(this ScenarioContext context)
+        public static IConfigurator<IConfiguration> GetConfiguration(this ScenarioContext context)
         {
-            return context.Get<IConfigurator<T>>();
+            return context.Get<IConfigurator<IConfiguration>>();
         }
 
-        public static void SetConfiguration<T>(this ScenarioContext context, IConfigurator<T> configuration)
+        public static void SetConfiguration(this ScenarioContext context, IConfigurator<IConfiguration> configuration)
         {
             context.Set(configuration);
         }

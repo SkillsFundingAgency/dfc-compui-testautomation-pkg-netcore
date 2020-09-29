@@ -16,22 +16,8 @@ namespace DFC.TestAutomation.UI.Config
 
         public string AutomateSessions => "https://www.browserstack.com/automate/sessions/";
 
-        public string BuildNumber { get; set; }
-
-        public string Project { get; set; }
-
-        public string Os { get; set; }
-
-        public string Osversion { get; set; }
-
-        public string BrowserVersion { get; set; }
-
-        public string Resolution { get; set; }
-
-        public string Name { get; set; }
-
         public bool EnableNetworkLogs { get; set; }
 
-        internal string TimeZone => "London";
+        internal string TimeZone { get; set; }
     }
 }
