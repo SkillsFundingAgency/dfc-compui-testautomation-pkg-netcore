@@ -10,20 +10,20 @@ namespace DFC.TestAutomation.UI.Hooks.BeforeScenario
     {
         private readonly ScenarioContext _context;
         private readonly ObjectContext _objectContext;
-        private readonly FrameworkConfig _config;
+        private readonly TimeoutConfiguration _config;
 
         public HelpersSetup(ScenarioContext context)
         {
             _context = context;
             _objectContext = context.Get<ObjectContext>();
-            _config = context.Get<FrameworkConfig>();
+            _config = context.Get<TimeoutConfiguration>();
         }
 
         [BeforeScenario(Order = 4)]
         public void SetUpHelpers()
         {
             var webDriver = _context.GetWebDriver();
-            var webDriverwaitHelper = new WebDriverWaitHelper(webDriver, _config.TimeOutConfig);
+            var webDriverwaitHelper = new WebDriverWaitHelper(webDriver, _config);
             var retryHelper = new RetryHelper(webDriver);
             _context.Set(new SqlDatabaseConnectionHelper());
             _context.Set(new PageInteractionHelper(webDriver, webDriverwaitHelper, retryHelper));

@@ -1,19 +1,18 @@
-﻿using OpenQA.Selenium;
+﻿using DFC.TestAutomation.UI.Config;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DFC.TestAutomation.UI.Helpers
 {
     public class WebDriverWaitHelper
     {
         private readonly IWebDriver _webDriver;
-        private readonly TimeOutConfig _timeOutConfig;
+        private readonly TimeoutConfiguration _timeOutConfig;
         private readonly OpenQA.Selenium.Support.UI.WebDriverWait _implicitWait;
         private readonly OpenQA.Selenium.Support.UI.WebDriverWait _pagenavigationWait;
 
-        public WebDriverWaitHelper(IWebDriver webDriver, TimeOutConfig timeOutConfig)
+        public WebDriverWaitHelper(IWebDriver webDriver, TimeoutConfiguration timeOutConfig)
         {
             _webDriver = webDriver;
             _timeOutConfig = timeOutConfig;

@@ -9,9 +9,9 @@ namespace DFC.TestAutomation.UI.TestSupport
 {
     public class BrowserStackReport
     {
-        public static void MarkTestAsFailed(BrowserStackSetting options, string sessionId, string message)
+        public static void MarkTestAsFailed(BrowserStackConfiguration browserStackConfiguration, string sessionId, string message)
         {
-            var client = Client(options);
+            var client = Client(browserStackConfiguration.BrowserStackUser, browserStackConfiguration.BrowserStackKey, browserStackConfiguration.AutomateSessions);
 
             var request = Request(sessionId);
 
@@ -27,11 +27,11 @@ namespace DFC.TestAutomation.UI.TestSupport
             }
         }
 
-        private static RestClient Client(BrowserStackSetting options)
+        private static RestClient Client(string browserStackUser, string browserStackKey, Uri automationBaseUrl)
         {
-            return new RestClient(options.AutomateSessions)
+            return new RestClient(automationBaseUrl)
             {
-                Authenticator = new HttpBasicAuthenticator(options.BrowserStackUser, options.BrowserStackKey)
+                Authenticator = new HttpBasicAuthenticator(browserStackUser, browserStackKey)
             };
         }
 

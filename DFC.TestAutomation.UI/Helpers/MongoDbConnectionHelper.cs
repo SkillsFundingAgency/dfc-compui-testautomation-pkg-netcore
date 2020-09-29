@@ -1,7 +1,5 @@
-﻿using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using DFC.TestAutomation.UI.Config;
+using MongoDB.Driver;
 using System.Threading.Tasks;
 
 namespace DFC.TestAutomation.UI.Helpers

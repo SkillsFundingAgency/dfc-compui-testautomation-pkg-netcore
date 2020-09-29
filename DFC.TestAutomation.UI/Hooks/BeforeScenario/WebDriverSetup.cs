@@ -24,9 +24,11 @@ namespace DFC.TestAutomation.UI.Hooks.BeforeScenario
 
         private readonly ObjectContext _objectContext;
 
-        private readonly FrameworkConfig _frameworkConfig;
+        private readonly BrowserStackConfiguration _browserStackConfig;
 
-        private readonly EnvironmentConfig _executionConfig;
+        private readonly TimeoutConfiguration _timeoutConfig;
+
+        private readonly EnvironmentConfiguration _executionConfig;
 
         private const string ChromeDriverServiceName = "chromedriver.exe";
 
@@ -39,8 +41,9 @@ namespace DFC.TestAutomation.UI.Hooks.BeforeScenario
             DriverPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             _context = context;
             _objectContext = context.Get<ObjectContext>();
-            _frameworkConfig = context.Get<FrameworkConfig>();
-            _executionConfig = context.Get<EnvironmentConfig>();
+            _browserStackConfig = context.Get<BrowserStackConfiguration>();
+            _timeoutConfig = context.Get<TimeoutConfiguration>();
+            _executionConfig = context.Get<EnvironmentConfiguration>();
         }
 
 
@@ -75,8 +78,8 @@ namespace DFC.TestAutomation.UI.Hooks.BeforeScenario
                     break;
 
                 case bool _ when browser.IsCloudExecution():
-                    _frameworkConfig.BrowserStackSetting.Name = _context.ScenarioInfo.Title;
-                    WebDriver = BrowserStackSetup.Init(_frameworkConfig.BrowserStackSetting, _executionConfig);
+                    _browserStackConfig.Name = _context.ScenarioInfo.Title;
+                    WebDriver = BrowserStackSetup.Init(this._context.GetConfiguration());
                     break;
 
                 default:
@@ -84,7 +87,7 @@ namespace DFC.TestAutomation.UI.Hooks.BeforeScenario
             }
 
             WebDriver.Manage().Window.Maximize();
-            WebDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(_frameworkConfig.TimeOutConfig.PageNavigation);
+            WebDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(this._timeoutConfig.PageNavigation);
             var currentWindow = WebDriver.CurrentWindowHandle;
             WebDriver.SwitchTo().Window(currentWindow);
             WebDriver.Manage().Cookies.DeleteAllCookies();
@@ -129,7 +132,7 @@ namespace DFC.TestAutomation.UI.Hooks.BeforeScenario
             arguments.Add("no-sandbox");
             return new ChromeDriver(FindDriverService(ChromeDriverServiceName),
                                                  AddArguments(arguments),
-                                                 TimeSpan.FromMinutes(_frameworkConfig.TimeOutConfig.CommandTimeout));
+                                                 TimeSpan.FromMinutes(this._timeoutConfig.CommandTimeout));
         }
 
         private ChromeOptions AddArguments(List<string> arguments)

@@ -1,19 +1,19 @@
-﻿using DFC.TestAutomation.UI.Helpers;
-
-namespace DFC.TestAutomation.UI.Config
+﻿namespace DFC.TestAutomation.UI.Config
 {
     public interface IConfiguration
     {
-        ProjectConfig ProjectConfig { get; set; }
+        ProjectConfiguration ProjectConfiguration { get; set; }
 
-        TimeOutConfig TimeOutConfig { get; set; }
+        BuildConfiguration BuildConfiguration { get; set; }
 
-        BrowserStackSetting BrowserStackConfig { get; set; }
+        BrowserConfiguration BrowserConfiguration { get; set; }
 
-        EnvironmentConfig EnvironmentConfig { get; set; }
+        TimeoutConfiguration TimeOutConfiguration { get; set; }
 
-        TestExecutionConfig TestExecutionConfig { get; set; }
+        BrowserStackConfiguration BrowserStackConfiguration { get; set; }
 
-        MongoDbConfig MongoDbConfig { get; set; }
+        EnvironmentConfiguration EnvironmentConfiguration { get; set; }
+
+        MongoDbConfig MongoDatabaseConfiguration { get; set; }
     }
 }

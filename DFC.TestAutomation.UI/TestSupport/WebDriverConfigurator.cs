@@ -1,5 +1,4 @@
-﻿using DFC.TestAutomation.UI.Config;
-using DFC.TestAutomation.UI.Helpers;
+﻿using DFC.TestAutomation.UI.Helpers;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
@@ -8,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using TechTalk.SpecFlow;
 
 namespace DFC.TestAutomation.UI.TestSupport
 {
@@ -18,8 +18,7 @@ namespace DFC.TestAutomation.UI.TestSupport
         private string InternetExplorerDriverPath => GetWebDriverPathForExecutable("IEDriverServer");
 
         private string BrowserName { get; set; }
-        private BrowserStackSetting BrowserStackSetting { get; set; }
-        private EnvironmentConfig EnvironmentConfig { get; set; }
+        private ScenarioContext Context { get; set; }
         private ChromeOptions ChromeOptions { get; set; } = new ChromeOptions();
 
         private Dictionary<string, WebDriverType> BrowserIndex = new Dictionary<string, WebDriverType>()
@@ -39,12 +38,12 @@ namespace DFC.TestAutomation.UI.TestSupport
             { "headless", WebDriverType.Chrome }
         };
 
-        public WebDriverConfigurator(IConfigurator<IConfiguration> configuration)
+        public WebDriverConfigurator(ScenarioContext scenarioContext)
         {
-            this.EnvironmentConfig = configuration.Data.EnvironmentConfig;
-            this.BrowserStackSetting = configuration.Data.BrowserStackConfig;
-            this.BrowserName = configuration.Data.ProjectConfig.Browser.ToLower().Trim();
-            this.ChromeOptions = chromeOptions;
+            this.Context = scenarioContext;
+            this.BrowserName = this.Context.GetConfiguration().Data.BrowserConfiguration.BrowserName.ToLower().Trim();
+            this.ChromeOptions = new ChromeOptions();
+            ChromeOptions.AddArguments(this.Context.GetConfiguration().Data.BrowserConfiguration.BrowserArguements);
 
             if (!this.BrowserIndex.ContainsKey(this.BrowserName))
             {
@@ -97,17 +96,7 @@ namespace DFC.TestAutomation.UI.TestSupport
                     return new FirefoxDriver(this.FirefoxDriverPath);
 
                 case WebDriverType.BrowserStack:
-                    if(this.BrowserStackSetting == null)
-                    {
-                        throw new NullReferenceException("Unable to obtain the browserstack settings. This should not have happened and requires investigation.");
-                    }
-
-                    if (this.EnvironmentConfig == null)
-                    {
-                        throw new NullReferenceException("Unable to obtain the environment settings. This should not have happened and requires investigation.");
-                    }
-
-                    return BrowserStackSetup.Init(this.BrowserStackSetting, this.EnvironmentConfig);
+                    return BrowserStackSetup.Init(this.Context.GetConfiguration());
 
                 case WebDriverType.InternetExplorer:
                     return new InternetExplorerDriver(this.InternetExplorerDriverPath);

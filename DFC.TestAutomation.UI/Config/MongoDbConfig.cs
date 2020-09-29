@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DFC.TestAutomation.UI.Helpers
+﻿namespace DFC.TestAutomation.UI.Config
 {
     public class MongoDbConfig
     {

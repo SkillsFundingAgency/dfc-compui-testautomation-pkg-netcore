@@ -10,7 +10,7 @@ namespace DFC.TestAutomation.UI.TestSupport
     {
         #region Helpers and Context
         private readonly PageInteractionHelper _pageInteractionHelper;
-        private readonly FrameworkConfig _frameworkConfig;
+        private readonly ProjectConfiguration _projectConfig;
         private readonly IWebDriver _webDriver;
         private readonly ScreenShotTitleGenerator _screenShotTitleGenerator;
         private readonly string _directory;
@@ -23,7 +23,7 @@ namespace DFC.TestAutomation.UI.TestSupport
 
         public BasePage(ScenarioContext context)
         {
-            _frameworkConfig = context.Get<FrameworkConfig>();
+            _projectConfig = context.Get<ProjectConfiguration>();
             _webDriver = context.GetWebDriver();
             _pageInteractionHelper = context.Get<PageInteractionHelper>();
             _screenShotTitleGenerator = context.Get<ScreenShotTitleGenerator>();
@@ -34,7 +34,7 @@ namespace DFC.TestAutomation.UI.TestSupport
 
         public bool VerifyPage()
         {
-            if (_frameworkConfig.TakeEveryPageScreenShot && !_browser.IsCloudExecution())
+            if (_projectConfig.TakeScreenshots && !_browser.IsCloudExecution())
             {
                 ScreenshotHelper.TakeScreenShot(_webDriver, _directory, _screenShotTitleGenerator.GetNextCount());
             }

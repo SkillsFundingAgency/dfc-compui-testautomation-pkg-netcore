@@ -10,14 +10,14 @@ namespace DFC.TestAutomation.UI.Hooks.AfterScenario
     public class BrowserStackTearDown
     {
         private readonly ScenarioContext _context;
-        private readonly FrameworkConfig _frameworkConfig;
+        private readonly BrowserStackConfiguration _browserStackConfig;
         private readonly ObjectContext _objectContext;
 
         public BrowserStackTearDown(ScenarioContext context)
         {
             _context = context;
             _objectContext = context.Get<ObjectContext>();
-            _frameworkConfig = _context.Get<FrameworkConfig>();
+            _browserStackConfig = _context.Get<BrowserStackConfiguration>();
         }
 
         [AfterScenario(Order = 12)]
@@ -36,7 +36,7 @@ namespace DFC.TestAutomation.UI.Hooks.AfterScenario
                         {
                             RemoteWebDriver remoteWebDriver = (RemoteWebDriver)webDriver;
                             var sessionId = remoteWebDriver.SessionId.ToString();
-                            BrowserStackReport.MarkTestAsFailed(_frameworkConfig.BrowserStackSetting, sessionId, errorMessage);
+                            BrowserStackReport.MarkTestAsFailed(_browserStackConfig, sessionId, errorMessage);
                         }
                         catch (Exception ex)
                         {

@@ -13,35 +13,41 @@ namespace DFC.TestAutomation.UI.TestSupport
         {
         }
 
-        public static IWebDriver Init(BrowserStackSetting options, EnvironmentConfig executionConfig)
+        public static IWebDriver Init(IConfigurator<IConfiguration> configuration)
         {
-            CheckBrowserStackLogin(options);
+            var browserStackConfig = configuration.Data.BrowserStackConfiguration;
+            var browserConfig = configuration.Data.BrowserConfiguration;
+            var environmentConfig = configuration.Data.EnvironmentConfiguration;
+            var buildConfig = configuration.Data.BuildConfiguration;
+            var projectConfig = configuration.Data.ProjectConfiguration;
+
+            CheckBrowserStackLogin(browserStackConfig.BrowserStackUser, browserStackConfig.BrowserStackKey);
 
             var chromeOption = new ChromeOptions
             {
                 AcceptInsecureCertificates = true
             };
-            AddAdditionalCapability(chromeOption, "browser", options.Browser);
-            AddAdditionalCapability(chromeOption, "browser_version", options.BrowserVersion);
-            AddAdditionalCapability(chromeOption, "os", options.Os);
-            AddAdditionalCapability(chromeOption, "os_version", options.Osversion);
-            AddAdditionalCapability(chromeOption, "resolution", options.Resolution);
-            AddAdditionalCapability(chromeOption, "browserstack.user", options.BrowserStackUser);
-            AddAdditionalCapability(chromeOption, "browserstack.key", options.BrowserStackKey);
-            AddAdditionalCapability(chromeOption, "build", $"dfc.acceptance.{executionConfig.EnvironmentName.ToUpper()}.{options.BuildNumber}");
-            AddAdditionalCapability(chromeOption, "project", options.Project);
+            AddAdditionalCapability(chromeOption, "browser", browserConfig.BrowserName);
+            AddAdditionalCapability(chromeOption, "browser_version", browserConfig.BrowserVersion);
+            AddAdditionalCapability(chromeOption, "os", environmentConfig.OperatingSystem);
+            AddAdditionalCapability(chromeOption, "os_version", environmentConfig.OperatingSystemVersion);
+            AddAdditionalCapability(chromeOption, "resolution", environmentConfig.ScreenResolution);
+            AddAdditionalCapability(chromeOption, "browserstack.user", browserStackConfig.BrowserStackUser);
+            AddAdditionalCapability(chromeOption, "browserstack.key", browserStackConfig.BrowserStackKey);
+            AddAdditionalCapability(chromeOption, "build", $"dfc.acceptance.{environmentConfig.EnvironmentName.ToUpper()}.{buildConfig.BuildNumber}");
+            AddAdditionalCapability(chromeOption, "project", projectConfig.ProjectName);
             AddAdditionalCapability(chromeOption, "browserstack.debug", "true");
-            AddAdditionalCapability(chromeOption, "name", options.Name);
-            AddAdditionalCapability(chromeOption, "browserstack.networkLogs", options.EnableNetworkLogs);
-            AddAdditionalCapability(chromeOption, "browserstack.timezone", options.TimeZone);
+            AddAdditionalCapability(chromeOption, "name", browserStackConfig.Name);
+            AddAdditionalCapability(chromeOption, "browserstack.networkLogs", browserStackConfig.EnableNetworkLogs);
+            AddAdditionalCapability(chromeOption, "browserstack.timezone", browserStackConfig.TimeZone);
             AddAdditionalCapability(chromeOption, "browserstack.console", "info");
 
-            return new RemoteWebDriver(new Uri(options.ServerName), chromeOption);
+            return new RemoteWebDriver(browserStackConfig.ServerName, chromeOption);
         }
 
-        private static void CheckBrowserStackLogin(BrowserStackSetting options)
+        private static void CheckBrowserStackLogin(string browserStackUser, string browserStackKey)
         {
-            if (options.BrowserStackUser == null || options.BrowserStackKey == null)
+            if (browserStackUser == null || browserStackKey == null)
                 throw new Exception("Please enter browserstack credentials");
         }
 
