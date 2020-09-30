@@ -3,7 +3,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System;
 
-namespace DFC.TestAutomation.UI.Helpers
+namespace DFC.TestAutomation.UI.Helper
 {
     public class WebDriverWaitHelper : IWebDriverWaitHelper
     {

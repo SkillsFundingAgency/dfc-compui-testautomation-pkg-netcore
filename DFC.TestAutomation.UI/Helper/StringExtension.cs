@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace DFC.TestAutomation.UI.Helpers
+namespace DFC.TestAutomation.UI.Helper
 {
     public static class StringExtension
     {

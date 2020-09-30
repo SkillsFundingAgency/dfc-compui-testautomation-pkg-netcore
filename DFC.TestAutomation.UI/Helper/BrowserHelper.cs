@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DFC.TestAutomation.UI.Helpers
+namespace DFC.TestAutomation.UI.Helper
 {
     public class BrowserHelper
     {

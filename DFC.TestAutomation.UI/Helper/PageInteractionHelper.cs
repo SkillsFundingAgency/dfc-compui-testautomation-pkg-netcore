@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DFC.TestAutomation.UI.Helpers
+namespace DFC.TestAutomation.UI.Helper
 {
     public class PageInteractionHelper : IPageInteractionHelper
     {

@@ -1,9 +1,10 @@
 ﻿using DFC.TestAutomation.UI.Config;
-using DFC.TestAutomation.UI.Helpers;
+using DFC.TestAutomation.UI.Helper;
+using DFC.TestAutomation.UI.TestSupport;
 using OpenQA.Selenium;
 using TechTalk.SpecFlow;
 
-namespace DFC.TestAutomation.UI.TestSupport
+namespace DFC.TestAutomation.UI.Extension
 {
     public static class ScenarioContextExtension
     {

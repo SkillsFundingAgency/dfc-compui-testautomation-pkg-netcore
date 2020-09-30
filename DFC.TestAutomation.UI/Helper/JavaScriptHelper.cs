@@ -1,6 +1,6 @@
 ﻿using OpenQA.Selenium;
 
-namespace DFC.TestAutomation.UI.Helpers
+namespace DFC.TestAutomation.UI.Helper
 {
     public class JavaScriptHelper : IJavaScriptHelper
     {

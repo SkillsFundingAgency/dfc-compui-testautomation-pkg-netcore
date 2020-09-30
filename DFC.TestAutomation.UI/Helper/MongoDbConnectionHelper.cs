@@ -2,7 +2,7 @@
 using MongoDB.Driver;
 using System.Threading.Tasks;
 
-namespace DFC.TestAutomation.UI.Helpers
+namespace DFC.TestAutomation.UI.Helper
 {
     public class MongoDbConnectionHelper
     {

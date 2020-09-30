@@ -1,10 +1,8 @@
 ﻿using NUnit.Framework;
 using Polly;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace DFC.TestAutomation.UI.Helpers
+namespace DFC.TestAutomation.UI.Helper
 {
     public class AssertHelper
     {

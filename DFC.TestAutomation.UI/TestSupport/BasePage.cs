@@ -1,7 +1,7 @@
 ﻿using DFC.TestAutomation.UI.Config;
-using DFC.TestAutomation.UI.Helpers;
+using DFC.TestAutomation.UI.Extension;
+using DFC.TestAutomation.UI.Helper;
 using OpenQA.Selenium;
-using System;
 using TechTalk.SpecFlow;
 
 namespace DFC.TestAutomation.UI.TestSupport

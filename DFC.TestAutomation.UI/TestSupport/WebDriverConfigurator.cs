@@ -1,5 +1,6 @@
 ﻿using DFC.TestAutomation.UI.Config;
-using DFC.TestAutomation.UI.Helpers;
+using DFC.TestAutomation.UI.Extension;
+using DFC.TestAutomation.UI.Helper;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;

@@ -2,7 +2,7 @@
 using System.IO;
 using Selenium.Axe;
 
-namespace DFC.TestAutomation.UI.Helpers
+namespace DFC.TestAutomation.UI.Helper
 {
     public class AxeHelper
     {

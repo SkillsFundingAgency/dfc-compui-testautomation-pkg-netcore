@@ -4,7 +4,7 @@ using Polly;
 using System;
 using System.Drawing;
 
-namespace DFC.TestAutomation.UI.Helpers
+namespace DFC.TestAutomation.UI.Helper
 {
     public class RetryHelper
     {

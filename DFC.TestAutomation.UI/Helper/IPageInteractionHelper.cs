@@ -1,7 +1,7 @@
 ﻿using OpenQA.Selenium;
 using System.Collections.Generic;
 
-namespace DFC.TestAutomation.UI.Helpers
+namespace DFC.TestAutomation.UI.Helper
 {
     public interface IPageInteractionHelper
     {
