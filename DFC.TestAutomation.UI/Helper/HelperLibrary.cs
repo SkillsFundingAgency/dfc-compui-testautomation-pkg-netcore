@@ -5,7 +5,7 @@ namespace DFC.TestAutomation.UI.Helper
     public class HelperLibrary<T> : IHelperLibrary where T : IConfiguration
     {
         public HelperLibrary(IJavaScriptHelper javascriptHelper, IWebDriverWaitHelper webDriverWaitHelper, IRetryHelper retryHelper,
-            IAxeHelper axeHelper, IBrowserHelper browserHelper, IFormCompletionHelper formCompletionHelper, HttpClientRequestHelper httpClientRequestHelper,
+            IAxeHelper axeHelper, IBrowserHelper browserHelper, IFormCompletionHelper formCompletionHelper, IHttpClientRequestHelper httpClientRequestHelper,
             IPageInteractionHelper pageInteractionHelper, IMongoDbConnectionHelper mongoDbConnectionHelper,
             ISqlDatabaseConnectionHelper sqlDatabaseConnectionHelper)
         {
@@ -27,7 +27,7 @@ namespace DFC.TestAutomation.UI.Helper
 
         public IFormCompletionHelper FormCompletionHelper { get; set; }
 
-        public HttpClientRequestHelper HttpClientRequestHelper { get; set; }
+        public IHttpClientRequestHelper HttpClientRequestHelper { get; set; }
 
         public IJavaScriptHelper JavaScriptHelper { get; set; }
 

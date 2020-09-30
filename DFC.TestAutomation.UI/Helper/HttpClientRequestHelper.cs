@@ -1,28 +1,40 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DFC.TestAutomation.UI.Helper
 {
-    public class HttpClientRequestHelper
+    public class HttpClientRequestHelper : IHttpClientRequestHelper
     {
-        private static readonly HttpClient Client = new HttpClient();
+        private HttpClient Client { get; set; }
 
-        private const string MediaType = "application/json";
+        private string RequestUri { get; set; }
 
-        private const string AuthScheme = "Bearer";
+        private string AccessToken { get; set; }
 
-        public static async Task<string> ExecuteHttpPostRequest(string requestUri, string postData, string accessToken = "")
+        public HttpClientRequestHelper(string requestUri)
         {
-            var requestMessage = new HttpRequestMessage(HttpMethod.Post, requestUri)
+            this.Client = new HttpClient();
+            this.RequestUri = requestUri;
+            this.AccessToken = string.Empty;
+        }
+
+        public HttpClientRequestHelper(string requestUri, string accessToken)
+        {
+            this.Client = new HttpClient();
+            this.RequestUri = requestUri;
+            this.AccessToken = accessToken;
+        }
+
+        public async Task<string> ExecuteHttpPostRequest(string postData)
+        {
+            var requestMessage = new HttpRequestMessage(HttpMethod.Post, this.RequestUri)
             {
-                Content = new StringContent(postData, Encoding.UTF8, MediaType)
+                Content = new StringContent(postData, Encoding.UTF8, "application/json")
             };
 
-            Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(AuthScheme, accessToken);
+            this.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.AccessToken);
 
             var postRequestResponse = await Client.SendAsync(requestMessage);
             var content = await postRequestResponse.Content.ReadAsStringAsync();
@@ -30,24 +42,24 @@ namespace DFC.TestAutomation.UI.Helper
             return content;
         }
 
-        public static async Task<string> ExecuteHttpGetRequest(string requestUri, string accessToken = "")
+        public async Task<string> ExecuteHttpGetRequest()
         {
-            var requestMessage = new HttpRequestMessage(HttpMethod.Get, requestUri);
-            Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(AuthScheme, accessToken);
+            var requestMessage = new HttpRequestMessage(HttpMethod.Get, this.RequestUri);
+            this.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.AccessToken);
             var getRequestResponse = await Client.SendAsync(requestMessage);
             var content = await getRequestResponse.Content.ReadAsStringAsync();
             getRequestResponse.EnsureSuccessStatusCode();
             return content;
         }
 
-        public static async Task<string> ExecuteHttpPutRequest(string requestUri, string putData, string accessToken = "")
+        public async Task<string> ExecuteHttpPutRequest(string putData)
         {
-            var requestMessage = new HttpRequestMessage(HttpMethod.Put, requestUri)
+            var requestMessage = new HttpRequestMessage(HttpMethod.Put, this.RequestUri)
             {
-                Content = new StringContent(putData, Encoding.UTF8, MediaType)
+                Content = new StringContent(putData, Encoding.UTF8, "application/json")
             };
 
-            Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(AuthScheme, accessToken);
+            this.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.AccessToken);
 
             var putRequestResponse = await Client.SendAsync(requestMessage);
             var content = await putRequestResponse.Content.ReadAsStringAsync();
@@ -55,44 +67,39 @@ namespace DFC.TestAutomation.UI.Helper
             return content;
         }
 
-        public static async Task ExecuteHttpDeleteRequest(string requestUri, string deleteData, string accessToken = "")
+        public async Task ExecuteHttpDeleteRequest(string deleteData)
         {
             HttpRequestMessage requestMessage;
             if (string.IsNullOrEmpty(deleteData))
             {
-                requestMessage = new HttpRequestMessage(HttpMethod.Delete, requestUri);
+                requestMessage = new HttpRequestMessage(HttpMethod.Delete, this.RequestUri);
             }
             else
             {
-                requestMessage = new HttpRequestMessage(HttpMethod.Delete, requestUri)
+                requestMessage = new HttpRequestMessage(HttpMethod.Delete, this.RequestUri)
                 {
-                    Content = new StringContent(deleteData, Encoding.UTF8, MediaType)
+                    Content = new StringContent(deleteData, Encoding.UTF8, "application/json")
                 };
 
-                Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(AuthScheme, accessToken);
+                this.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.AccessToken);
                 var deleteRequestResponse = await Client.SendAsync(requestMessage);
                 deleteRequestResponse.EnsureSuccessStatusCode();
             }
         }
 
-        public static async Task<string> ExecuteHttpPatchRequest(string requestUri, string patchData, string accessToken = "")
+        public async Task<string> ExecuteHttpPatchRequest(string patchData)
         {
-            HttpRequestMessage requestMessage = new HttpRequestMessage(new HttpMethod("PATCH"), requestUri)
+            HttpRequestMessage requestMessage = new HttpRequestMessage(new HttpMethod("PATCH"), this.RequestUri)
             {
-                Content = new StringContent(patchData, Encoding.UTF8, MediaType)
+                Content = new StringContent(patchData, Encoding.UTF8, "application/json")
             };
 
-            Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(AuthScheme, accessToken);
+            this.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.AccessToken);
 
             HttpResponseMessage patchRequestResponse = await Client.SendAsync(requestMessage);
-            String content = await patchRequestResponse.Content.ReadAsStringAsync();
+            string content = await patchRequestResponse.Content.ReadAsStringAsync();
             patchRequestResponse.EnsureSuccessStatusCode();
             return content;
-        }
-
-        public static string ConvertTheObjectsToJsonFormat(object objectToSerialize)
-        {
-            return JsonConvert.SerializeObject(objectToSerialize);
         }
     }
 }

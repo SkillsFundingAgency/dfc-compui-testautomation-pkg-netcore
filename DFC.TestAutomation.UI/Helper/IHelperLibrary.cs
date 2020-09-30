@@ -8,7 +8,7 @@
 
         IFormCompletionHelper FormCompletionHelper { get; set; }
 
-        HttpClientRequestHelper HttpClientRequestHelper { get; set; } //ONE
+        IHttpClientRequestHelper HttpClientRequestHelper { get; set; }
 
         IJavaScriptHelper JavaScriptHelper { get; set; }
 
