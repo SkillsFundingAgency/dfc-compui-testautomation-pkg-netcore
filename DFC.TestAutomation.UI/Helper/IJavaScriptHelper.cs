@@ -8,6 +8,8 @@ namespace DFC.TestAutomation.UI.Helper
 
         void ClickElement(By locator);
 
+        void ScrollElementIntoView(IWebElement webElement);
+
         object ExecuteScript(string javascript, IWebElement webElement);
 
         object ExecuteScript(string javascript, By locator);

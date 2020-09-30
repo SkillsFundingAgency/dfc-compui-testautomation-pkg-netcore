@@ -14,9 +14,9 @@ namespace DFC.TestAutomation.UI.Helper
 
         private IWebDriverWaitHelper WebDriverWaitHelper { get; set; }
 
-        private RetryHelper RetryHelper { get; set; }
+        private IRetryHelper RetryHelper { get; set; }
 
-        public PageInteractionHelper(IWebDriver webDriver, WebDriverWaitHelper webDriverWaitHelper, RetryHelper retryHelper)
+        public PageInteractionHelper(IWebDriver webDriver, IWebDriverWaitHelper webDriverWaitHelper, IRetryHelper retryHelper)
         {
             this.WebDriver = webDriver;
             this.WebDriverWaitHelper = webDriverWaitHelper;

@@ -22,6 +22,11 @@ namespace DFC.TestAutomation.UI.Helper
             this.ExecuteScript("arguments[0].click();", webElement);
         }
 
+        public void ScrollElementIntoView(IWebElement webElement)
+        {
+            ExecuteScript("arguments[0].scrollIntoView({ inline: 'center' });", webElement);
+        }
+
         public object ExecuteScript(string javascript, IWebElement webElement)
         {
             return ((IJavaScriptExecutor)WebDriver).ExecuteScript(javascript, webElement);

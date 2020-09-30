@@ -10,5 +10,9 @@ namespace DFC.TestAutomation.UI.Helper
         T RetryOnException<T>(Func<T> action, Action<Exception, TimeSpan, int, Context> retryAction);
 
         T RetryOnException<T>(Func<T> action);
+
+        void RetryOnException(Action action, Action<Exception, TimeSpan, int, Context> retryAction);
+
+        void RetryOnException(Action action);
     }
 }

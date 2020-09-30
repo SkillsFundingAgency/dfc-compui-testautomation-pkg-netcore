@@ -1,7 +1,11 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Framework.Internal.Commands;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
+using Polly;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 
@@ -10,14 +14,16 @@ namespace DFC.TestAutomation.UI.Helper
     public class FormCompletionHelper
     {
         private readonly IWebDriver _webDriver;
-        private readonly WebDriverWaitHelper _webDriverWaitHelper;
-        private readonly RetryHelper _retryHelper;
+        private readonly IWebDriverWaitHelper _webDriverWaitHelper;
+        private readonly IRetryHelper _retryHelper;
+        private readonly IJavaScriptHelper _javascriptHelper;
 
-        public FormCompletionHelper(IWebDriver webDriver, WebDriverWaitHelper webDriverWaitHelper, RetryHelper retryHelper)
+        public FormCompletionHelper(IWebDriver webDriver, IWebDriverWaitHelper webDriverWaitHelper, IRetryHelper retryHelper, IJavaScriptHelper javascriptHelper)
         {
             _webDriver = webDriver;
             _webDriverWaitHelper = webDriverWaitHelper;
             _retryHelper = retryHelper;
+            this._javascriptHelper = javascriptHelper;
         }
 
         public void SelectRadioButton(IWebElement element)
@@ -32,7 +38,34 @@ namespace DFC.TestAutomation.UI.Helper
 
         public void ClickElement(IWebElement element)
         {
-            _retryHelper.RetryOnElementClickInterceptedException(element);
+            Action beforeAction = () =>
+            {
+                this._webDriver.Manage().Window.Size = new Size(1920, 1080);
+            };
+
+            Action afterAction = () =>
+            {
+                this._webDriver.Manage().Window.Maximize();
+            };
+
+            Action<Exception, TimeSpan, int, Context> retryAction = (exception, timeSpan, retryCount, context) =>
+            {
+                if (retryCount > 1)
+                {
+                    beforeAction = null;
+                    afterAction = null;
+                }
+            };
+
+            void ClickAction()
+            {
+                beforeAction?.Invoke();
+                this._javascriptHelper.ScrollElementIntoView(element);
+                new Actions(this._webDriver).Click(element).Perform();
+                afterAction?.Invoke();
+            }
+
+            _retryHelper.RetryOnException(ClickAction, retryAction);
         }
 
         public void ClickElement(By locator)
