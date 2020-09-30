@@ -6,8 +6,8 @@ namespace DFC.TestAutomation.UI.Helper
     {
         public HelperLibrary(IJavaScriptHelper javascriptHelper, IWebDriverWaitHelper webDriverWaitHelper, IRetryHelper retryHelper,
             IAxeHelper axeHelper, IBrowserHelper browserHelper, IFormCompletionHelper formCompletionHelper, HttpClientRequestHelper httpClientRequestHelper,
-            IPageInteractionHelper pageInteractionHelper, MongoDbConnectionHelper mongoDbConnectionHelper, RegexHelper regexHelper,
-            SqlDatabaseConnectionHelper sqlDatabaseConnectionHelper, TableRowHelper tableRowHelper)
+            IPageInteractionHelper pageInteractionHelper, MongoDbConnectionHelper mongoDbConnectionHelper,
+            ISqlDatabaseConnectionHelper sqlDatabaseConnectionHelper, TableRowHelper tableRowHelper)
         {
             this.JavaScriptHelper = javascriptHelper;
             this.WebDriverWaitHelper = webDriverWaitHelper;
@@ -18,7 +18,6 @@ namespace DFC.TestAutomation.UI.Helper
             this.HttpClientRequestHelper = httpClientRequestHelper;
             this.PageInteractionHelper = pageInteractionHelper;
             this.MongoDbConnectionHelper = mongoDbConnectionHelper;
-            this.RegexHelper = regexHelper;
             this.SqlDatabaseConnectionHelper = sqlDatabaseConnectionHelper;
             this.TableRowHelper = tableRowHelper;
         }
@@ -39,11 +38,9 @@ namespace DFC.TestAutomation.UI.Helper
 
         public MongoDbConnectionHelper MongoDbConnectionHelper { get; set; }
 
-        public RegexHelper RegexHelper { get; set; }
-
         public IRetryHelper RetryHelper { get; set; }
 
-        public SqlDatabaseConnectionHelper SqlDatabaseConnectionHelper { get; set; }
+        public ISqlDatabaseConnectionHelper SqlDatabaseConnectionHelper { get; set; }
 
         public TableRowHelper TableRowHelper { get; set; }
     }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DFC.TestAutomation.UI.Helper
+﻿namespace DFC.TestAutomation.UI.Helper
 {
     public interface IHelperLibrary
     {
@@ -12,7 +8,7 @@ namespace DFC.TestAutomation.UI.Helper
 
         IFormCompletionHelper FormCompletionHelper { get; set; }
 
-        HttpClientRequestHelper HttpClientRequestHelper { get; set; }
+        HttpClientRequestHelper HttpClientRequestHelper { get; set; } //ONE
 
         IJavaScriptHelper JavaScriptHelper { get; set; }
 
@@ -20,14 +16,12 @@ namespace DFC.TestAutomation.UI.Helper
 
         IWebDriverWaitHelper WebDriverWaitHelper { get; set; }
 
-        MongoDbConnectionHelper MongoDbConnectionHelper { get; set; }
-
-        RegexHelper RegexHelper { get; set; }
+        MongoDbConnectionHelper MongoDbConnectionHelper { get; set; } //TWO
 
         IRetryHelper RetryHelper { get; set; }
 
-        SqlDatabaseConnectionHelper SqlDatabaseConnectionHelper { get; set; }
+        ISqlDatabaseConnectionHelper SqlDatabaseConnectionHelper { get; set; }
 
-        TableRowHelper TableRowHelper { get; set; }
+        TableRowHelper TableRowHelper { get; set; } //THREE
     }
 }

@@ -6,66 +6,58 @@ using System.Text;
 
 namespace DFC.TestAutomation.UI.Helper
 {
-    public class SqlDatabaseConnectionHelper
+    public class SqlDatabaseConnectionHelper : ISqlDatabaseConnectionHelper
     {
-        public int ExecuteSqlCommand(string connectionString, string queryToExecute, object dynamicParameters = null)
+        private string ConnectionString { get; set; }
+
+        public SqlDatabaseConnectionHelper(string connectionString)
         {
-            using (var connection = new SqlConnection(connectionString))
+            this.ConnectionString = connectionString;
+        }
+
+        public int ExecuteSqlCommand(string query)
+        {
+            using (var connection = new SqlConnection(this.ConnectionString))
             {
-                var affectedRows = connection.Execute(queryToExecute, dynamicParameters);
+                connection.Open();
+                var affectedRows = connection.Execute(query);
                 return affectedRows;
             }
         }
 
-        public int ExecuteSqlCommand(String connectionString, String queryToExecute, Dictionary<String, String> parameters)
+        public int ExecuteSqlCommand(string query, Dictionary<string, string> parameters)
         {
-            try
+            using (var databaseConnection = new SqlConnection(this.ConnectionString))
             {
-                using (SqlConnection databaseConnection = new SqlConnection(connectionString))
+                databaseConnection.Open();
+                using (SqlCommand command = new SqlCommand(query, databaseConnection))
                 {
-                    databaseConnection.Open();
-                    using (SqlCommand command = new SqlCommand(queryToExecute, databaseConnection))
+                    foreach (KeyValuePair<string, string> param in parameters)
                     {
-                        foreach (KeyValuePair<String, String> param in parameters)
-                        {
-                            command.Parameters.AddWithValue(param.Key, param.Value);
-                        }
-                        return command.ExecuteNonQuery();
+                        command.Parameters.AddWithValue(param.Key, param.Value);
                     }
+                    return command.ExecuteNonQuery();
                 }
-            }
-            catch (Exception exception)
-            {
-                throw new Exception("Exception occurred while executing SQL query"
-                    + "\n Exception: " + exception);
             }
         }
 
-        public List<object[]> ReadDataFromDataBase(string queryToExecute, string connectionString)
+        public List<object[]> ReadDataFromDataBase(string query, int numberOfRecordsToReturn)
         {
-            try
+            using (var databaseConnection = new SqlConnection(this.ConnectionString))
             {
-                using (SqlConnection databaseConnection = new SqlConnection(connectionString))
+                databaseConnection.Open();
+                using (SqlCommand command = new SqlCommand(query, databaseConnection))
                 {
-                    databaseConnection.Open();
-                    using (SqlCommand command = new SqlCommand(queryToExecute, databaseConnection))
+                    SqlDataReader dataReader = command.ExecuteReader();
+                    List<object[]> result = new List<object[]>();
+                    while (dataReader.Read())
                     {
-                        SqlDataReader dataReader = command.ExecuteReader();
-                        List<object[]> result = new List<object[]>();
-                        while (dataReader.Read())
-                        {
-                            object[] items = new object[100];
-                            dataReader.GetValues(items);
-                            result.Add(items);
-                        }
-                        return result;
+                        object[] items = new object[numberOfRecordsToReturn];
+                        dataReader.GetValues(items);
+                        result.Add(items);
                     }
+                    return result;
                 }
-            }
-            catch (Exception exception)
-            {
-                throw new Exception("Exception occurred while executing SQL query"
-                    + "\n Exception: " + exception);
             }
         }
     }
