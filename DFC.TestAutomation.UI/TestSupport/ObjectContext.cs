@@ -14,8 +14,6 @@ namespace DFC.TestAutomation.UI.TestSupport
             _objects = new Dictionary<string, object>();
         }
 
-        #region Getters
-
         public string Get(string key)
         {
             return _objects.TryGetValue(key, out var value) ? value.ToString() : string.Empty;
@@ -40,10 +38,6 @@ namespace DFC.TestAutomation.UI.TestSupport
         {
             return _objects;
         }
-
-        #endregion
-
-        #region Setters
 
         public void Set<T>(string key, T value)
         {
@@ -88,8 +82,6 @@ namespace DFC.TestAutomation.UI.TestSupport
                 Set(key, value);
             }
         }
-
-        #endregion
 
         public bool KeyExists<T>(string key)
         {

@@ -8,15 +8,13 @@ namespace DFC.TestAutomation.UI.TestSupport
 {
     public abstract class BasePage<T> where T : IConfiguration
     {
-        #region Helpers and Context
-        private readonly PageInteractionHelper _pageInteractionHelper;
-        private readonly ProjectConfiguration _projectConfig;
-        private readonly IWebDriver _webDriver;
-        private readonly ScreenShotTitleGenerator _screenShotTitleGenerator;
-        private readonly string _directory;
-        private readonly string _browser;
-        private readonly BrowserHelper BrowserHelper;
-        #endregion
+        private IPageInteractionHelper PageInteractionHelper { get; set; }
+
+        protected IConfigurator<T> Configuration { get; set; }
+
+        private IWebDriver WebDriver { get; set; }
+
+        private BrowserHelper BrowserHelper { get; set; }
 
         protected virtual By PageHeader => By.ClassName("govuk-heading-xl");
 
@@ -24,29 +22,15 @@ namespace DFC.TestAutomation.UI.TestSupport
 
         public BasePage(ScenarioContext context)
         {
+            this.Configuration = context.GetConfiguration<T>();
+            this.WebDriver = context.GetWebDriver();
+            this.PageInteractionHelper = context.Get<PageInteractionHelper>();
             this.BrowserHelper = new BrowserHelper(context.GetConfiguration<T>().Data.BrowserConfiguration.BrowserName);
-            _projectConfig = context.Get<ProjectConfiguration>();
-            _webDriver = context.GetWebDriver();
-            _pageInteractionHelper = context.Get<PageInteractionHelper>();
-            _screenShotTitleGenerator = context.Get<ScreenShotTitleGenerator>();
-            var objectContext = context.Get<ObjectContext>();
-            _directory = objectContext.GetDirectory();
-            _browser = objectContext.GetBrowser();
         }
 
         public bool VerifyPage()
         {
-            if (_projectConfig.TakeScreenshots && !BrowserHelper.IsExecutingInTheCloud())
-            {
-                ScreenshotHelper.TakeScreenShot(_webDriver, _directory, _screenShotTitleGenerator.GetNextCount());
-            }
-
-            return _pageInteractionHelper.VerifyPage(PageHeader, PageTitle);
-        }
-
-        protected bool VerifyPage(Action beforeAction)
-        {
-            return _pageInteractionHelper.VerifyPage(PageHeader, PageTitle, beforeAction);
+            return PageInteractionHelper.VerifyPage(PageHeader, PageTitle);
         }
     }
 }

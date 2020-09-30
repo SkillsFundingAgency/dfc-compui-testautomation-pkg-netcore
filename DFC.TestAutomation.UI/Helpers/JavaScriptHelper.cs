@@ -2,35 +2,40 @@
 
 namespace DFC.TestAutomation.UI.Helpers
 {
-    public class JavaScriptHelper
+    public class JavaScriptHelper : IJavaScriptHelper
     {
-        private readonly IWebDriver _webDriver;
+        private IWebDriver WebDriver { get; set; }
 
         public JavaScriptHelper(IWebDriver webDriver)
         {
-            _webDriver = webDriver;
+            this.WebDriver = webDriver;
+        }
+
+        public bool IsDocumentReady()
+        {
+            return this.ExecuteScript("return document.readyState").Equals("complete");
         }
 
         public void ClickElement(By locator)
         {
-            var webElement = _webDriver.FindElement(locator);
-            ((IJavaScriptExecutor)_webDriver).ExecuteScript("arguments[0].click();", webElement);
+            var webElement = WebDriver.FindElement(locator);
+            this.ExecuteScript("arguments[0].click();", webElement);
         }
 
         public object ExecuteScript(string javascript, IWebElement webElement)
         {
-            return ((IJavaScriptExecutor)_webDriver).ExecuteScript(javascript, webElement);
+            return ((IJavaScriptExecutor)WebDriver).ExecuteScript(javascript, webElement);
         }
 
         public object ExecuteScript(string javascript, By locator)
         {
-            var webElement = _webDriver.FindElement(locator);
+            var webElement = WebDriver.FindElement(locator);
             return ExecuteScript(javascript, webElement);
         }
 
         public object ExecuteScript(string javascript)
         {
-            return ((IJavaScriptExecutor)_webDriver).ExecuteScript(javascript);
+            return ((IJavaScriptExecutor)WebDriver).ExecuteScript(javascript);
         }
     }
 }

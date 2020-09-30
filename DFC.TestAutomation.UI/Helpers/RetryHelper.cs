@@ -1,39 +1,40 @@
-﻿using NUnit.Framework;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using Polly;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
 
 namespace DFC.TestAutomation.UI.Helpers
 {
     public class RetryHelper
     {
-        private readonly IWebDriver _webDriver;
+        private IWebDriver WebDriver { get; set; }
+        public TimeSpan[] SleepDurations { get; set; }
+        public IJavaScriptHelper JavascriptHelper { get; set; }
 
-        public RetryHelper(IWebDriver webDriver)
+        public RetryHelper(IWebDriver webDriver, IJavaScriptHelper javascriptHelper)
         {
-            _webDriver = webDriver;
+            WebDriver = webDriver;
+            SleepDurations = new TimeSpan[] { TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(3) };
+            this.JavascriptHelper = javascriptHelper;
         }
 
-        internal bool RetryOnException(Func<bool> func, Action beforeAction = null)
+        public Action<Exception, TimeSpan, int, Context> CreateRetryAction(Action func)
         {
-            return Policy
-                 .Handle<Exception>((x) => x.Message.Contains("verification failed"))
-                 .WaitAndRetry(TimeOut, (exception, timeSpan, retryCount, context) =>
-                 {
-                     TestContext.Progress.WriteLine($"Retry Count : {retryCount}, Exception : {exception.Message}");
-                 })
-                 .Execute(() =>
-                 {
-                     using (var testcontext = new NUnit.Framework.Internal.TestExecutionContext.IsolatedContext())
-                     {
-                         beforeAction?.Invoke();
-                         return func();
-                     }
-                 });
+            return (exception, timeSpan, retryCount, context) =>
+            {
+                func.Invoke();
+            };
+        }
+
+        public T RetryOnException<T>(Func<T> action, Action<Exception, TimeSpan, int, Context> retryAction)
+        {
+            return Policy.Handle<Exception>().WaitAndRetry(this.SleepDurations, retryAction).Execute(action);
+        }
+
+        public T RetryOnException<T>(Func<T> action)
+        {
+            return Policy.Handle<Exception>().WaitAndRetry(this.SleepDurations).Execute(action);
         }
 
         internal void RetryOnElementClickInterceptedException(IWebElement element)
@@ -41,63 +42,22 @@ namespace DFC.TestAutomation.UI.Helpers
 
             Action beforeAction = null, afterAction = null;
             Policy
-                 .Handle<ElementClickInterceptedException>()
-                 .Or<WebDriverException>()
-                 .WaitAndRetry(TimeOut, (exception, timeSpan, retryCount, context) =>
+                 .Handle<ElementClickInterceptedException>().Or<WebDriverException>()
+                 .WaitAndRetry(this.SleepDurations, (exception, timeSpan, retryCount, context) =>
                  {
-                     TestContext.Progress.WriteLine($"Retry Count : {retryCount}, Exception : {exception.Message}");
-
-                     switch (true)
+                     if(retryCount.Equals(1))
                      {
-                         case bool _ when retryCount == 1:
-                             var x = ResizeWindow();
-                             beforeAction = x.beforeAction;
-                             afterAction = x.afterAction;
-                             break;
-                         case bool _ when retryCount >= 2:
-                             var y = ScrollIntoView(element);
-                             beforeAction = y.beforeAction;
-                             afterAction = y.afterAction;
-                             break;
+                         beforeAction = () => WebDriver.Manage().Window.Size = new Size(1920, 1080);
+                         afterAction = () => WebDriver.Manage().Window.Maximize();
                      }
                  })
                  .Execute(() =>
                  {
-                     using (var testcontext = new NUnit.Framework.Internal.TestExecutionContext.IsolatedContext())
-                     {
-                         beforeAction?.Invoke();
-                         ClickEvent(element).Invoke();
-                         afterAction?.Invoke();
-                     }
+                     beforeAction?.Invoke();
+                     this.JavascriptHelper.ExecuteScript("arguments[0].scrollIntoView({ inline: 'center' });", element);
+                     new Actions(WebDriver).Click(element).Perform();
+                     afterAction?.Invoke();
                  });
-        }
-
-        private Action ClickEvent(IWebElement element)
-        {
-            ((IJavaScriptExecutor)_webDriver).ExecuteScript("arguments[0].scrollIntoView(true);", element);
-            return () => new Actions(_webDriver).Click(element).Perform();
-        }
-
-        private static TimeSpan[] TimeOut => new[]
-        {
-            TimeSpan.FromSeconds(1),
-            TimeSpan.FromSeconds(2),
-            TimeSpan.FromSeconds(3)
-        };
-
-        private (Action beforeAction, Action afterAction) ResizeWindow()
-        {
-            void beforeAction() => _webDriver.Manage().Window.Size = new Size(1920, 1080);
-            void afterAction() => _webDriver.Manage().Window.Maximize();
-
-            return (beforeAction, afterAction);
-        }
-
-        private (Action beforeAction, Action afterAction) ScrollIntoView(IWebElement element)
-        {
-            void beforeAction() => ((IJavaScriptExecutor)_webDriver).ExecuteScript("arguments[0].scrollIntoView(false);", element);
-
-            return (beforeAction, null);
         }
     }
 }

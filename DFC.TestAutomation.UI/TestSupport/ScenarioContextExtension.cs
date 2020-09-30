@@ -1,4 +1,5 @@
 ﻿using DFC.TestAutomation.UI.Config;
+using DFC.TestAutomation.UI.Helpers;
 using OpenQA.Selenium;
 using TechTalk.SpecFlow;
 
@@ -34,6 +35,16 @@ namespace DFC.TestAutomation.UI.TestSupport
         public static void SetConfiguration<T>(this ScenarioContext context, IConfigurator<T> configuration) where T : IConfiguration
         {
             context.Set(configuration);
+        }
+
+        public static IJavaScriptHelper GetJavascriptHelper(this ScenarioContext context)
+        {
+            return context.Get<IJavaScriptHelper>();
+        }
+
+        public static void SetJavascriptHelper(this ScenarioContext context, IJavaScriptHelper javascriptHelper)
+        {
+            context.Set(javascriptHelper);
         }
     }
 }
