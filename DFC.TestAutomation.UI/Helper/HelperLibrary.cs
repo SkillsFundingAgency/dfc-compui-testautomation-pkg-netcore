@@ -6,8 +6,8 @@ namespace DFC.TestAutomation.UI.Helper
     {
         public HelperLibrary(IJavaScriptHelper javascriptHelper, IWebDriverWaitHelper webDriverWaitHelper, IRetryHelper retryHelper,
             IAxeHelper axeHelper, IBrowserHelper browserHelper, IFormCompletionHelper formCompletionHelper, HttpClientRequestHelper httpClientRequestHelper,
-            IPageInteractionHelper pageInteractionHelper, MongoDbConnectionHelper mongoDbConnectionHelper,
-            ISqlDatabaseConnectionHelper sqlDatabaseConnectionHelper, TableRowHelper tableRowHelper)
+            IPageInteractionHelper pageInteractionHelper, IMongoDbConnectionHelper mongoDbConnectionHelper,
+            ISqlDatabaseConnectionHelper sqlDatabaseConnectionHelper)
         {
             this.JavaScriptHelper = javascriptHelper;
             this.WebDriverWaitHelper = webDriverWaitHelper;
@@ -19,7 +19,6 @@ namespace DFC.TestAutomation.UI.Helper
             this.PageInteractionHelper = pageInteractionHelper;
             this.MongoDbConnectionHelper = mongoDbConnectionHelper;
             this.SqlDatabaseConnectionHelper = sqlDatabaseConnectionHelper;
-            this.TableRowHelper = tableRowHelper;
         }
 
         public IAxeHelper AxeHelper { get; set; }
@@ -36,12 +35,10 @@ namespace DFC.TestAutomation.UI.Helper
 
         public IWebDriverWaitHelper WebDriverWaitHelper { get; set; }
 
-        public MongoDbConnectionHelper MongoDbConnectionHelper { get; set; }
+        public IMongoDbConnectionHelper MongoDbConnectionHelper { get; set; }
 
         public IRetryHelper RetryHelper { get; set; }
 
         public ISqlDatabaseConnectionHelper SqlDatabaseConnectionHelper { get; set; }
-
-        public TableRowHelper TableRowHelper { get; set; }
     }
 }

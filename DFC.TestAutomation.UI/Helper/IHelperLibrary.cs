@@ -16,12 +16,10 @@
 
         IWebDriverWaitHelper WebDriverWaitHelper { get; set; }
 
-        MongoDbConnectionHelper MongoDbConnectionHelper { get; set; } //TWO
+        IMongoDbConnectionHelper MongoDbConnectionHelper { get; set; }
 
         IRetryHelper RetryHelper { get; set; }
 
         ISqlDatabaseConnectionHelper SqlDatabaseConnectionHelper { get; set; }
-
-        TableRowHelper TableRowHelper { get; set; } //THREE
     }
 }
