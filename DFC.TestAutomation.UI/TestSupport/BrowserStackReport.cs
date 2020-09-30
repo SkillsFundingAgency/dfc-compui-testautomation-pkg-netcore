@@ -1,5 +1,6 @@
 ﻿using DFC.TestAutomation.UI.Config;
 using Newtonsoft.Json;
+using NUnit.Framework;
 using RestSharp;
 using RestSharp.Authenticators;
 using System;
@@ -7,7 +8,7 @@ using System.Net;
 
 namespace DFC.TestAutomation.UI.TestSupport
 {
-    public class BrowserStackReport
+    public class BrowserStackReport : IBrowserStackReport
     {
         public IRestRequest RestRequest { get; set; }
         public IRestClient RestClient { get; set; }
@@ -25,17 +26,11 @@ namespace DFC.TestAutomation.UI.TestSupport
             };
         }
 
-        public void MarkTestAsFailed(BrowserStackConfiguration browserStackConfiguration, string sessionId, string message)
+        public void MarkTestAsFailed(string message)
         {
             var body = JsonConvert.SerializeObject(new { status = "failed", reason = message });
             this.RestRequest.AddJsonBody(body);
-            var response = this.RestClient.Put(this.RestRequest);
-
-            if (response.StatusCode != HttpStatusCode.OK)
-            {
-                NUnit.Framework.TestContext.Progress.WriteLine($"{response.StatusCode} - {response.Content}");
-                throw new Exception(response.Content, response.ErrorException);
-            }
+            this.RestClient.Put(this.RestRequest);
         }
     }
 }

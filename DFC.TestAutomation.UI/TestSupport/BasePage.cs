@@ -4,7 +4,7 @@ using TechTalk.SpecFlow;
 
 namespace DFC.TestAutomation.UI.TestSupport
 {
-    public abstract class BasePage
+    public abstract class BasePage : IBasePage
     {
         protected IHelperLibrary HelperLibrary { get; set; }
 
