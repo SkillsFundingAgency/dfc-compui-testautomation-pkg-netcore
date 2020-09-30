@@ -1,5 +1,4 @@
-﻿using DFC.TestAutomation.UI.Config;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 
 namespace DFC.TestAutomation.UI.TestSupport
 {

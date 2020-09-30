@@ -38,14 +38,14 @@ namespace DFC.TestAutomation.UI.Extension
             context.Set(configuration);
         }
 
-        public static IJavaScriptHelper GetJavascriptHelper(this ScenarioContext context)
+        public static IHelperLibrary GetHelperLibrary(this ScenarioContext context)
         {
-            return context.Get<IJavaScriptHelper>();
+            return context.Get<IHelperLibrary>();
         }
 
-        public static void SetJavascriptHelper(this ScenarioContext context, IJavaScriptHelper javascriptHelper)
+        public static void SetHelperLibrary(this ScenarioContext context, IHelperLibrary helperLibrary)
         {
-            context.Set(javascriptHelper);
+            context.Set(helperLibrary);
         }
     }
 }

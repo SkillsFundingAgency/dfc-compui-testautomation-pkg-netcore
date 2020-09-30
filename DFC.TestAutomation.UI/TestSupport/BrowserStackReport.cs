@@ -9,43 +9,33 @@ namespace DFC.TestAutomation.UI.TestSupport
 {
     public class BrowserStackReport
     {
-        public static void MarkTestAsFailed(BrowserStackConfiguration browserStackConfiguration, string sessionId, string message)
+        public IRestRequest RestRequest { get; set; }
+        public IRestClient RestClient { get; set; }
+
+        public BrowserStackReport(BrowserStackConfiguration browserStackConfiguration, string remoteWebDriverSessionId)
         {
-            var client = Client(browserStackConfiguration.BrowserStackUser, browserStackConfiguration.BrowserStackKey, browserStackConfiguration.AutomateSessions);
-
-            var request = Request(sessionId);
-
-            request.AddJsonBody(JSonBody(message));
-
-            var response = client.Put(request);
-
-            if (response.StatusCode != HttpStatusCode.OK)
+            this.RestClient = new RestClient(browserStackConfiguration.AutomateSessions)
             {
-                NUnit.Framework.TestContext.Progress.WriteLine($"{response.StatusCode} - {response.Content}");
-
-                throw new Exception(response.Content, response.ErrorException);
-            }
-        }
-
-        private static RestClient Client(string browserStackUser, string browserStackKey, Uri automationBaseUrl)
-        {
-            return new RestClient(automationBaseUrl)
-            {
-                Authenticator = new HttpBasicAuthenticator(browserStackUser, browserStackKey)
+                Authenticator = new HttpBasicAuthenticator(browserStackConfiguration.BrowserStackUser, browserStackConfiguration.BrowserStackKey)
             };
-        }
 
-        private static RestRequest Request(string sessionId)
-        {
-            return new RestRequest($"{sessionId}.json", Method.PUT)
+            this.RestRequest = new RestRequest($"{remoteWebDriverSessionId}.json", Method.PUT)
             {
                 RequestFormat = DataFormat.Json
             };
         }
 
-        private static string JSonBody(string exceptionmessage)
+        public void MarkTestAsFailed(BrowserStackConfiguration browserStackConfiguration, string sessionId, string message)
         {
-            return JsonConvert.SerializeObject(new { status = "failed", reason = exceptionmessage });
+            var body = JsonConvert.SerializeObject(new { status = "failed", reason = message });
+            this.RestRequest.AddJsonBody(body);
+            var response = this.RestClient.Put(this.RestRequest);
+
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                NUnit.Framework.TestContext.Progress.WriteLine($"{response.StatusCode} - {response.Content}");
+                throw new Exception(response.Content, response.ErrorException);
+            }
         }
     }
 }

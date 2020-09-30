@@ -21,5 +21,7 @@
         IRetryHelper RetryHelper { get; set; }
 
         ISqlDatabaseConnectionHelper SqlDatabaseConnectionHelper { get; set; }
+
+        IScreenshotHelper ScreenshotHelper { get; set; }
     }
 }
