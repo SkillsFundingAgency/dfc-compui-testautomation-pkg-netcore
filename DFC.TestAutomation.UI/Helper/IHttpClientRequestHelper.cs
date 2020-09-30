@@ -4,14 +4,14 @@ namespace DFC.TestAutomation.UI.Helper
 {
     public interface IHttpClientRequestHelper
     {
-        Task<string> ExecuteHttpPostRequest(string postData);
+        Task<string> ExecuteHttpPostRequest(string requestUri, string postData);
 
-        Task<string> ExecuteHttpGetRequest();
+        Task<string> ExecuteHttpGetRequest(string requestUri);
 
-        Task<string> ExecuteHttpPutRequest(string putData);
+        Task<string> ExecuteHttpPutRequest(string requestUri, string putData);
 
-        Task ExecuteHttpDeleteRequest(string deleteData);
+        Task ExecuteHttpDeleteRequest(string requestUri, string deleteData);
 
-        Task<string> ExecuteHttpPatchRequest(string patchData);
+        Task<string> ExecuteHttpPatchRequest(string requestUri, string patchData);
     }
 }

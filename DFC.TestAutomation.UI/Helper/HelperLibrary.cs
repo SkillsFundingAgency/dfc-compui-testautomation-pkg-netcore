@@ -1,8 +1,6 @@
-﻿using DFC.TestAutomation.UI.Config;
-
-namespace DFC.TestAutomation.UI.Helper
+﻿namespace DFC.TestAutomation.UI.Helper
 {
-    public class HelperLibrary<T> : IHelperLibrary where T : IConfiguration
+    public class HelperLibrary : IHelperLibrary
     {
         public HelperLibrary(IJavaScriptHelper javascriptHelper, IWebDriverWaitHelper webDriverWaitHelper, IRetryHelper retryHelper,
             IAxeHelper axeHelper, IBrowserHelper browserHelper, IFormCompletionHelper formCompletionHelper, IHttpClientRequestHelper httpClientRequestHelper,

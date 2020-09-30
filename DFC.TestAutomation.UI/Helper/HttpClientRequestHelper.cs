@@ -9,27 +9,23 @@ namespace DFC.TestAutomation.UI.Helper
     {
         private HttpClient Client { get; set; }
 
-        private string RequestUri { get; set; }
-
         private string AccessToken { get; set; }
 
-        public HttpClientRequestHelper(string requestUri)
+        public HttpClientRequestHelper()
         {
             this.Client = new HttpClient();
-            this.RequestUri = requestUri;
             this.AccessToken = string.Empty;
         }
 
-        public HttpClientRequestHelper(string requestUri, string accessToken)
+        public HttpClientRequestHelper(string accessToken)
         {
             this.Client = new HttpClient();
-            this.RequestUri = requestUri;
             this.AccessToken = accessToken;
         }
 
-        public async Task<string> ExecuteHttpPostRequest(string postData)
+        public async Task<string> ExecuteHttpPostRequest(string requestUri, string postData)
         {
-            var requestMessage = new HttpRequestMessage(HttpMethod.Post, this.RequestUri)
+            var requestMessage = new HttpRequestMessage(HttpMethod.Post, requestUri)
             {
                 Content = new StringContent(postData, Encoding.UTF8, "application/json")
             };
@@ -42,9 +38,9 @@ namespace DFC.TestAutomation.UI.Helper
             return content;
         }
 
-        public async Task<string> ExecuteHttpGetRequest()
+        public async Task<string> ExecuteHttpGetRequest(string requestUri)
         {
-            var requestMessage = new HttpRequestMessage(HttpMethod.Get, this.RequestUri);
+            var requestMessage = new HttpRequestMessage(HttpMethod.Get, requestUri);
             this.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.AccessToken);
             var getRequestResponse = await Client.SendAsync(requestMessage);
             var content = await getRequestResponse.Content.ReadAsStringAsync();
@@ -52,9 +48,9 @@ namespace DFC.TestAutomation.UI.Helper
             return content;
         }
 
-        public async Task<string> ExecuteHttpPutRequest(string putData)
+        public async Task<string> ExecuteHttpPutRequest(string requestUri, string putData)
         {
-            var requestMessage = new HttpRequestMessage(HttpMethod.Put, this.RequestUri)
+            var requestMessage = new HttpRequestMessage(HttpMethod.Put, requestUri)
             {
                 Content = new StringContent(putData, Encoding.UTF8, "application/json")
             };
@@ -67,16 +63,16 @@ namespace DFC.TestAutomation.UI.Helper
             return content;
         }
 
-        public async Task ExecuteHttpDeleteRequest(string deleteData)
+        public async Task ExecuteHttpDeleteRequest(string requestUri, string deleteData)
         {
             HttpRequestMessage requestMessage;
             if (string.IsNullOrEmpty(deleteData))
             {
-                requestMessage = new HttpRequestMessage(HttpMethod.Delete, this.RequestUri);
+                requestMessage = new HttpRequestMessage(HttpMethod.Delete, requestUri);
             }
             else
             {
-                requestMessage = new HttpRequestMessage(HttpMethod.Delete, this.RequestUri)
+                requestMessage = new HttpRequestMessage(HttpMethod.Delete, requestUri)
                 {
                     Content = new StringContent(deleteData, Encoding.UTF8, "application/json")
                 };
@@ -87,9 +83,9 @@ namespace DFC.TestAutomation.UI.Helper
             }
         }
 
-        public async Task<string> ExecuteHttpPatchRequest(string patchData)
+        public async Task<string> ExecuteHttpPatchRequest(string requestUri, string patchData)
         {
-            HttpRequestMessage requestMessage = new HttpRequestMessage(new HttpMethod("PATCH"), this.RequestUri)
+            HttpRequestMessage requestMessage = new HttpRequestMessage(new HttpMethod("PATCH"), requestUri)
             {
                 Content = new StringContent(patchData, Encoding.UTF8, "application/json")
             };
