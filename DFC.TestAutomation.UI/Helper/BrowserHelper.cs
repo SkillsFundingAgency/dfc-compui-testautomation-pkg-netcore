@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using DFC.TestAutomation.UI.Extension;
 
 namespace DFC.TestAutomation.UI.Helper
 {
-    public class BrowserHelper
+    public class BrowserHelper : IBrowserHelper
     {
         private string BrowserName { get; set; }
 

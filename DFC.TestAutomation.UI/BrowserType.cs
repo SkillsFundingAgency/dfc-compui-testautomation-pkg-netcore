@@ -1,4 +1,4 @@
-﻿namespace DFC.TestAutomation.UI.Helper
+﻿namespace DFC.TestAutomation.UI
 {
     public enum BrowserType
     {

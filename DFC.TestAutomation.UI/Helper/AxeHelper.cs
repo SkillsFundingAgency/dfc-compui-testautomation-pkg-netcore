@@ -1,58 +1,60 @@
 ﻿using OpenQA.Selenium;
 using System.IO;
 using Selenium.Axe;
+using System.Linq;
+using System;
+using System.Globalization;
 
 namespace DFC.TestAutomation.UI.Helper
 {
-    public class AxeHelper
+    public class AxeHelper : IAxeHelper
     {
-        private readonly IWebDriver _webDriver;
-        private int _i;
+        private IWebDriver WebDriver { get; set; }
+
+        private string FileDirectory { get; set; }
 
         public AxeHelper(IWebDriver webDriver)
         {
-            _webDriver = webDriver;
-            _i = 0;
+            this.WebDriver = webDriver;
+            string folderDirectory = $"{ AppDomain.CurrentDomain.BaseDirectory }\\AxeOutput\\{ DateTime.Now.ToString("dd-MM-yyyy_HH-mm", CultureInfo.CurrentCulture) }";
+            this.FileDirectory = $"{ folderDirectory }\\AxeAnalysis.txt";
+            Directory.CreateDirectory(folderDirectory);
+            File.CreateText(this.FileDirectory);
         }
 
-        public void AxeAnalyzer(IWebDriver webDriver, string axeFile)
+        public void Analyse()
         {
+            var axeResult = WebDriver.Analyze();
 
-            using (StreamWriter sw = new StreamWriter(axeFile, append: true))
+            using (StreamWriter sw = new StreamWriter(this.FileDirectory, true))
             {
+                sw.WriteLine("Axe analysis performed.");
+                sw.WriteLine($"Current browser window: { WebDriver.Title }");
+                sw.WriteLine("Current url: " + WebDriver.Url);
 
-                AxeResult results = _webDriver.Analyze();
-
-                if (results.Passes.Length > 0)
+                if (axeResult.Violations.Count() > 0)
                 {
-                    sw.WriteLine("Service: " +_webDriver.Title);
-                    while (_i < (_webDriver.Title.Length+9))
-                    {
-                        sw.Write("=");
-                        _i++;
-                    }
-                    sw.WriteLine("\n");
-                    sw.WriteLine("URL: " +_webDriver.Url.ToLower());
+                    sw.WriteLine("Result: Violations found.");
 
-                    if (results.Violations.Length > 0)
+                    for (int violationIndex = 0; violationIndex < axeResult.Violations.Count(); violationIndex++)
                     {
-                        foreach (var violation in results.Violations)
-                        {
-                            sw.WriteLine("Id: " + violation.Id);
-                            sw.WriteLine("Description: " + violation.Description);
-                            sw.WriteLine("Impact: " + violation.Impact);
-                            sw.WriteLine("Help: " + violation.Help);
-                            sw.WriteLine("HelpURL: " + violation.HelpUrl);
-                            foreach (var node in violation.Nodes)
-                            {
-                                sw.WriteLine(node.Html);
-                                sw.WriteLine("\n");
-                            }
-                        }
+                        var axeResultItem = axeResult.Violations[violationIndex];
+
+                        sw.WriteLine(Environment.NewLine);
+                        sw.WriteLine($"Violation { violationIndex + 1 }:");
+                        sw.WriteLine($"Description: { axeResultItem.Description }");
+                        sw.WriteLine($"Impact: { axeResultItem.Impact }");
+                        sw.WriteLine($"Help: { axeResultItem.Help }");
+                        sw.WriteLine($"Help url: { axeResultItem.HelpUrl }");
                     }
                 }
+                else
+                {
+                    sw.WriteLine("Result: No violations found.");
+                }
+
+                sw.WriteLine(Environment.NewLine);
             }
         }
-
     }
 }

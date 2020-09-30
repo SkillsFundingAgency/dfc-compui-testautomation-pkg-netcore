@@ -6,7 +6,7 @@ using System.Drawing;
 
 namespace DFC.TestAutomation.UI.Helper
 {
-    public class RetryHelper
+    public class RetryHelper : IRetryHelper
     {
         private IWebDriver WebDriver { get; set; }
         public TimeSpan[] SleepDurations { get; set; }

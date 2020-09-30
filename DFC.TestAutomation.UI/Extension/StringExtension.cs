@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Text.RegularExpressions;
 
-namespace DFC.TestAutomation.UI.Helper
+namespace DFC.TestAutomation.UI.Extension
 {
     public static class StringExtension
     {
@@ -14,12 +12,12 @@ namespace DFC.TestAutomation.UI.Helper
             return index >= 0;
         }
 
-        public static bool CompareToIgnoreCase(this string strA, string strB)
+        public static bool CompareToIgnoreCase(this string stringOne, string strB)
         {
-            return string.Compare(strA.RemoveSpace(), strB, true) == 0;
+            return string.Compare(stringOne.RemoveAllSpaces(), strB, true) == 0;
         }
 
-        public static string RemoveSpace(this string s)
+        public static string RemoveAllSpaces(this string s)
         {
             return Regex.Replace(s, @"\s+", string.Empty);
         }
