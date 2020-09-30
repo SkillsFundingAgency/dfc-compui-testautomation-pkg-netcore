@@ -28,6 +28,7 @@ namespace DFC.TestAutomation.UI.Helper
             var db = GetMongoDatabase();
             return db.GetCollection<T>(collectionName);
         }
+
         private IMongoDatabase GetMongoDatabase()
         {
             var client = new MongoClient(_config.Uri);

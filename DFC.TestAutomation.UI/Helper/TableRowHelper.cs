@@ -1,8 +1,5 @@
 ﻿using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace DFC.TestAutomation.UI.Helper
 {
@@ -27,7 +24,7 @@ namespace DFC.TestAutomation.UI.Helper
             {
                 if (tableRow.Text.Contains(byKey))
                 {
-                    _formCompletionHelper.ClickElement(links[i]);
+                    links[i].Click();
                     break;
                 }
                 i++;
@@ -43,7 +40,7 @@ namespace DFC.TestAutomation.UI.Helper
                                select tr)?.FirstOrDefault();
 
             var linkToClick = requiredRow.FindElement(By.LinkText(byLinkText));
-            _formCompletionHelper.ClickElement(linkToClick);
+            linkToClick.Click();
         }
     }
 }

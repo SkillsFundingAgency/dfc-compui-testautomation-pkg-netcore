@@ -5,8 +5,8 @@ namespace DFC.TestAutomation.UI.Helper
     public class HelperLibrary<T> : IHelperLibrary where T : IConfiguration
     {
         public HelperLibrary(IJavaScriptHelper javascriptHelper, IWebDriverWaitHelper webDriverWaitHelper, IRetryHelper retryHelper,
-            IAxeHelper axeHelper, IBrowserHelper browserHelper, FormCompletionHelper formCompletionHelper, HttpClientRequestHelper httpClientRequestHelper,
-            IPageInteractionHelper pageInteractionHelper, MongoDatabaseConfiguration mongoDatabaseConfiguration, RegexHelper regexHelper,
+            IAxeHelper axeHelper, IBrowserHelper browserHelper, IFormCompletionHelper formCompletionHelper, HttpClientRequestHelper httpClientRequestHelper,
+            IPageInteractionHelper pageInteractionHelper, MongoDbConnectionHelper mongoDbConnectionHelper, RegexHelper regexHelper,
             SqlDatabaseConnectionHelper sqlDatabaseConnectionHelper, TableRowHelper tableRowHelper)
         {
             this.JavaScriptHelper = javascriptHelper;
@@ -17,7 +17,7 @@ namespace DFC.TestAutomation.UI.Helper
             this.FormCompletionHelper = formCompletionHelper;
             this.HttpClientRequestHelper = httpClientRequestHelper;
             this.PageInteractionHelper = pageInteractionHelper;
-            this.MongoDbConnectionHelper = MongoDbConnectionHelper;
+            this.MongoDbConnectionHelper = mongoDbConnectionHelper;
             this.RegexHelper = regexHelper;
             this.SqlDatabaseConnectionHelper = sqlDatabaseConnectionHelper;
             this.TableRowHelper = tableRowHelper;
@@ -27,7 +27,7 @@ namespace DFC.TestAutomation.UI.Helper
 
         public IBrowserHelper BrowserHelper { get; set; }
 
-        public FormCompletionHelper FormCompletionHelper { get; set; }
+        public IFormCompletionHelper FormCompletionHelper { get; set; }
 
         public HttpClientRequestHelper HttpClientRequestHelper { get; set; }
 
