@@ -2,8 +2,8 @@
 {
     public class MongoDatabaseConfiguration
     {
-        public string Uri { get; set; }
+        public string ConnectionString { get; set; }
 
-        public string Database { get; set; }
+        public string DatabaseName { get; set; }
     }
 }

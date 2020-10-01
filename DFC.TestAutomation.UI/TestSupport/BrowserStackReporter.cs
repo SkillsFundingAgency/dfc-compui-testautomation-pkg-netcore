@@ -8,16 +8,16 @@ using System.Net;
 
 namespace DFC.TestAutomation.UI.TestSupport
 {
-    public class BrowserStackReport : IBrowserStackReport
+    public class BrowserStackReporter : IBrowserStackReporter
     {
         public IRestRequest RestRequest { get; set; }
         public IRestClient RestClient { get; set; }
 
-        public BrowserStackReport(BrowserStackConfiguration browserStackConfiguration, string remoteWebDriverSessionId)
+        public BrowserStackReporter(BrowserStackConfiguration browserStackConfiguration, string remoteWebDriverSessionId)
         {
-            this.RestClient = new RestClient(browserStackConfiguration.AutomateSessions)
+            this.RestClient = new RestClient(browserStackConfiguration.BaseUri)
             {
-                Authenticator = new HttpBasicAuthenticator(browserStackConfiguration.BrowserStackUser, browserStackConfiguration.BrowserStackKey)
+                Authenticator = new HttpBasicAuthenticator(browserStackConfiguration.BrowserStackUsername, browserStackConfiguration.BrowserStackPassword)
             };
 
             this.RestRequest = new RestRequest($"{remoteWebDriverSessionId}.json", Method.PUT)
@@ -26,9 +26,9 @@ namespace DFC.TestAutomation.UI.TestSupport
             };
         }
 
-        public void MarkTestAsFailed(string message)
+        public void SendMessage(string status, string message)
         {
-            var body = JsonConvert.SerializeObject(new { status = "failed", reason = message });
+            var body = JsonConvert.SerializeObject(new { status, reason = message });
             this.RestRequest.AddJsonBody(body);
             this.RestClient.Put(this.RestRequest);
         }

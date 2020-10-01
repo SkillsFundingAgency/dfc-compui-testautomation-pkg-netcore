@@ -2,6 +2,6 @@
 {
     public interface IScreenshotHelper
     {
-        void TakeScreenShot();
+        void TakeScreenshot();
     }
 }

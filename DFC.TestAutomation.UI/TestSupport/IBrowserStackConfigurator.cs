@@ -2,7 +2,7 @@
 
 namespace DFC.TestAutomation.UI.TestSupport
 {
-    public interface IBrowserStackSetup
+    public interface IBrowserStackConfigurator
     {
         IWebDriver CreateRemoteWebDriver();
     }

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 
 namespace DFC.TestAutomation.UI.Config
 {
@@ -8,10 +8,10 @@ namespace DFC.TestAutomation.UI.Config
 
         public string BrowserVersion { get; set; }
 
-        public List<string> BrowserArguements { get; set; }
+        public BrowserArguements BrowserArguements { get; set; }
 
         public bool UseProxy { get; set; }
 
-        public string Proxy { get; set; }
+        public Uri Proxy { get; set; }
     }
 }

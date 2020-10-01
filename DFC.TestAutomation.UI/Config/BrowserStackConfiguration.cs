@@ -4,18 +4,18 @@ namespace DFC.TestAutomation.UI.Config
 {
     public class BrowserStackConfiguration
     {
-        public string BrowserStackUser { get; set; }
+        public string BrowserStackUsername { get; set; }
 
-        public string BrowserStackKey { get; set; }
+        public string BrowserStackPassword { get; set; }
 
-        public Uri ServerName { get; set; }
+        public Uri RemoteAddressUri { get; set; }
         
-        public Uri AutomateSessions { get; set; }
+        public Uri BaseUri { get; set; }
 
         public bool EnableNetworkLogs { get; set; }
 
-        internal string TimeZone { get; set; }
+        public string Timezone { get; set; }
 
-        internal string Name { get; set; }
+        public string Name { get; set; }
     }
 }

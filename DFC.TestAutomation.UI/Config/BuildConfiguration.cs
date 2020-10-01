@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace DFC.TestAutomation.UI.Config
+﻿namespace DFC.TestAutomation.UI.Config
 {
     public class BuildConfiguration
     {

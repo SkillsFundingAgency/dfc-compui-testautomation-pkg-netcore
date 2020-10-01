@@ -25,11 +25,19 @@ namespace DFC.TestAutomation.UI.TestSupport
         public WebDriverConfigurator(ScenarioContext scenarioContext)
         {
             this.Context = scenarioContext;
-
-            var config = this.Context.GetConfiguration<T>();
             this.BrowserHelper = new BrowserHelper(this.Context.GetConfiguration<T>().Data.BrowserConfiguration.BrowserName);
             this.ChromeOptions = new ChromeOptions();
-            ChromeOptions.AddArguments(this.Context.GetConfiguration<T>().Data.BrowserConfiguration.BrowserArguements);
+            var browserOptions = this.Context.GetConfiguration<T>().Data.BrowserConfiguration.BrowserArguements;
+            
+            if (!browserOptions.InSandbox)
+            {
+                this.ChromeOptions.AddArgument("no-sandbox");
+            }
+
+            if (browserOptions.InHeadless)
+            {
+                this.ChromeOptions.AddArgument("--headless");
+            }
         }
 
         private string GetWebDriverPathForExecutable(string executableName)
@@ -51,17 +59,15 @@ namespace DFC.TestAutomation.UI.TestSupport
             switch(this.BrowserHelper.GetBrowserType())
             {
                 case BrowserType.Chrome:
-                    this.ChromeOptions.AddArguments(this.Context.GetConfiguration<T>().Data.BrowserConfiguration.BrowserArguements);
-
                     if (this.Context.GetConfiguration<T>().Data.BrowserConfiguration.UseProxy)
                     {
                         var proxy = this.Context.GetConfiguration<T>().Data.BrowserConfiguration.Proxy;
 
                         this.ChromeOptions.Proxy = new Proxy
                         {
-                            HttpProxy = proxy,
-                            SslProxy = proxy,
-                            FtpProxy = proxy,
+                            HttpProxy = proxy.ToString(),
+                            SslProxy = proxy.ToString(),
+                            FtpProxy = proxy.ToString(),
                         };
                     }
 
@@ -71,7 +77,7 @@ namespace DFC.TestAutomation.UI.TestSupport
                     return new FirefoxDriver(this.FirefoxDriverPath);
 
                 case BrowserType.BrowserStack:
-                    return new BrowserStackSetup<T>(this.Context.GetConfiguration<T>()).CreateRemoteWebDriver();
+                    return new BrowserStackConfigurator<T>(this.Context.GetConfiguration<T>()).CreateRemoteWebDriver();
 
                 case BrowserType.InternetExplorer:
                     return new InternetExplorerDriver(this.InternetExplorerDriverPath);

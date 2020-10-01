@@ -10,8 +10,8 @@ namespace DFC.TestAutomation.UI.Helper
 
         public MongoDbConnectionHelper(MongoDatabaseConfiguration mongoDatabaseConfiguration)
         {
-            var client = new MongoClient(mongoDatabaseConfiguration.Uri);
-            this.Database = client.GetDatabase(mongoDatabaseConfiguration.Database);
+            var client = new MongoClient(mongoDatabaseConfiguration.ConnectionString);
+            this.Database = client.GetDatabase(mongoDatabaseConfiguration.DatabaseName);
         }
 
         public async Task AsyncDeleteData<T>(string collectionName, FilterDefinition<T> filter)

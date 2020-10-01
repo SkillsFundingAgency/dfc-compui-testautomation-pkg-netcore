@@ -8,12 +8,12 @@ namespace DFC.TestAutomation.UI.Extension
 {
     public static class ScenarioContextExtension
     {
-        public static ObjectContext GetObjectContext(this ScenarioContext context)
+        public static IObjectContext GetObjectContext(this ScenarioContext context)
         {
             return context.Get<ObjectContext>();
         }
 
-        public static void SetObjectContext(this ScenarioContext context, ObjectContext objectContext)
+        public static void SetObjectContext(this ScenarioContext context, IObjectContext objectContext)
         {
             context.Set(objectContext);
         }

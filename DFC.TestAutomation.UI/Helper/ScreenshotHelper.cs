@@ -21,7 +21,7 @@ namespace DFC.TestAutomation.UI.Helper
             Directory.CreateDirectory(this.FolderDirectory);
         }
 
-        public void TakeScreenShot()
+        public void TakeScreenshot()
         {
             string screenshotName = $"{ DateTime.Now:HH-mm-ss}_{ this.Context.StepContext.StepInfo.Text }.png";
             ITakesScreenshot screenshotHandler = this.Context.GetWebDriver() as ITakesScreenshot;

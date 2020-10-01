@@ -6,7 +6,7 @@ using System;
 
 namespace DFC.TestAutomation.UI.TestSupport
 {
-    public class BrowserStackSetup<T> : IBrowserStackSetup where T : IConfiguration
+    public class BrowserStackConfigurator<T> : IBrowserStackConfigurator where T : IConfiguration
     {
         private BrowserStackConfiguration BrowserStackConfiguration { get; set; }
         private BrowserConfiguration BrowserConfiguration { get; set; }
@@ -14,7 +14,7 @@ namespace DFC.TestAutomation.UI.TestSupport
         private BuildConfiguration BuildConfiguration { get; set; }
         private ProjectConfiguration ProjectConfiguration { get; set; }
 
-        public BrowserStackSetup(IConfigurator<T> configuration)
+        public BrowserStackConfigurator(IConfigurator<T> configuration)
         {
             this.BrowserStackConfiguration = configuration.Data.BrowserStackConfiguration;
             this.BrowserConfiguration = configuration.Data.BrowserConfiguration;
@@ -22,7 +22,7 @@ namespace DFC.TestAutomation.UI.TestSupport
             this.BuildConfiguration = configuration.Data.BuildConfiguration;
             this.ProjectConfiguration = configuration.Data.ProjectConfiguration;
 
-            if(BrowserStackConfiguration.BrowserStackUser == null || BrowserStackConfiguration.BrowserStackKey == null)
+            if(BrowserStackConfiguration.BrowserStackUsername == null || BrowserStackConfiguration.BrowserStackPassword == null)
             {
                 throw new Exception("Unable to initialise the BrowserStackSetup class as the settings do not contain a Browserstack username and/or password. You can set this configuration in the appsettings.json file.");
             }
@@ -40,17 +40,16 @@ namespace DFC.TestAutomation.UI.TestSupport
             chromeOptions.AddAdditionalCapability("os", this.EnvironmentConfiguration.OperatingSystem, true);
             chromeOptions.AddAdditionalCapability("os_version", this.EnvironmentConfiguration.OperatingSystemVersion, true);
             chromeOptions.AddAdditionalCapability("resolution", this.EnvironmentConfiguration.ScreenResolution, true);
-            chromeOptions.AddAdditionalCapability("browserstack.user", this.BrowserStackConfiguration.BrowserStackUser, true);
-            chromeOptions.AddAdditionalCapability("browserstack.key", this.BrowserStackConfiguration.BrowserStackKey, true);
+            chromeOptions.AddAdditionalCapability("browserstack.user", this.BrowserStackConfiguration.BrowserStackUsername, true);
+            chromeOptions.AddAdditionalCapability("browserstack.key", this.BrowserStackConfiguration.BrowserStackPassword, true);
             chromeOptions.AddAdditionalCapability("build", $"dfc.acceptance.{this.EnvironmentConfiguration.EnvironmentName.ToUpper()}.{this.BuildConfiguration.BuildNumber}", true);
-            chromeOptions.AddAdditionalCapability("project", this.ProjectConfiguration.ProjectName, true);
+            chromeOptions.AddAdditionalCapability("project", this.ProjectConfiguration.AppName, true);
             chromeOptions.AddAdditionalCapability("browserstack.debug", "true", true);
-            chromeOptions.AddAdditionalCapability("name", this.BrowserStackConfiguration.Name, true);
             chromeOptions.AddAdditionalCapability("browserstack.networkLogs", this.BrowserStackConfiguration.EnableNetworkLogs, true);
-            chromeOptions.AddAdditionalCapability("browserstack.timezone", this.BrowserStackConfiguration.TimeZone, true);
+            chromeOptions.AddAdditionalCapability("browserstack.timezone", this.BrowserStackConfiguration.Timezone, true);
             chromeOptions.AddAdditionalCapability("browserstack.console", "info", true);
 
-            return new RemoteWebDriver(this.BrowserStackConfiguration.ServerName, chromeOptions);
+            return new RemoteWebDriver(this.BrowserStackConfiguration.RemoteAddressUri, chromeOptions);
         }
     }
 }
