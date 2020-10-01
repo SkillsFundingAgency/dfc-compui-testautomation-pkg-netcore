@@ -1,4 +1,8 @@
-﻿using OpenQA.Selenium;
+﻿// <copyright file="IPageInteractionHelper.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+using OpenQA.Selenium;
 using System.Collections.Generic;
 
 namespace DFC.TestAutomation.UI.Helper

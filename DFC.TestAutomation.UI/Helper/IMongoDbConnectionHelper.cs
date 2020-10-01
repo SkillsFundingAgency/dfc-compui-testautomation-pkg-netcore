@@ -1,4 +1,8 @@
-﻿using MongoDB.Driver;
+﻿// <copyright file="IMongoDbConnectionHelper.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+using MongoDB.Driver;
 using System.Threading.Tasks;
 
 namespace DFC.TestAutomation.UI.Helper
