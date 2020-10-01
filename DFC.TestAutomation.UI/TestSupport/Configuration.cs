@@ -25,13 +25,13 @@ namespace DFC.TestAutomation.UI.TestSupport
             var configurationBuilder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
             configurationBuilder.AddEnvironmentVariables();
             var configurationRoot = configurationBuilder.Build();
-            this.AppSettings = configurationRoot.Get<T>();
-            this.BrowserSettings = configurationRoot.Get<BrowserSettings>();
-            this.BrowserStackSettings = configurationRoot.Get<BrowserStackSettings>();
-            this.BuildSettings = configurationRoot.Get<BuildSettings>();
-            this.EnvironmentSettings = configurationRoot.Get<EnvironmentSettings>();
-            this.MongoDatabaseSettings = configurationRoot.Get<MongoDatabaseSettings>();
-            this.TimeoutSettings = configurationRoot.Get<TimeoutSettings>();
+            this.AppSettings = configurationRoot.GetSection("AppSettings").Get<T>();
+            this.BrowserSettings = configurationRoot.GetSection("BrowserSettings").Get<BrowserSettings>();
+            this.BrowserStackSettings = configurationRoot.GetSection("BrowserStackSettings").Get<BrowserStackSettings>();
+            this.BuildSettings = configurationRoot.GetSection("BuildSettings").Get<BuildSettings>();
+            this.EnvironmentSettings = configurationRoot.GetSection("EnvironmentSettings").Get<EnvironmentSettings>();
+            this.MongoDatabaseSettings = configurationRoot.GetSection("MongoDatabaseSettings").Get<MongoDatabaseSettings>();
+            this.TimeoutSettings = configurationRoot.GetSection("TimeoutSettings").Get<TimeoutSettings>();
         }
     }
 }
