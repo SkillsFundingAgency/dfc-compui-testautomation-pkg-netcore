@@ -5,6 +5,6 @@
         Chrome,
         Firefox,
         InternetExplorer,
-        BrowserStack
+        BrowserStack,
     }
 }

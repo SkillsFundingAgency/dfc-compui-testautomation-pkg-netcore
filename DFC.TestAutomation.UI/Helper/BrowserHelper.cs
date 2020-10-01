@@ -1,14 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// <copyright file="BrowserHelper.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using DFC.TestAutomation.UI.Extension;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
 
 namespace DFC.TestAutomation.UI.Helper
 {
     public class BrowserHelper : IBrowserHelper
     {
+        public BrowserHelper(string browserName)
+        {
+            this.BrowserName = browserName?.ToLower(CultureInfo.CurrentCulture).Trim();
+
+            if (!this.BrowserIndex.ContainsKey(this.BrowserName))
+            {
+                throw new InvalidOperationException($"Unable to initialise the BrowserHelper class as the browser '{this.BrowserName}' was not recognised.");
+            }
+        }
+
         private string BrowserName { get; set; }
 
-        private Dictionary<string, BrowserType> BrowserIndex = new Dictionary<string, BrowserType>()
+        private Dictionary<string, BrowserType> BrowserIndex { get; } = new Dictionary<string, BrowserType>()
         {
             { "browserstack", BrowserType.BrowserStack },
             { "cloud", BrowserType.BrowserStack },
@@ -22,18 +37,8 @@ namespace DFC.TestAutomation.UI.Helper
             { "local", BrowserType.Chrome },
             { "chromeheadless", BrowserType.Chrome },
             { "headlessbrowser", BrowserType.Chrome },
-            { "headless", BrowserType.Chrome }
+            { "headless", BrowserType.Chrome },
         };
-
-        public BrowserHelper(string browserName)
-        {
-            this.BrowserName = browserName.ToLower().Trim();
-
-            if (!this.BrowserIndex.ContainsKey(this.BrowserName))
-            {
-                throw new InvalidOperationException($"Unable to initialise the BrowserHelper class as the browser '{this.BrowserName}' was not recognised.");
-            }
-        }
 
         public BrowserType GetBrowserType()
         {
