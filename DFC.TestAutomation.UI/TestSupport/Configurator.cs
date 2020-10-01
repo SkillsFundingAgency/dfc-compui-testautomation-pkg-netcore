@@ -5,40 +5,14 @@ namespace DFC.TestAutomation.UI.TestSupport
 {
     public class Configurator<T> : IConfigurator<T> where T : Config.IConfiguration
     {
-        public T Data { get; private set; }
-
-        private IConfigurationRoot ConfigurationRoot { get; set; }
-
-        public bool IsExecutingInVSTS
-        {
-            get
-            {
-                return !string.IsNullOrEmpty(ConfigurationRoot.GetSection("AGENT_MACHINENAME")?.Value);
-            }
-        }
-
-        public string EnvironmentName
-        {
-            get
-            {
-                return IsExecutingInVSTS ? ConfigurationRoot.GetSection("RELEASE_ENVIRONMENTNAME")?.Value : ConfigurationRoot.GetSection("EnvironmentName")?.Value;
-            }
-        }
-
-        public string ProjectName
-        {
-            get
-            {
-                return ConfigurationRoot.GetSection("ProjectName").Value;
-            }
-        }
+        public T Configuration { get; private set; }
 
         public Configurator()
         {
             var configurationBuilder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
             configurationBuilder.AddEnvironmentVariables();
-            ConfigurationRoot = configurationBuilder.Build();
-            Data = ConfigurationRoot.Get<T>();
+            var configurationRoot = configurationBuilder.Build();
+            Configuration = configurationRoot.Get<T>();
         }
     }
 }

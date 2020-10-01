@@ -25,9 +25,9 @@ namespace DFC.TestAutomation.UI.TestSupport
         public WebDriverConfigurator(ScenarioContext scenarioContext)
         {
             this.Context = scenarioContext;
-            this.BrowserHelper = new BrowserHelper(this.Context.GetConfiguration<T>().Data.BrowserConfiguration.BrowserName);
+            this.BrowserHelper = new BrowserHelper(this.Context.GetConfiguration<T>().Configuration.BrowserConfiguration.BrowserName);
             this.ChromeOptions = new ChromeOptions();
-            var browserOptions = this.Context.GetConfiguration<T>().Data.BrowserConfiguration.BrowserArguements;
+            var browserOptions = this.Context.GetConfiguration<T>().Configuration.BrowserConfiguration.BrowserArguements;
             
             if (!browserOptions.InSandbox)
             {
@@ -59,9 +59,9 @@ namespace DFC.TestAutomation.UI.TestSupport
             switch(this.BrowserHelper.GetBrowserType())
             {
                 case BrowserType.Chrome:
-                    if (this.Context.GetConfiguration<T>().Data.BrowserConfiguration.UseProxy)
+                    if (this.Context.GetConfiguration<T>().Configuration.BrowserConfiguration.UseProxy)
                     {
-                        var proxy = this.Context.GetConfiguration<T>().Data.BrowserConfiguration.Proxy;
+                        var proxy = this.Context.GetConfiguration<T>().Configuration.BrowserConfiguration.Proxy;
 
                         this.ChromeOptions.Proxy = new Proxy
                         {

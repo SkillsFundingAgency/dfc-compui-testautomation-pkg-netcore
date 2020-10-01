@@ -16,11 +16,11 @@ namespace DFC.TestAutomation.UI.TestSupport
 
         public BrowserStackConfigurator(IConfigurator<T> configuration)
         {
-            this.BrowserStackConfiguration = configuration.Data.BrowserStackConfiguration;
-            this.BrowserConfiguration = configuration.Data.BrowserConfiguration;
-            this.EnvironmentConfiguration = configuration.Data.EnvironmentConfiguration;
-            this.BuildConfiguration = configuration.Data.BuildConfiguration;
-            this.ProjectConfiguration = configuration.Data.ProjectConfiguration;
+            this.BrowserStackConfiguration = configuration.Configuration.BrowserStackConfiguration;
+            this.BrowserConfiguration = configuration.Configuration.BrowserConfiguration;
+            this.EnvironmentConfiguration = configuration.Configuration.EnvironmentConfiguration;
+            this.BuildConfiguration = configuration.Configuration.BuildConfiguration;
+            this.ProjectConfiguration = configuration.Configuration.ProjectConfiguration;
 
             if(BrowserStackConfiguration.BrowserStackUsername == null || BrowserStackConfiguration.BrowserStackPassword == null)
             {
