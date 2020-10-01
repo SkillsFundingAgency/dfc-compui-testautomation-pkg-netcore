@@ -1,4 +1,4 @@
-﻿using DFC.TestAutomation.UI.Config;
+﻿using DFC.TestAutomation.UI.Settings;
 using DFC.TestAutomation.UI.Helper;
 using DFC.TestAutomation.UI.TestSupport;
 using OpenQA.Selenium;
@@ -28,12 +28,12 @@ namespace DFC.TestAutomation.UI.Extension
             context.Set(webDriver);
         }
 
-        public static IConfigurator<T> GetConfiguration<T>(this ScenarioContext context) where T : IConfiguration
+        public static IConfiguration<T> GetConfiguration<T>(this ScenarioContext context) where T : IAppSettings
         {
-            return context.Get<IConfigurator<T>>();
+            return context.Get<IConfiguration<T>>();
         }
 
-        public static void SetConfiguration<T>(this ScenarioContext context, IConfigurator<T> configuration) where T : IConfiguration
+        public static void SetConfiguration<T>(this ScenarioContext context, IConfiguration<T> configuration) where T : IAppSettings
         {
             context.Set(configuration);
         }

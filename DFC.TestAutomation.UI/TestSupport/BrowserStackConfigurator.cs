@@ -1,4 +1,4 @@
-﻿using DFC.TestAutomation.UI.Config;
+﻿using DFC.TestAutomation.UI.Settings;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Remote;
@@ -6,21 +6,21 @@ using System;
 
 namespace DFC.TestAutomation.UI.TestSupport
 {
-    public class BrowserStackConfigurator<T> : IBrowserStackConfigurator where T : IConfiguration
+    public class BrowserStackConfigurator<T> : IBrowserStackConfigurator where T : IAppSettings
     {
-        private BrowserStackConfiguration BrowserStackConfiguration { get; set; }
-        private BrowserConfiguration BrowserConfiguration { get; set; }
-        private EnvironmentConfiguration EnvironmentConfiguration { get; set; }
-        private BuildConfiguration BuildConfiguration { get; set; }
-        private ProjectConfiguration ProjectConfiguration { get; set; }
+        private BrowserStackSettings BrowserStackConfiguration { get; set; }
+        private BrowserSettings BrowserConfiguration { get; set; }
+        private EnvironmentSettings EnvironmentConfiguration { get; set; }
+        private BuildSettings BuildConfiguration { get; set; }
+        private T ProjectConfiguration { get; set; }
 
-        public BrowserStackConfigurator(IConfigurator<T> configuration)
+        public BrowserStackConfigurator(IConfiguration<T> configuration)
         {
-            this.BrowserStackConfiguration = configuration.Configuration.BrowserStackConfiguration;
-            this.BrowserConfiguration = configuration.Configuration.BrowserConfiguration;
-            this.EnvironmentConfiguration = configuration.Configuration.EnvironmentConfiguration;
-            this.BuildConfiguration = configuration.Configuration.BuildConfiguration;
-            this.ProjectConfiguration = configuration.Configuration.ProjectConfiguration;
+            this.BrowserStackConfiguration = configuration.BrowserStackSettings;
+            this.BrowserConfiguration = configuration.BrowserSettings;
+            this.EnvironmentConfiguration = configuration.EnvironmentSettings;
+            this.BuildConfiguration = configuration.BuildSettings;
+            this.ProjectConfiguration = configuration.AppSettings;
 
             if(BrowserStackConfiguration.BrowserStackUsername == null || BrowserStackConfiguration.BrowserStackPassword == null)
             {

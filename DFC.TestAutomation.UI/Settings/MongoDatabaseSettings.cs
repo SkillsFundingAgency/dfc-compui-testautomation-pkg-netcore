@@ -1,6 +1,6 @@
-﻿namespace DFC.TestAutomation.UI.Config
+﻿namespace DFC.TestAutomation.UI.Settings
 {
-    public class MongoDatabaseConfiguration
+    public class MongoDatabaseSettings
     {
         public string ConnectionString { get; set; }
 

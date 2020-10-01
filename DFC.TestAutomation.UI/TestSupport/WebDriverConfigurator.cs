@@ -1,4 +1,4 @@
-﻿using DFC.TestAutomation.UI.Config;
+﻿using DFC.TestAutomation.UI.Settings;
 using DFC.TestAutomation.UI.Extension;
 using DFC.TestAutomation.UI.Helper;
 using OpenQA.Selenium;
@@ -12,7 +12,7 @@ using TechTalk.SpecFlow;
 
 namespace DFC.TestAutomation.UI.TestSupport
 {
-    public class WebDriverConfigurator<T> : IWebDriverConfigurator where T : IConfiguration
+    public class WebDriverConfigurator<T> : IWebDriverConfigurator where T : IAppSettings
     {
         private string ChromeDriverPath => GetWebDriverPathForExecutable("chromedriver.exe");
         private string FirefoxDriverPath => GetWebDriverPathForExecutable("geckodriver.exe");
@@ -25,9 +25,9 @@ namespace DFC.TestAutomation.UI.TestSupport
         public WebDriverConfigurator(ScenarioContext scenarioContext)
         {
             this.Context = scenarioContext;
-            this.BrowserHelper = new BrowserHelper(this.Context.GetConfiguration<T>().Configuration.BrowserConfiguration.BrowserName);
+            this.BrowserHelper = new BrowserHelper(this.Context.GetConfiguration<T>().BrowserSettings.BrowserName);
             this.ChromeOptions = new ChromeOptions();
-            var browserOptions = this.Context.GetConfiguration<T>().Configuration.BrowserConfiguration.BrowserArguements;
+            var browserOptions = this.Context.GetConfiguration<T>().BrowserSettings.BrowserArguements;
             
             if (!browserOptions.InSandbox)
             {
@@ -59,9 +59,9 @@ namespace DFC.TestAutomation.UI.TestSupport
             switch(this.BrowserHelper.GetBrowserType())
             {
                 case BrowserType.Chrome:
-                    if (this.Context.GetConfiguration<T>().Configuration.BrowserConfiguration.UseProxy)
+                    if (this.Context.GetConfiguration<T>().BrowserSettings.UseProxy)
                     {
-                        var proxy = this.Context.GetConfiguration<T>().Configuration.BrowserConfiguration.Proxy;
+                        var proxy = this.Context.GetConfiguration<T>().BrowserSettings.Proxy;
 
                         this.ChromeOptions.Proxy = new Proxy
                         {

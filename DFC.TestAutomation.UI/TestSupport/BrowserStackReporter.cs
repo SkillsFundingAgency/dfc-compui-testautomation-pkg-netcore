@@ -1,4 +1,4 @@
-﻿using DFC.TestAutomation.UI.Config;
+﻿using DFC.TestAutomation.UI.Settings;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using RestSharp;
@@ -13,7 +13,7 @@ namespace DFC.TestAutomation.UI.TestSupport
         public IRestRequest RestRequest { get; set; }
         public IRestClient RestClient { get; set; }
 
-        public BrowserStackReporter(BrowserStackConfiguration browserStackConfiguration, string remoteWebDriverSessionId)
+        public BrowserStackReporter(BrowserStackSettings browserStackConfiguration, string remoteWebDriverSessionId)
         {
             this.RestClient = new RestClient(browserStackConfiguration.BaseUri)
             {

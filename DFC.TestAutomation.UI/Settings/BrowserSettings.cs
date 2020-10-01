@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace DFC.TestAutomation.UI.Config
+namespace DFC.TestAutomation.UI.Settings
 {
-    public class BrowserConfiguration
+    public class BrowserSettings
     {
         public string BrowserName { get; set; }
 

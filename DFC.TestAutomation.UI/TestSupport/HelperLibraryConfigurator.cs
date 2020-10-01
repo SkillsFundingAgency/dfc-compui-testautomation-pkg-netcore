@@ -1,11 +1,11 @@
-﻿using DFC.TestAutomation.UI.Config;
+﻿using DFC.TestAutomation.UI.Settings;
 using DFC.TestAutomation.UI.Extension;
 using DFC.TestAutomation.UI.Helper;
 using TechTalk.SpecFlow;
 
 namespace DFC.TestAutomation.UI.TestSupport
 {
-    public class HelperLibraryConfigurator<T> : IHelperLibraryConfigurator where T : IConfiguration
+    public class HelperLibraryConfigurator<T> : IHelperLibraryConfigurator where T : IAppSettings
     {
         public IJavaScriptHelper JavaScriptHelper { get; set; }
 
@@ -32,14 +32,14 @@ namespace DFC.TestAutomation.UI.TestSupport
         public HelperLibraryConfigurator(ScenarioContext context)
         {
             this.JavaScriptHelper = new JavaScriptHelper(context.GetWebDriver());
-            this.WebDriverWaitHelper = new WebDriverWaitHelper(context.GetWebDriver(), context.GetConfiguration<T>().Configuration.TimeoutConfiguration, this.JavaScriptHelper);
+            this.WebDriverWaitHelper = new WebDriverWaitHelper(context.GetWebDriver(), context.GetConfiguration<T>().TimeoutSettings, this.JavaScriptHelper);
             this.RetryHelper = new RetryHelper();
             this.AxeHelper = new AxeHelper(context.GetWebDriver());
-            this.BrowserHelper = new BrowserHelper(context.GetConfiguration<T>().Configuration.BrowserConfiguration.BrowserName);
+            this.BrowserHelper = new BrowserHelper(context.GetConfiguration<T>().BrowserSettings.BrowserName);
             this.FormCompletionHelper = new FormCompletionHelper(context.GetWebDriver(), this.WebDriverWaitHelper, this.RetryHelper, this.JavaScriptHelper);
             this.HttpClientRequestHelper = new HttpClientRequestHelper("NEED AN ACCESS TOKEN");
             this.PageInteractionHelper = new PageInteractionHelper(context.GetWebDriver(), this.WebDriverWaitHelper, this.RetryHelper);
-            this.MongoDbConnectionHelper = new MongoDbConnectionHelper(context.GetConfiguration<T>().Configuration.MongoDatabaseConfiguration);
+            this.MongoDbConnectionHelper = new MongoDbConnectionHelper(context.GetConfiguration<T>().MongoDatabaseSettings);
             this.SqlDatabaseConnectionHelper = new SqlDatabaseConnectionHelper("NEED A CONN STRING");
             this.ScreenshotHelper = new ScreenshotHelper(context);
         }

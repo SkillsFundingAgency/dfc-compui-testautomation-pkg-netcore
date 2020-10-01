@@ -1,4 +1,4 @@
-﻿using DFC.TestAutomation.UI.Config;
+﻿using DFC.TestAutomation.UI.Settings;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System;
@@ -8,12 +8,12 @@ namespace DFC.TestAutomation.UI.Helper
     public class WebDriverWaitHelper : IWebDriverWaitHelper
     {
         private IWebDriver WebDriver { get; set; }
-        private TimeoutConfiguration TimeoutConfiguration { get; set; }
+        private TimeoutSettings TimeoutConfiguration { get; set; }
         public WebDriverWait WebDriverImplicitWait { get; private set; }
         public WebDriverWait WebDriverNavigationWait { get; private set; }
         private IJavaScriptHelper JavascriptHelper { get; set; }
 
-        public WebDriverWaitHelper(IWebDriver webDriver, TimeoutConfiguration timeoutConfiguration, IJavaScriptHelper javascriptHelper)
+        public WebDriverWaitHelper(IWebDriver webDriver, TimeoutSettings timeoutConfiguration, IJavaScriptHelper javascriptHelper)
         {
             this.WebDriver = webDriver;
             this.TimeoutConfiguration = timeoutConfiguration;

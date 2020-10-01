@@ -1,5 +1,4 @@
-﻿using DFC.TestAutomation.UI.Config;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 using System.Threading.Tasks;
 
 namespace DFC.TestAutomation.UI.Helper
@@ -8,7 +7,7 @@ namespace DFC.TestAutomation.UI.Helper
     {
         private IMongoDatabase Database { get; set; }
 
-        public MongoDbConnectionHelper(MongoDatabaseConfiguration mongoDatabaseConfiguration)
+        public MongoDbConnectionHelper(Settings.MongoDatabaseSettings mongoDatabaseConfiguration)
         {
             var client = new MongoClient(mongoDatabaseConfiguration.ConnectionString);
             this.Database = client.GetDatabase(mongoDatabaseConfiguration.DatabaseName);

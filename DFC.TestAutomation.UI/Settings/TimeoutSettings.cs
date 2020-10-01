@@ -1,6 +1,6 @@
-﻿namespace DFC.TestAutomation.UI.Config
+﻿namespace DFC.TestAutomation.UI.Settings
 {
-    public class TimeoutConfiguration
+    public class TimeoutSettings
     {
         public int PageNavigation { get; set; }
 

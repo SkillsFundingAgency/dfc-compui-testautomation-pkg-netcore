@@ -1,6 +1,6 @@
-﻿namespace DFC.TestAutomation.UI.Config
+﻿namespace DFC.TestAutomation.UI.Settings
 {
-    public class EnvironmentConfiguration
+    public class EnvironmentSettings
     {
         public string EnvironmentName { get;  set; }
 
