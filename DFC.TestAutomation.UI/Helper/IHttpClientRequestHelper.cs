@@ -1,17 +1,18 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace DFC.TestAutomation.UI.Helper
 {
     public interface IHttpClientRequestHelper
     {
-        Task<string> ExecuteHttpPostRequest(string requestUri, string postData);
+        Task<string> ExecuteHttpPostRequest(Uri requestUri, string postData);
 
-        Task<string> ExecuteHttpGetRequest(string requestUri);
+        Task<string> ExecuteHttpGetRequest(Uri requestUri);
 
-        Task<string> ExecuteHttpPutRequest(string requestUri, string putData);
+        Task<string> ExecuteHttpPutRequest(Uri requestUri, string putData);
 
-        Task ExecuteHttpDeleteRequest(string requestUri, string deleteData);
+        Task ExecuteHttpDeleteRequest(Uri requestUri, string deleteData);
 
-        Task<string> ExecuteHttpPatchRequest(string requestUri, string patchData);
+        Task<string> ExecuteHttpPatchRequest(Uri requestUri, string patchData);
     }
 }

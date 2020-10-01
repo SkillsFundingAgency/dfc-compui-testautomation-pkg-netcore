@@ -1,4 +1,8 @@
-﻿namespace DFC.TestAutomation.UI.Helper
+﻿// <copyright file="HelperLibrary.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace DFC.TestAutomation.UI.Helper
 {
     public class HelperLibrary : IHelperLibrary
     {
