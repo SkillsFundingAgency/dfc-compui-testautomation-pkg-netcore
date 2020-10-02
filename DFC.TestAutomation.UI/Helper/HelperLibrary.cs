@@ -10,7 +10,7 @@ namespace DFC.TestAutomation.UI.Helper
     public class HelperLibrary : IHelperLibrary
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="HelperLibrary"/> class. The <see cref="HttpRequestHelper"/> defaults to null. This can be set at runtime.
+        /// Initializes a new instance of the <see cref="HelperLibrary"/> class.
         /// </summary>
         /// <param name="javascriptHelper">The javascript helper.</param>
         /// <param name="webDriverWaitHelper">The Webdriver wait helper.</param>
@@ -18,7 +18,6 @@ namespace DFC.TestAutomation.UI.Helper
         /// <param name="axeHelper">The axe helper.</param>
         /// <param name="browserHelper">The browser helper.</param>
         /// <param name="formHelper">The form helper.</param>
-        /// <param name="httpRequestHelper">The HTTP request helper.</param>
         /// <param name="commonActionHelper">The common action helper.</param>
         /// <param name="mongoDbConnectionHelper">The Mongo database connection helper.</param>
         /// <param name="screenshotHelper">The screenshot helper.</param>
@@ -30,7 +29,6 @@ namespace DFC.TestAutomation.UI.Helper
             IAxeHelper axeHelper,
             IBrowserHelper browserHelper,
             IFormHelper formHelper,
-            IHttpRequestHelper httpRequestHelper,
             ICommonActionHelper commonActionHelper,
             IMongoDbConnectionHelper mongoDbConnectionHelper,
             IScreenshotHelper screenshotHelper,
@@ -42,7 +40,6 @@ namespace DFC.TestAutomation.UI.Helper
             this.AxeHelper = axeHelper;
             this.BrowserHelper = browserHelper;
             this.FormHelper = formHelper;
-            this.HttpRequestHelper = httpRequestHelper;
             this.CommonActionHelper = commonActionHelper;
             this.MongoDbConnectionHelper = mongoDbConnectionHelper;
             this.SqlDatabaseHelper = sqlDatabaseHelper;
@@ -50,58 +47,53 @@ namespace DFC.TestAutomation.UI.Helper
         }
 
         /// <summary>
-        /// Gets or sets the axe helper.
+        /// Gets the axe helper.
         /// </summary>
-        public IAxeHelper AxeHelper { get; set; }
+        public IAxeHelper AxeHelper { get; private set; }
 
         /// <summary>
-        /// Gets or sets the browser helper.
+        /// Gets the browser helper.
         /// </summary>
-        public IBrowserHelper BrowserHelper { get; set; }
+        public IBrowserHelper BrowserHelper { get; private set; }
 
         /// <summary>
-        /// Gets or sets the form helper.
+        /// Gets the form helper.
         /// </summary>
-        public IFormHelper FormHelper { get; set; }
+        public IFormHelper FormHelper { get; private set; }
 
         /// <summary>
-        /// Gets or sets the HTTP request helper.
+        /// Gets the javascript helper.
         /// </summary>
-        public IHttpRequestHelper HttpRequestHelper { get; set; }
+        public IJavaScriptHelper JavaScriptHelper { get; private set; }
 
         /// <summary>
-        /// Gets or sets the javascript helper.
+        /// Gets the common action helper.
         /// </summary>
-        public IJavaScriptHelper JavaScriptHelper { get; set; }
+        public ICommonActionHelper CommonActionHelper { get; private set; }
 
         /// <summary>
-        /// Gets or sets the common action helper.
+        /// Gets the Webdriver wait helper.
         /// </summary>
-        public ICommonActionHelper CommonActionHelper { get; set; }
+        public IWebDriverWaitHelper WebDriverWaitHelper { get; private set; }
 
         /// <summary>
-        /// Gets or sets the Webdriver wait helper.
+        /// Gets the Mongo database helper.
         /// </summary>
-        public IWebDriverWaitHelper WebDriverWaitHelper { get; set; }
+        public IMongoDbConnectionHelper MongoDbConnectionHelper { get; private set; }
 
         /// <summary>
-        /// Gets or sets the Mongo database helper.
+        /// Gets the retry helper.
         /// </summary>
-        public IMongoDbConnectionHelper MongoDbConnectionHelper { get; set; }
+        public IRetryHelper RetryHelper { get; private set; }
 
         /// <summary>
-        /// Gets or sets the retry helper.
+        /// Gets the SQL database helper.
         /// </summary>
-        public IRetryHelper RetryHelper { get; set; }
+        public ISqlDatabaseHelper SqlDatabaseHelper { get; private set; }
 
         /// <summary>
-        /// Gets or sets the SQL database helper.
+        /// Gets the screenshot helper.
         /// </summary>
-        public ISqlDatabaseHelper SqlDatabaseHelper { get; set; }
-
-        /// <summary>
-        /// Gets or sets the screenshot helper.
-        /// </summary>
-        public IScreenshotHelper ScreenshotHelper { get; set; }
+        public IScreenshotHelper ScreenshotHelper { get; private set; }
     }
 }

@@ -6,26 +6,24 @@ namespace DFC.TestAutomation.UI.Helper
 {
     public interface IHelperLibrary
     {
-        IAxeHelper AxeHelper { get; set; }
+        IAxeHelper AxeHelper { get; }
 
-        IBrowserHelper BrowserHelper { get; set; }
+        IBrowserHelper BrowserHelper { get; }
 
-        IFormHelper FormHelper { get; set; }
+        IFormHelper FormHelper { get; }
 
-        IHttpRequestHelper HttpRequestHelper { get; set; }
+        IJavaScriptHelper JavaScriptHelper { get; }
 
-        IJavaScriptHelper JavaScriptHelper { get; set; }
+        ICommonActionHelper CommonActionHelper { get; }
 
-        ICommonActionHelper CommonActionHelper { get; set; }
+        IWebDriverWaitHelper WebDriverWaitHelper { get; }
 
-        IWebDriverWaitHelper WebDriverWaitHelper { get; set; }
+        IMongoDbConnectionHelper MongoDbConnectionHelper { get; }
 
-        IMongoDbConnectionHelper MongoDbConnectionHelper { get; set; }
+        IRetryHelper RetryHelper { get; }
 
-        IRetryHelper RetryHelper { get; set; }
+        ISqlDatabaseHelper SqlDatabaseHelper { get; }
 
-        ISqlDatabaseHelper SqlDatabaseHelper { get; set; }
-
-        IScreenshotHelper ScreenshotHelper { get; set; }
+        IScreenshotHelper ScreenshotHelper { get; }
     }
 }

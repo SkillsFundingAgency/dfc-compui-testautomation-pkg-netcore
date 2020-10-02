@@ -58,7 +58,6 @@ namespace DFC.TestAutomation.UI.TestSupport
                 this.AxeHelper,
                 this.BrowserHelper,
                 this.FormCompletionHelper,
-                this.HttpRequestHelper,
                 this.PageInteractionHelper,
                 this.MongoDbConnectionHelper,
                 this.ScreenshotHelper,
