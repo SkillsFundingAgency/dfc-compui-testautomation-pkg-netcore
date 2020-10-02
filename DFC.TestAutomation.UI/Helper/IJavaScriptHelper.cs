@@ -10,15 +10,15 @@ namespace DFC.TestAutomation.UI.Helper
     {
         bool IsDocumentReady();
 
-        IWebElement GetParentElement(IWebElement childElement)
+        IWebElement GetParentElement(IWebElement childElement);
 
         void ClickElement(By locator);
 
         void ScrollElementIntoView(IWebElement webElement);
 
-        object ExecuteScript(string javascript, IWebElement webElement);
+        object ExecuteScript(string javascript, params IWebElement[] webElements);
 
-        object ExecuteScript(string javascript, By locator);
+        object ExecuteScript(string javascript, params By[] locators);
 
         object ExecuteScript(string javascript);
     }
