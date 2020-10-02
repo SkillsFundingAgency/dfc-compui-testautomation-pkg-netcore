@@ -1,4 +1,8 @@
-﻿using System;
+﻿// <copyright file="BrowserStackSettings.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+using System;
 
 namespace DFC.TestAutomation.UI.Settings
 {
@@ -9,7 +13,7 @@ namespace DFC.TestAutomation.UI.Settings
         public string BrowserStackPassword { get; set; }
 
         public Uri RemoteAddressUri { get; set; }
-        
+
         public Uri BaseUri { get; set; }
 
         public bool EnableNetworkLogs { get; set; }

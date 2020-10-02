@@ -1,30 +1,32 @@
-﻿using DFC.TestAutomation.UI.Settings;
+﻿// <copyright file="BrowserStackReporter.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+using DFC.TestAutomation.UI.Settings;
 using Newtonsoft.Json;
-using NUnit.Framework;
 using RestSharp;
 using RestSharp.Authenticators;
-using System;
-using System.Net;
 
 namespace DFC.TestAutomation.UI.TestSupport
 {
     public class BrowserStackReporter : IBrowserStackReporter
     {
-        public IRestRequest RestRequest { get; set; }
-        public IRestClient RestClient { get; set; }
-
         public BrowserStackReporter(BrowserStackSettings browserStackConfiguration, string remoteWebDriverSessionId)
         {
-            this.RestClient = new RestClient(browserStackConfiguration.BaseUri)
+            this.RestClient = new RestClient(browserStackConfiguration?.BaseUri)
             {
-                Authenticator = new HttpBasicAuthenticator(browserStackConfiguration.BrowserStackUsername, browserStackConfiguration.BrowserStackPassword)
+                Authenticator = new HttpBasicAuthenticator(browserStackConfiguration.BrowserStackUsername, browserStackConfiguration.BrowserStackPassword),
             };
 
             this.RestRequest = new RestRequest($"{remoteWebDriverSessionId}.json", Method.PUT)
             {
-                RequestFormat = DataFormat.Json
+                RequestFormat = DataFormat.Json,
             };
         }
+
+        public IRestRequest RestRequest { get; set; }
+
+        public IRestClient RestClient { get; set; }
 
         public void SendMessage(string status, string message)
         {

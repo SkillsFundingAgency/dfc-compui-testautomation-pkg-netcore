@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace DFC.TestAutomation.UI.Helper
 {
     public class HttpClientRequestHelper : IHttpClientRequestHelper
-    { 
+    {
         public HttpClientRequestHelper()
         {
             this.Client = new HttpClient();

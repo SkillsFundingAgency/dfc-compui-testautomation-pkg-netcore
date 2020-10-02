@@ -1,4 +1,8 @@
-﻿namespace DFC.TestAutomation.UI.Settings
+﻿// <copyright file="BrowserArguements.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace DFC.TestAutomation.UI.Settings
 {
     public class BrowserArguements
     {

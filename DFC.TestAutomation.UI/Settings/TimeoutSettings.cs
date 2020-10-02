@@ -1,4 +1,8 @@
-﻿namespace DFC.TestAutomation.UI.Settings
+﻿// <copyright file="TimeoutSettings.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace DFC.TestAutomation.UI.Settings
 {
     public class TimeoutSettings
     {

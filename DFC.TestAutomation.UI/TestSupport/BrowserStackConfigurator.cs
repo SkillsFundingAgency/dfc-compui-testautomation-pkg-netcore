@@ -1,38 +1,48 @@
-﻿using DFC.TestAutomation.UI.Settings;
+﻿// <copyright file="BrowserStackConfigurator.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+using DFC.TestAutomation.UI.Settings;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Remote;
 using System;
+using System.Globalization;
 
 namespace DFC.TestAutomation.UI.TestSupport
 {
-    public class BrowserStackConfigurator<T> : IBrowserStackConfigurator where T : IAppSettings
+    public class BrowserStackConfigurator<T> : IBrowserStackConfigurator
+        where T : IAppSettings
     {
-        private BrowserStackSettings BrowserStackConfiguration { get; set; }
-        private BrowserSettings BrowserConfiguration { get; set; }
-        private EnvironmentSettings EnvironmentConfiguration { get; set; }
-        private BuildSettings BuildConfiguration { get; set; }
-        private T ProjectConfiguration { get; set; }
-
         public BrowserStackConfigurator(ISettingsLibrary<T> configuration)
         {
-            this.BrowserStackConfiguration = configuration.BrowserStackSettings;
+            this.BrowserStackConfiguration = configuration?.BrowserStackSettings;
             this.BrowserConfiguration = configuration.BrowserSettings;
             this.EnvironmentConfiguration = configuration.EnvironmentSettings;
             this.BuildConfiguration = configuration.BuildSettings;
             this.ProjectConfiguration = configuration.AppSettings;
 
-            if(BrowserStackConfiguration.BrowserStackUsername == null || BrowserStackConfiguration.BrowserStackPassword == null)
+            if (this.BrowserStackConfiguration.BrowserStackUsername == null || this.BrowserStackConfiguration.BrowserStackPassword == null)
             {
                 throw new Exception("Unable to initialise the BrowserStackSetup class as the settings do not contain a Browserstack username and/or password. You can set this configuration in the appsettings.json file.");
             }
         }
 
+        private BrowserStackSettings BrowserStackConfiguration { get; set; }
+
+        private BrowserSettings BrowserConfiguration { get; set; }
+
+        private EnvironmentSettings EnvironmentConfiguration { get; set; }
+
+        private BuildSettings BuildConfiguration { get; set; }
+
+        private T ProjectConfiguration { get; set; }
+
         public IWebDriver CreateRemoteWebDriver()
         {
             var chromeOptions = new ChromeOptions
             {
-                AcceptInsecureCertificates = true
+                AcceptInsecureCertificates = true,
             };
 
             chromeOptions.AddAdditionalCapability("browser", this.BrowserConfiguration.BrowserName, true);
@@ -42,7 +52,7 @@ namespace DFC.TestAutomation.UI.TestSupport
             chromeOptions.AddAdditionalCapability("resolution", this.EnvironmentConfiguration.ScreenResolution, true);
             chromeOptions.AddAdditionalCapability("browserstack.user", this.BrowserStackConfiguration.BrowserStackUsername, true);
             chromeOptions.AddAdditionalCapability("browserstack.key", this.BrowserStackConfiguration.BrowserStackPassword, true);
-            chromeOptions.AddAdditionalCapability("build", $"dfc.acceptance.{this.EnvironmentConfiguration.EnvironmentName.ToUpper()}.{this.BuildConfiguration.BuildNumber}", true);
+            chromeOptions.AddAdditionalCapability("build", $"dfc.acceptance.{this.EnvironmentConfiguration.EnvironmentName.ToUpper(CultureInfo.CurrentCulture)}.{this.BuildConfiguration.BuildNumber}", true);
             chromeOptions.AddAdditionalCapability("project", this.ProjectConfiguration.AppName, true);
             chromeOptions.AddAdditionalCapability("browserstack.debug", "true", true);
             chromeOptions.AddAdditionalCapability("browserstack.networkLogs", this.BrowserStackConfiguration.EnableNetworkLogs, true);

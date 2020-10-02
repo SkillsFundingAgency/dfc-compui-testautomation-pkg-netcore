@@ -1,4 +1,8 @@
-﻿using DFC.TestAutomation.UI.Settings;
+﻿// <copyright file="SettingsLibrary.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+using DFC.TestAutomation.UI.Settings;
 using Microsoft.Extensions.Configuration;
 using System.IO;
 
