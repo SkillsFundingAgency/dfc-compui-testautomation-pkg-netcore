@@ -4,23 +4,10 @@ using System.IO;
 
 namespace DFC.TestAutomation.UI.TestSupport
 {
-    public class Configuration<T> : IConfiguration<T> where T : IAppSettings
+    public class SettingsLibrary<T> : ISettingsLibrary<T>
+        where T : IAppSettings
     {
-        public T AppSettings { get; private set; }
-
-        public BrowserSettings BrowserSettings { get; set; }
-
-        public BrowserStackSettings BrowserStackSettings { get; set; }
-        
-        public BuildSettings BuildSettings { get; set; }
-        
-        public EnvironmentSettings EnvironmentSettings { get; set; }
-        
-        public MongoDatabaseSettings MongoDatabaseSettings { get; set; }
-        
-        public TimeoutSettings TimeoutSettings { get; set; }
-
-        public Configuration()
+        public SettingsLibrary()
         {
             var configurationBuilder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
             configurationBuilder.AddEnvironmentVariables();
@@ -33,5 +20,19 @@ namespace DFC.TestAutomation.UI.TestSupport
             this.MongoDatabaseSettings = configurationRoot.GetSection("MongoDatabaseSettings").Get<MongoDatabaseSettings>();
             this.TimeoutSettings = configurationRoot.GetSection("TimeoutSettings").Get<TimeoutSettings>();
         }
+
+        public T AppSettings { get; private set; }
+
+        public BrowserSettings BrowserSettings { get; set; }
+
+        public BrowserStackSettings BrowserStackSettings { get; set; }
+
+        public BuildSettings BuildSettings { get; set; }
+
+        public EnvironmentSettings EnvironmentSettings { get; set; }
+
+        public MongoDatabaseSettings MongoDatabaseSettings { get; set; }
+
+        public TimeoutSettings TimeoutSettings { get; set; }
     }
 }

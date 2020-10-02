@@ -14,7 +14,7 @@ namespace DFC.TestAutomation.UI.TestSupport
         private BuildSettings BuildConfiguration { get; set; }
         private T ProjectConfiguration { get; set; }
 
-        public BrowserStackConfigurator(IConfiguration<T> configuration)
+        public BrowserStackConfigurator(ISettingsLibrary<T> configuration)
         {
             this.BrowserStackConfiguration = configuration.BrowserStackSettings;
             this.BrowserConfiguration = configuration.BrowserSettings;

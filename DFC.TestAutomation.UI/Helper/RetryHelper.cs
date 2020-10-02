@@ -1,18 +1,20 @@
-﻿using Polly;
+﻿// <copyright file="RetryHelper.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+using Polly;
 using System;
 
 namespace DFC.TestAutomation.UI.Helper
 {
     public class RetryHelper : IRetryHelper
     {
-        private TimeSpan[] SleepDurations { get; set; }
-
-        private IJavaScriptHelper JavascriptHelper { get; set; }
-
         public RetryHelper()
         {
-            SleepDurations = new TimeSpan[] { TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(3) };
+            this.SleepDurations = new TimeSpan[] { TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(3) };
         }
+
+        private TimeSpan[] SleepDurations { get; set; }
 
         public Action<Exception, TimeSpan, int, Context> CreateRetryAction(Action func)
         {

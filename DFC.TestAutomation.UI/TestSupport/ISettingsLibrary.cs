@@ -2,7 +2,7 @@
 
 namespace DFC.TestAutomation.UI.TestSupport
 {
-    public interface IConfiguration<T>
+    public interface ISettingsLibrary<T>
     {
         public T AppSettings { get; }
 

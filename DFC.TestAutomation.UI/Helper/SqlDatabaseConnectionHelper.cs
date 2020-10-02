@@ -1,4 +1,8 @@
-﻿using Dapper;
+﻿// <copyright file="SqlDatabaseConnectionHelper.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+using Dapper;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -8,12 +12,12 @@ namespace DFC.TestAutomation.UI.Helper
 {
     public class SqlDatabaseConnectionHelper : ISqlDatabaseConnectionHelper
     {
-        private string ConnectionString { get; set; }
-
         public SqlDatabaseConnectionHelper(string connectionString)
         {
             this.ConnectionString = connectionString;
         }
+
+        private string ConnectionString { get; set; }
 
         public int ExecuteSqlCommand(string query)
         {
@@ -30,12 +34,16 @@ namespace DFC.TestAutomation.UI.Helper
             using (var databaseConnection = new SqlConnection(this.ConnectionString))
             {
                 databaseConnection.Open();
-                using (SqlCommand command = new SqlCommand(query, databaseConnection))
+                using (var command = new SqlCommand(query, databaseConnection))
                 {
-                    foreach (KeyValuePair<string, string> param in parameters)
+                    if (parameters != null)
                     {
-                        command.Parameters.AddWithValue(param.Key, param.Value);
+                        foreach (var param in parameters)
+                        {
+                            command.Parameters.AddWithValue(param.Key, param.Value);
+                        }
                     }
+
                     return command.ExecuteNonQuery();
                 }
             }
@@ -46,7 +54,7 @@ namespace DFC.TestAutomation.UI.Helper
             using (var databaseConnection = new SqlConnection(this.ConnectionString))
             {
                 databaseConnection.Open();
-                using (SqlCommand command = new SqlCommand(query, databaseConnection))
+                using (var command = new SqlCommand(query, databaseConnection))
                 {
                     SqlDataReader dataReader = command.ExecuteReader();
                     List<object[]> result = new List<object[]>();
@@ -56,6 +64,7 @@ namespace DFC.TestAutomation.UI.Helper
                         dataReader.GetValues(items);
                         result.Add(items);
                     }
+
                     return result;
                 }
             }

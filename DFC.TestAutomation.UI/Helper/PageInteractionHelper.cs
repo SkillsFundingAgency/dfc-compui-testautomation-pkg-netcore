@@ -1,4 +1,8 @@
-﻿using DFC.TestAutomation.UI.Extension;
+﻿// <copyright file="PageInteractionHelper.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+using DFC.TestAutomation.UI.Extension;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
@@ -10,12 +14,6 @@ namespace DFC.TestAutomation.UI.Helper
 {
     public class PageInteractionHelper : IPageInteractionHelper
     {
-        private IWebDriver WebDriver { get; set; }
-
-        private IWebDriverWaitHelper WebDriverWaitHelper { get; set; }
-
-        private IRetryHelper RetryHelper { get; set; }
-
         public PageInteractionHelper(IWebDriver webDriver, IWebDriverWaitHelper webDriverWaitHelper, IRetryHelper retryHelper)
         {
             this.WebDriver = webDriver;
@@ -23,26 +21,32 @@ namespace DFC.TestAutomation.UI.Helper
             this.RetryHelper = retryHelper;
         }
 
+        private IWebDriver WebDriver { get; set; }
+
+        private IWebDriverWaitHelper WebDriverWaitHelper { get; set; }
+
+        private IRetryHelper RetryHelper { get; set; }
+
         public bool VerifyPage(By locator, string expected)
         {
-            bool action()
+            bool Action()
             {
                 this.WebDriverWaitHelper.WaitForPageToLoad();
-                var actual = GetText(locator);
-                return actual.Contains(expected);
+                var actual = this.GetText(locator);
+                return actual.Contains(expected, StringComparison.CurrentCultureIgnoreCase);
             }
 
-            return this.RetryHelper.RetryOnException(action);
+            return this.RetryHelper.RetryOnException(Action);
         }
 
         public string GetAttributeValue(By locator, string attributeKey)
         {
-            string action()
-            { 
-                return this.WebDriver.FindElement(locator).GetAttribute(attributeKey) as string; 
-            };
+            string Action()
+            {
+                return this.WebDriver.FindElement(locator).GetAttribute(attributeKey);
+            }
 
-            return this.RetryHelper.RetryOnException<string>(action);
+            return this.RetryHelper.RetryOnException<string>(Action);
         }
 
         public string GetTextFromElements(By locator)
@@ -51,7 +55,9 @@ namespace DFC.TestAutomation.UI.Helper
             IList<IWebElement> webElementGroup = this.WebDriver.FindElements(locator);
 
             foreach (IWebElement webElement in webElementGroup)
-                text += GetText(webElement);
+            {
+                text += this.GetText(webElement);
+            }
 
             return text;
         }
@@ -64,7 +70,7 @@ namespace DFC.TestAutomation.UI.Helper
         public bool IsElementPresent(By locator)
         {
             this.WebDriverWaitHelper.SetImplicitWait(500);
-            if(GetCountOfElements(locator) > 0)
+            if (this.GetCountOfElements(locator) > 0)
             {
                 this.WebDriverWaitHelper.ResetImplicitWait();
                 return true;
@@ -93,9 +99,9 @@ namespace DFC.TestAutomation.UI.Helper
 
         public void SetElementFocus(By locator)
         {
-            if(!IsElementPresent(locator))
+            if (!this.IsElementPresent(locator))
             {
-                throw new NotFoundException($"Unable to set the focus on the element with locator '{ locator }' as the element cannot be found.");
+                throw new NotFoundException($"Unable to set the focus on the element with locator '{locator}' as the element cannot be found.");
             }
 
             IWebElement webElement = this.WebDriver.FindElement(locator);
@@ -108,36 +114,36 @@ namespace DFC.TestAutomation.UI.Helper
             this.WebDriverWaitHelper.WebDriverImplicitWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.FrameToBeAvailableAndSwitchToIt(locator));
         }
 
-        public string GetText(By locator) => GetText(this.WebDriver.FindElement(locator));
+        public string GetText(By locator) => this.GetText(this.WebDriver.FindElement(locator));
 
-        public string GetText(IWebElement webElement) => webElement.Text;
+        public string GetText(IWebElement webElement) => webElement?.Text;
 
-        public string GetUrl() => this.WebDriver.Url;
+        public Uri GetUrl() => new Uri(this.WebDriver.Url);
 
-        public IWebElement GetLinkByText(By locator, string linkText) => GetLink(locator, (x) => x == linkText);
+        public IWebElement GetLinkByText(By locator, string linkText) => this.GetLink(locator, (x) => x == linkText);
 
-        public IWebElement GetLinkContainingText(By locator, string linkText) => GetLink(locator, (x) => x.ContainsCompareCaseInsensitive(linkText));
+        public IWebElement GetLinkContainingText(By locator, string linkText) => this.GetLink(locator, (x) => x.ContainsCompareCaseInsensitive(linkText));
 
         public string GetTableRowContainingCellWithText(By tableIdentifier, string cellText)
         {
-            return GetAllTableRows(tableIdentifier).Where(x => x.FindElements(By.CssSelector("td")).Any(y => y?.Text == cellText)).SingleOrDefault()?.Text;
+            return this.GetAllTableRows(tableIdentifier).Where(x => x.FindElements(By.CssSelector("td")).Any(y => y?.Text == cellText)).SingleOrDefault()?.Text;
         }
 
         public List<IWebElement> GetAllTableRows(By tableIdentifier)
         {
-            return WebDriver.FindElement(tableIdentifier).FindElements(By.CssSelector("tr")).ToList();
+            return this.WebDriver.FindElement(tableIdentifier).FindElements(By.CssSelector("tr")).ToList();
         }
-
-        private IWebElement GetLink(By locator, Func<string, bool> func) => this.WebDriver.FindElements(locator).ToList().First(x => func(x.GetAttribute("innerText")));
 
         public List<string> GetAllSelectOptions(By locator)
         {
-            return new SelectElement(WebDriver.FindElement(locator)).Options.Where(t => string.IsNullOrEmpty(t.Text)).Select(x => x.Text).ToList();
+            return new SelectElement(this.WebDriver.FindElement(locator)).Options.Where(t => string.IsNullOrEmpty(t.Text)).Select(x => x.Text).ToList();
         }
 
         public void WaitForElementToContainText(By locator, string text)
         {
             this.WebDriverWaitHelper.WaitForElementToContainText(locator, text);
         }
+
+        private IWebElement GetLink(By locator, Func<string, bool> func) => this.WebDriver.FindElements(locator).ToList().First(x => func(x.GetAttribute("innerText")));
     }
 }

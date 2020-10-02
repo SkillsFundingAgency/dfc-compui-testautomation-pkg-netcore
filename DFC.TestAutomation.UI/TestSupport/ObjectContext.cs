@@ -24,7 +24,7 @@ namespace DFC.TestAutomation.UI.TestSupport
 
         public T Get<T>()
         {
-            return Get<T>(typeof(T).FullName);
+            return this.Get<T>(typeof(T).FullName);
         }
 
         public T Get<T>(string key)
@@ -49,12 +49,12 @@ namespace DFC.TestAutomation.UI.TestSupport
 
         public void Set<T>(T value)
         {
-            Set(typeof(T).FullName, value);
+            this.Set(typeof(T).FullName, value);
         }
 
         public void Update<T>(T value)
         {
-            Update<T>(typeof(T).FullName, value);
+            this.Update(typeof(T).FullName, value);
         }
 
         public void Update<T>(string key, T value)

@@ -3,6 +3,7 @@
 // </copyright>
 
 using OpenQA.Selenium;
+using System;
 using System.Collections.Generic;
 
 namespace DFC.TestAutomation.UI.Helper
@@ -29,7 +30,7 @@ namespace DFC.TestAutomation.UI.Helper
 
         string GetText(IWebElement webElement);
 
-        string GetUrl();
+        Uri GetUrl();
 
         IWebElement GetLinkByText(By locator, string linkText);
 

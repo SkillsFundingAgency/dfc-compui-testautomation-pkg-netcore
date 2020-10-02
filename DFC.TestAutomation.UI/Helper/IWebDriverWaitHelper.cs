@@ -1,4 +1,8 @@
-﻿using OpenQA.Selenium;
+﻿// <copyright file="IWebDriverWaitHelper.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
 namespace DFC.TestAutomation.UI.Helper

@@ -1,4 +1,8 @@
-﻿using System;
+﻿// <copyright file="IHttpClientRequestHelper.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+using System;
 using System.Threading.Tasks;
 
 namespace DFC.TestAutomation.UI.Helper

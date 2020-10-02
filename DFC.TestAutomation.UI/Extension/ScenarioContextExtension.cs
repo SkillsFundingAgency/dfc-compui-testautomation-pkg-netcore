@@ -32,13 +32,13 @@ namespace DFC.TestAutomation.UI.Extension
             context?.Set(webDriver);
         }
 
-        public static IConfiguration<T> GetConfiguration<T>(this ScenarioContext context)
+        public static ISettingsLibrary<T> GetConfiguration<T>(this ScenarioContext context)
             where T : IAppSettings
         {
-            return context?.Get<IConfiguration<T>>();
+            return context?.Get<ISettingsLibrary<T>>();
         }
 
-        public static void SetConfiguration<T>(this ScenarioContext context, IConfiguration<T> configuration)
+        public static void SetConfiguration<T>(this ScenarioContext context, ISettingsLibrary<T> configuration)
             where T : IAppSettings
         {
             context?.Set(configuration);

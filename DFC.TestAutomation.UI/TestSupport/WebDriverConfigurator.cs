@@ -43,35 +43,6 @@ namespace DFC.TestAutomation.UI.TestSupport
 
         private BrowserHelper BrowserHelper { get; set; }
 
-        private static string GetWebDriverPathForExecutable(string executableName)
-        {
-            if (executableName == null)
-            {
-                throw new NullReferenceException("The executable name parameter must be set.");
-            }
-
-            executableName = executableName.Replace(".exe", string.Empty, StringComparison.CurrentCulture);
-            string driverPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            FileInfo[] file = Directory.GetParent(driverPath).GetFiles($"{executableName}.exe", SearchOption.AllDirectories);
-            var info = file.Length != 0 ? file[0].DirectoryName : driverPath;
-            return info;
-        }
-
-        private static string GetChromeDriverPath()
-        {
-            return GetWebDriverPathForExecutable("chromedriver.exe");
-        }
-
-        private static string GetFirefoxDriverPath()
-        {
-            return GetWebDriverPathForExecutable("geckodriver.exe");
-        }
-
-        private static string GetInternetExplorerDriverPath()
-        {
-            return GetWebDriverPathForExecutable("IEDriverServer");
-        }
-
         public IWebDriver Create()
         {
             switch (this.BrowserHelper.GetBrowserType())
@@ -103,6 +74,35 @@ namespace DFC.TestAutomation.UI.TestSupport
                 default:
                     throw new ArgumentOutOfRangeException($"The WebDriverConfigurator class has not been updated to handle the web driver type '{this.BrowserHelper.GetBrowserType()}'. An update is required.");
             }
+        }
+
+        private static string GetWebDriverPathForExecutable(string executableName)
+        {
+            if (executableName == null)
+            {
+                throw new NullReferenceException("The executable name parameter must be set.");
+            }
+
+            executableName = executableName.Replace(".exe", string.Empty, StringComparison.CurrentCulture);
+            string driverPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            FileInfo[] file = Directory.GetParent(driverPath).GetFiles($"{executableName}.exe", SearchOption.AllDirectories);
+            var info = file.Length != 0 ? file[0].DirectoryName : driverPath;
+            return info;
+        }
+
+        private static string GetChromeDriverPath()
+        {
+            return GetWebDriverPathForExecutable("chromedriver.exe");
+        }
+
+        private static string GetFirefoxDriverPath()
+        {
+            return GetWebDriverPathForExecutable("geckodriver.exe");
+        }
+
+        private static string GetInternetExplorerDriverPath()
+        {
+            return GetWebDriverPathForExecutable("IEDriverServer");
         }
     }
 }

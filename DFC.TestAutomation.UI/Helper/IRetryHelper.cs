@@ -1,4 +1,8 @@
-﻿using Polly;
+﻿// <copyright file="IRetryHelper.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+using Polly;
 using System;
 
 namespace DFC.TestAutomation.UI.Helper

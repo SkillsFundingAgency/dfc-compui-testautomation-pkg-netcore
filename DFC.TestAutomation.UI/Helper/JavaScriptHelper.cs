@@ -1,15 +1,19 @@
-﻿using OpenQA.Selenium;
+﻿// <copyright file="JavaScriptHelper.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+using OpenQA.Selenium;
 
 namespace DFC.TestAutomation.UI.Helper
 {
     public class JavaScriptHelper : IJavaScriptHelper
     {
-        private IWebDriver WebDriver { get; set; }
-
         public JavaScriptHelper(IWebDriver webDriver)
         {
             this.WebDriver = webDriver;
         }
+
+        private IWebDriver WebDriver { get; set; }
 
         public bool IsDocumentReady()
         {
@@ -18,29 +22,29 @@ namespace DFC.TestAutomation.UI.Helper
 
         public void ClickElement(By locator)
         {
-            var webElement = WebDriver.FindElement(locator);
+            var webElement = this.WebDriver.FindElement(locator);
             this.ExecuteScript("arguments[0].click();", webElement);
         }
 
         public void ScrollElementIntoView(IWebElement webElement)
         {
-            ExecuteScript("arguments[0].scrollIntoView({ inline: 'center' });", webElement);
+            this.ExecuteScript("arguments[0].scrollIntoView({ inline: 'center' });", webElement);
         }
 
         public object ExecuteScript(string javascript, IWebElement webElement)
         {
-            return ((IJavaScriptExecutor)WebDriver).ExecuteScript(javascript, webElement);
+            return ((IJavaScriptExecutor)this.WebDriver).ExecuteScript(javascript, webElement);
         }
 
         public object ExecuteScript(string javascript, By locator)
         {
-            var webElement = WebDriver.FindElement(locator);
-            return ExecuteScript(javascript, webElement);
+            var webElement = this.WebDriver.FindElement(locator);
+            return this.ExecuteScript(javascript, webElement);
         }
 
         public object ExecuteScript(string javascript)
         {
-            return ((IJavaScriptExecutor)WebDriver).ExecuteScript(javascript);
+            return ((IJavaScriptExecutor)this.WebDriver).ExecuteScript(javascript);
         }
     }
 }
