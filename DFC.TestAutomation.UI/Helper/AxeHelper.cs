@@ -10,8 +10,15 @@ using System.IO;
 
 namespace DFC.TestAutomation.UI.Helper
 {
+    /// <summary>
+    /// Provides helper functions for all axe (web accessibility testing) related operations.
+    /// </summary>
     public class AxeHelper : IAxeHelper
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AxeHelper"/> class.
+        /// </summary>
+        /// <param name="webDriver">The Selenium Webdriver.</param>
         public AxeHelper(IWebDriver webDriver)
         {
             this.WebDriver = webDriver;
@@ -24,6 +31,9 @@ namespace DFC.TestAutomation.UI.Helper
 
         private string FileDirectory { get; set; }
 
+        /// <summary>
+        /// Runs axe analysis on the current page. The axe results are stored in the AxeOutput folder in the base directory.
+        /// </summary>
         public void Analyse()
         {
             var axeResult = this.WebDriver.Analyze();

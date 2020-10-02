@@ -9,8 +9,15 @@ using System.Globalization;
 
 namespace DFC.TestAutomation.UI.Helper
 {
+    /// <summary>
+    /// Provides helper functions for all web browser related operations.
+    /// </summary>
     public class BrowserHelper : IBrowserHelper
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BrowserHelper"/> class.
+        /// </summary>
+        /// <param name="browserName">The name of the browser.</param>
         public BrowserHelper(string browserName)
         {
             this.BrowserName = browserName?.ToLower(CultureInfo.CurrentCulture).Trim();
@@ -40,14 +47,22 @@ namespace DFC.TestAutomation.UI.Helper
             { "headless", BrowserType.Chrome },
         };
 
+        /// <summary>
+        /// Gets a BrowserType.
+        /// </summary>
+        /// <returns>A BrowserType based on the browser name.</returns>
         public BrowserType GetBrowserType()
         {
             return this.BrowserIndex[this.BrowserName];
         }
 
+        /// <summary>
+        /// Assesses whether the current test execution is cloud based.
+        /// </summary>
+        /// <returns>True in the case where the current test execution is cloud based. False if the current execution is not cloud based.</returns>
         public bool IsExecutingInTheCloud()
         {
-            return this.BrowserName.Equals("browserstack") || this.BrowserName.Equals("cloud");
+            return this.BrowserName.Equals("browserstack", StringComparison.CurrentCultureIgnoreCase) || this.BrowserName.Equals("cloud", StringComparison.CurrentCultureIgnoreCase);
         }
     }
 }
