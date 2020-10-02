@@ -20,6 +20,11 @@ namespace DFC.TestAutomation.UI.Helper
             return this.ExecuteScript("return document.readyState").Equals("complete");
         }
 
+        public IWebElement GetParentElement(IWebElement childElement)
+        {
+            return this.ExecuteScript("return arguments[0].parentNode;", childElement) as IWebElement;
+        }
+
         public void ClickElement(By locator)
         {
             var webElement = this.WebDriver.FindElement(locator);

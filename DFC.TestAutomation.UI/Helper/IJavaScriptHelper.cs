@@ -10,6 +10,8 @@ namespace DFC.TestAutomation.UI.Helper
     {
         bool IsDocumentReady();
 
+        IWebElement GetParentElement(IWebElement childElement)
+
         void ClickElement(By locator);
 
         void ScrollElementIntoView(IWebElement webElement);
