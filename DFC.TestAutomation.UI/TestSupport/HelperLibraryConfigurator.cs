@@ -19,7 +19,7 @@ namespace DFC.TestAutomation.UI.TestSupport
             this.RetryHelper = new RetryHelper();
             this.AxeHelper = new AxeHelper(context.GetWebDriver());
             this.BrowserHelper = new BrowserHelper(context.GetSettingsLibrary<T>().BrowserSettings.BrowserName);
-            this.FormCompletionHelper = new FormCompletionHelper(context.GetWebDriver(), this.WebDriverWaitHelper, this.RetryHelper, this.JavaScriptHelper);
+            this.FormCompletionHelper = new FormHelper(context.GetWebDriver(), this.WebDriverWaitHelper, this.RetryHelper, this.JavaScriptHelper);
             this.HttpClientRequestHelper = new HttpClientRequestHelper("NEED AN ACCESS TOKEN");
             this.PageInteractionHelper = new PageInteractionHelper(context.GetWebDriver(), this.WebDriverWaitHelper, this.RetryHelper);
             this.MongoDbConnectionHelper = new MongoDbConnectionHelper(context.GetSettingsLibrary<T>().MongoDatabaseSettings);
@@ -37,7 +37,7 @@ namespace DFC.TestAutomation.UI.TestSupport
 
         public IBrowserHelper BrowserHelper { get; set; }
 
-        public IFormCompletionHelper FormCompletionHelper { get; set; }
+        public IFormHelper FormCompletionHelper { get; set; }
 
         public IHttpClientRequestHelper HttpClientRequestHelper { get; set; }
 

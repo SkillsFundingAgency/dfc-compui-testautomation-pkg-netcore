@@ -6,7 +6,7 @@ using OpenQA.Selenium;
 
 namespace DFC.TestAutomation.UI.Helper
 {
-    public interface IFormCompletionHelper
+    public interface IFormHelper
     {
         void SelectRadioButton(IWebElement element);
 
@@ -24,16 +24,16 @@ namespace DFC.TestAutomation.UI.Helper
 
         void SelectByIndex(IWebElement element, int index);
 
-        void SelectFromDropDownByValue(By locator, string value);
+        void SelectByValue(By locator, string value);
 
-        void SelectFromDropDownByText(By locator, string text);
+        void SelectByText(By locator, string text);
 
-        void SelectFromDropDownByValue(IWebElement element, string value);
+        void SelectByValue(IWebElement element, string value);
 
-        void SelectFromDropDownByText(IWebElement element, string text);
+        void SelectByText(IWebElement element, string text);
 
         void CheckCheckbox(IWebElement element);
 
-        void SelectFromDropDownByAttribute(By locator, string attributeKey, string attribute);
+        void SelectByAttribute(By locator, string attributeKey, string attribute);
     }
 }

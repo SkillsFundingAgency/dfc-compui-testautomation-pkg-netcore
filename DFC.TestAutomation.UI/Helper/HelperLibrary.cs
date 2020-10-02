@@ -12,7 +12,7 @@ namespace DFC.TestAutomation.UI.Helper
             IRetryHelper retryHelper,
             IAxeHelper axeHelper,
             IBrowserHelper browserHelper,
-            IFormCompletionHelper formCompletionHelper,
+            IFormHelper formHelper,
             IHttpClientRequestHelper httpClientRequestHelper,
             IPageInteractionHelper pageInteractionHelper,
             IMongoDbConnectionHelper mongoDbConnectionHelper,
@@ -24,7 +24,7 @@ namespace DFC.TestAutomation.UI.Helper
             this.RetryHelper = retryHelper;
             this.AxeHelper = axeHelper;
             this.BrowserHelper = browserHelper;
-            this.FormCompletionHelper = formCompletionHelper;
+            this.FormHelper = formHelper;
             this.HttpClientRequestHelper = httpClientRequestHelper;
             this.PageInteractionHelper = pageInteractionHelper;
             this.MongoDbConnectionHelper = mongoDbConnectionHelper;
@@ -36,7 +36,7 @@ namespace DFC.TestAutomation.UI.Helper
 
         public IBrowserHelper BrowserHelper { get; set; }
 
-        public IFormCompletionHelper FormCompletionHelper { get; set; }
+        public IFormHelper FormHelper { get; set; }
 
         public IHttpClientRequestHelper HttpClientRequestHelper { get; set; }
 

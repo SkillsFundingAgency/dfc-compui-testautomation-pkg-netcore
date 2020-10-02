@@ -10,7 +10,7 @@ namespace DFC.TestAutomation.UI.Helper
 
         IBrowserHelper BrowserHelper { get; set; }
 
-        IFormCompletionHelper FormCompletionHelper { get; set; }
+        IFormHelper FormHelper { get; set; }
 
         IHttpClientRequestHelper HttpClientRequestHelper { get; set; }
 
