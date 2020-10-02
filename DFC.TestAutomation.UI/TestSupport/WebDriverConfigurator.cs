@@ -22,9 +22,9 @@ namespace DFC.TestAutomation.UI.TestSupport
         public WebDriverConfigurator(ScenarioContext scenarioContext)
         {
             this.Context = scenarioContext;
-            this.BrowserHelper = new BrowserHelper(this.Context.GetConfiguration<T>().BrowserSettings.BrowserName);
+            this.BrowserHelper = new BrowserHelper(this.Context.GetSettingsLibrary<T>().BrowserSettings.BrowserName);
             this.ChromeOptions = new ChromeOptions();
-            var browserOptions = this.Context.GetConfiguration<T>().BrowserSettings.BrowserArguements;
+            var browserOptions = this.Context.GetSettingsLibrary<T>().BrowserSettings.BrowserArguements;
 
             if (!browserOptions.InSandbox)
             {
@@ -48,9 +48,9 @@ namespace DFC.TestAutomation.UI.TestSupport
             switch (this.BrowserHelper.GetBrowserType())
             {
                 case BrowserType.Chrome:
-                    if (this.Context.GetConfiguration<T>().BrowserSettings.UseProxy)
+                    if (this.Context.GetSettingsLibrary<T>().BrowserSettings.UseProxy)
                     {
-                        var proxy = this.Context.GetConfiguration<T>().BrowserSettings.Proxy;
+                        var proxy = this.Context.GetSettingsLibrary<T>().BrowserSettings.Proxy;
 
                         this.ChromeOptions.Proxy = new Proxy
                         {
@@ -66,7 +66,7 @@ namespace DFC.TestAutomation.UI.TestSupport
                     return new FirefoxDriver(GetFirefoxDriverPath());
 
                 case BrowserType.BrowserStack:
-                    return new BrowserStackConfigurator<T>(this.Context.GetConfiguration<T>()).CreateRemoteWebDriver();
+                    return new BrowserStackConfigurator<T>(this.Context.GetSettingsLibrary<T>()).CreateRemoteWebDriver();
 
                 case BrowserType.InternetExplorer:
                     return new InternetExplorerDriver(GetInternetExplorerDriverPath());
