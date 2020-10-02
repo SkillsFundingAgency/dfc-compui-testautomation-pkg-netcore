@@ -122,7 +122,7 @@ namespace DFC.TestAutomation.UI.Helper
 
         public IWebElement GetLinkByText(By locator, string linkText) => this.GetLink(locator, (x) => x == linkText);
 
-        public IWebElement GetLinkContainingText(By locator, string linkText) => this.GetLink(locator, (x) => x.ContainsCompareCaseInsensitive(linkText));
+        public IWebElement GetLinkContainingText(By locator, string linkText) => this.GetLink(locator, (x) => x.Contains(linkText, StringComparison.CurrentCultureIgnoreCase));
 
         public string GetTableRowContainingCellWithText(By tableIdentifier, string cellText)
         {

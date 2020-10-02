@@ -2,28 +2,23 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-using System;
-using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace DFC.TestAutomation.UI.Extension
 {
+    /// <summary>
+    /// Provides useful functions when handling a string.
+    /// </summary>
     public static class StringExtension
     {
-        public static bool ContainsCompareCaseInsensitive(this string text, string value, StringComparison stringComparison = StringComparison.CurrentCultureIgnoreCase)
+        /// <summary>
+        /// Removes all spaces.
+        /// </summary>
+        /// <param name="stringValue">The string.</param>
+        /// <returns>The string value with all space characters removed.</returns>
+        public static string RemoveAllSpaces(this string stringValue)
         {
-            var index = text?.IndexOf(value, stringComparison);
-            return index >= 0;
-        }
-
-        public static bool CompareToIgnoreCase(this string stringOne, string strB)
-        {
-            return string.Compare(stringOne.RemoveAllSpaces(), strB, true, CultureInfo.CurrentCulture) == 0;
-        }
-
-        public static string RemoveAllSpaces(this string s)
-        {
-            return Regex.Replace(s, @"\s+", string.Empty);
+            return Regex.Replace(stringValue, @"\s+", string.Empty);
         }
     }
 }

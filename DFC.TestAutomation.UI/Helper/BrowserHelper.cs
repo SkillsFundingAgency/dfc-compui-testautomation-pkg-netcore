@@ -47,7 +47,7 @@ namespace DFC.TestAutomation.UI.Helper
 
         public bool IsExecutingInTheCloud()
         {
-            return this.BrowserName.CompareToIgnoreCase("browserstack") || this.BrowserName.CompareToIgnoreCase("cloud");
+            return this.BrowserName.Equals("browserstack") || this.BrowserName.Equals("cloud");
         }
     }
 }
