@@ -23,7 +23,7 @@ namespace DFC.TestAutomation.UI.TestSupport
 
         public bool VerifyPage()
         {
-            return this.HelperLibrary.PageInteractionHelper.VerifyPage(this.PageHeader, this.PageTitle);
+            return this.HelperLibrary.CommonActionHelper.VerifyPage(this.PageHeader, this.PageTitle);
         }
     }
 }

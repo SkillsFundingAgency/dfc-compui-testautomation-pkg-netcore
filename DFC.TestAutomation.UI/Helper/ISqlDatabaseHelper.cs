@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace DFC.TestAutomation.UI.Helper
 {
-    public interface ISqlDatabaseConnectionHelper
+    public interface ISqlDatabaseHelper
     {
         int ExecuteSqlCommand(string query);
 

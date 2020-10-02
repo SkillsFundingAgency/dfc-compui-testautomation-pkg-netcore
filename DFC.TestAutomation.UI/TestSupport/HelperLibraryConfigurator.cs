@@ -20,10 +20,10 @@ namespace DFC.TestAutomation.UI.TestSupport
             this.AxeHelper = new AxeHelper(context.GetWebDriver());
             this.BrowserHelper = new BrowserHelper(context.GetSettingsLibrary<T>().BrowserSettings.BrowserName);
             this.FormCompletionHelper = new FormHelper(context.GetWebDriver(), this.WebDriverWaitHelper, this.RetryHelper, this.JavaScriptHelper);
-            this.HttpClientRequestHelper = new HttpClientRequestHelper("NEED AN ACCESS TOKEN");
-            this.PageInteractionHelper = new PageInteractionHelper(context.GetWebDriver(), this.WebDriverWaitHelper, this.RetryHelper);
+            this.HttpClientRequestHelper = new HttpRequestHelper("NEED AN ACCESS TOKEN");
+            this.PageInteractionHelper = new CommonActionHelper(context.GetWebDriver(), this.WebDriverWaitHelper, this.RetryHelper);
             this.MongoDbConnectionHelper = new MongoDbConnectionHelper(context.GetSettingsLibrary<T>().MongoDatabaseSettings);
-            this.SqlDatabaseConnectionHelper = new SqlDatabaseConnectionHelper("NEED A CONN STRING");
+            this.SqlDatabaseConnectionHelper = new SqlDatabaseHelper("NEED A CONN STRING");
             this.ScreenshotHelper = new ScreenshotHelper(context);
         }
 
@@ -39,15 +39,15 @@ namespace DFC.TestAutomation.UI.TestSupport
 
         public IFormHelper FormCompletionHelper { get; set; }
 
-        public IHttpClientRequestHelper HttpClientRequestHelper { get; set; }
+        public IHttpRequestHelper HttpClientRequestHelper { get; set; }
 
-        public IPageInteractionHelper PageInteractionHelper { get; set; }
+        public ICommonActionHelper PageInteractionHelper { get; set; }
 
         public IMongoDbConnectionHelper MongoDbConnectionHelper { get; set; }
 
         public IScreenshotHelper ScreenshotHelper { get; set; }
 
-        public ISqlDatabaseConnectionHelper SqlDatabaseConnectionHelper { get; set; }
+        public ISqlDatabaseHelper SqlDatabaseConnectionHelper { get; set; }
 
         public IHelperLibrary CreateHelperLibrary()
         {

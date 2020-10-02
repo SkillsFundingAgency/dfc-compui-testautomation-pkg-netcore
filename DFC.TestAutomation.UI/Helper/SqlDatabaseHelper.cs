@@ -3,16 +3,14 @@
 // </copyright>
 
 using Dapper;
-using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Text;
 
 namespace DFC.TestAutomation.UI.Helper
 {
-    public class SqlDatabaseConnectionHelper : ISqlDatabaseConnectionHelper
+    public class SqlDatabaseHelper : ISqlDatabaseHelper
     {
-        public SqlDatabaseConnectionHelper(string connectionString)
+        public SqlDatabaseHelper(string connectionString)
         {
             this.ConnectionString = connectionString;
         }

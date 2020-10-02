@@ -10,15 +10,15 @@ using System.Threading.Tasks;
 
 namespace DFC.TestAutomation.UI.Helper
 {
-    public class HttpClientRequestHelper : IHttpClientRequestHelper
+    public class HttpRequestHelper : IHttpRequestHelper
     {
-        public HttpClientRequestHelper()
+        public HttpRequestHelper()
         {
             this.Client = new HttpClient();
             this.AccessToken = string.Empty;
         }
 
-        public HttpClientRequestHelper(string accessToken)
+        public HttpRequestHelper(string accessToken)
         {
             this.Client = new HttpClient();
             this.AccessToken = accessToken;

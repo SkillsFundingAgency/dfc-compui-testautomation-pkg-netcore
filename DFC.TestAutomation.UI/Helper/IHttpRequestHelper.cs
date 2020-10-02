@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DFC.TestAutomation.UI.Helper
 {
-    public interface IHttpClientRequestHelper
+    public interface IHttpRequestHelper
     {
         Task<string> ExecuteHttpPostRequest(Uri requestUri, string postData);
 

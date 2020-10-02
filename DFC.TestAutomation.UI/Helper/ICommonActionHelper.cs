@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace DFC.TestAutomation.UI.Helper
 {
-    public interface IPageInteractionHelper
+    public interface ICommonActionHelper
     {
         bool VerifyPage(By locator, string expected);
 

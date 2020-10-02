@@ -12,9 +12,9 @@ using System.Linq;
 
 namespace DFC.TestAutomation.UI.Helper
 {
-    public class PageInteractionHelper : IPageInteractionHelper
+    public class CommonActionHelper : ICommonActionHelper
     {
-        public PageInteractionHelper(IWebDriver webDriver, IWebDriverWaitHelper webDriverWaitHelper, IRetryHelper retryHelper)
+        public CommonActionHelper(IWebDriver webDriver, IWebDriverWaitHelper webDriverWaitHelper, IRetryHelper retryHelper)
         {
             this.WebDriver = webDriver;
             this.WebDriverWaitHelper = webDriverWaitHelper;

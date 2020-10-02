@@ -12,11 +12,11 @@ namespace DFC.TestAutomation.UI.Helper
 
         IFormHelper FormHelper { get; set; }
 
-        IHttpClientRequestHelper HttpClientRequestHelper { get; set; }
+        IHttpRequestHelper HttpRequestHelper { get; set; }
 
         IJavaScriptHelper JavaScriptHelper { get; set; }
 
-        IPageInteractionHelper PageInteractionHelper { get; set; }
+        ICommonActionHelper CommonActionHelper { get; set; }
 
         IWebDriverWaitHelper WebDriverWaitHelper { get; set; }
 
@@ -24,7 +24,7 @@ namespace DFC.TestAutomation.UI.Helper
 
         IRetryHelper RetryHelper { get; set; }
 
-        ISqlDatabaseConnectionHelper SqlDatabaseConnectionHelper { get; set; }
+        ISqlDatabaseHelper SqlDatabaseHelper { get; set; }
 
         IScreenshotHelper ScreenshotHelper { get; set; }
     }
