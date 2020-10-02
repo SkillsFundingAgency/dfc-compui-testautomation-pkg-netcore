@@ -10,7 +10,7 @@ namespace DFC.TestAutomation.UI.Helper
     public class HelperLibrary : IHelperLibrary
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="HelperLibrary"/> class.
+        /// Initializes a new instance of the <see cref="HelperLibrary"/> class. The <see cref="HttpRequestHelper"/> defaults to null. This can be set at runtime.
         /// </summary>
         /// <param name="javascriptHelper">The javascript helper.</param>
         /// <param name="webDriverWaitHelper">The Webdriver wait helper.</param>
