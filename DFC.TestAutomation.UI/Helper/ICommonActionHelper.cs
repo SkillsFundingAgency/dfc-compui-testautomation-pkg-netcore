@@ -1,4 +1,4 @@
-﻿// <copyright file="IPageInteractionHelper.cs" company="PlaceholderCompany">
+﻿// <copyright file="ICommonActionHelper.cs" company="PlaceholderCompany">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 

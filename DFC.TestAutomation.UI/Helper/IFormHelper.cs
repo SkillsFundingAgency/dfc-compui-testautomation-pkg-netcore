@@ -1,4 +1,4 @@
-﻿// <copyright file="IFormCompletionHelper.cs" company="PlaceholderCompany">
+﻿// <copyright file="IFormHelper.cs" company="PlaceholderCompany">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 

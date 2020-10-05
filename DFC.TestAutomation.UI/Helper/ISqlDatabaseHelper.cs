@@ -1,4 +1,4 @@
-﻿// <copyright file="ISqlDatabaseConnectionHelper.cs" company="PlaceholderCompany">
+﻿// <copyright file="ISqlDatabaseHelper.cs" company="PlaceholderCompany">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
@@ -8,10 +8,8 @@ namespace DFC.TestAutomation.UI.Helper
 {
     public interface ISqlDatabaseHelper
     {
-        int ExecuteSqlCommand(string query);
+        int ExecuteWriteCommand(string query);
 
-        int ExecuteSqlCommand(string query, Dictionary<string, string> parameters);
-
-        List<object[]> ReadDataFromDataBase(string query, int numberOfRecordsToReturn);
+        List<object[]> ExecuteReadCommand(string query, int numberOfRecordsToReturn);
     }
 }

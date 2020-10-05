@@ -4,8 +4,14 @@
 
 namespace DFC.TestAutomation.UI.Settings
 {
+    /// <summary>
+    /// An interface containing definitions for app specific settings.
+    /// </summary>
     public interface IAppSettings
     {
+        /// <summary>
+        /// The name of the application being tested.
+        /// </summary>
         public string AppName { get; set; }
     }
 }

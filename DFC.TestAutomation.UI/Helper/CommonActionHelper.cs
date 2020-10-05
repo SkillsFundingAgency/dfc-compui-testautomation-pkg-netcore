@@ -2,7 +2,6 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-using DFC.TestAutomation.UI.Extension;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
@@ -111,7 +110,7 @@ namespace DFC.TestAutomation.UI.Helper
 
         public void SwitchToFrame(By locator)
         {
-            this.WebDriverWaitHelper.WebDriverImplicitWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.FrameToBeAvailableAndSwitchToIt(locator));
+            this.WebDriverWaitHelper.WaitForFrameToBeAvailableAndSwitchToIt(locator);
         }
 
         public string GetText(By locator) => this.GetText(this.WebDriver.FindElement(locator));
