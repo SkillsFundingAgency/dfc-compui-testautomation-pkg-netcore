@@ -41,7 +41,7 @@ namespace DFC.TestAutomation.UI.Helper
             this.BrowserHelper = browserHelper;
             this.FormHelper = formHelper;
             this.CommonActionHelper = commonActionHelper;
-            this.MongoDbConnectionHelper = mongoDbConnectionHelper;
+            this.MongoDatabaseHelper = mongoDbConnectionHelper;
             this.SqlDatabaseHelper = sqlDatabaseHelper;
             this.ScreenshotHelper = screenshotHelper;
         }
@@ -79,7 +79,7 @@ namespace DFC.TestAutomation.UI.Helper
         /// <summary>
         /// Gets the Mongo database helper.
         /// </summary>
-        public IMongoDatabaseHelper MongoDbConnectionHelper { get; private set; }
+        public IMongoDatabaseHelper MongoDatabaseHelper { get; private set; }
 
         /// <summary>
         /// Gets the retry helper.
