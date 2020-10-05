@@ -18,7 +18,7 @@ namespace DFC.TestAutomation.UI.Helper
 
         IWebDriverWaitHelper WebDriverWaitHelper { get; }
 
-        IMongoDbConnectionHelper MongoDbConnectionHelper { get; }
+        IMongoDatabaseHelper MongoDbConnectionHelper { get; }
 
         IRetryHelper RetryHelper { get; }
 

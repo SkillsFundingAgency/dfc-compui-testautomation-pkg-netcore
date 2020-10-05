@@ -8,7 +8,7 @@ using System.Linq;
 namespace DFC.TestAutomation.UI.Helper
 {
     /// <summary>
-    /// Provides helper functions for operations that require javascript injection..
+    /// Provides helper functions for operations that require javascript injection.
     /// </summary>
     public class JavaScriptHelper : IJavaScriptHelper
     {
