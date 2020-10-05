@@ -185,12 +185,12 @@ namespace DFC.TestAutomation.UI.Helper
         /// Select an option by the option attribute.
         /// </summary>
         /// <param name="selectLocator">The select locator for an IWebElement.</param>
-        /// <param name="attributeKey">The option attribute key.</param>
+        /// <param name="attributeName">The option attribute name.</param>
         /// <param name="attribute">The option attribute value.</param>
-        public void SelectByAttribute(By selectLocator, string attributeKey, string attribute)
+        public void SelectByAttribute(By selectLocator, string attributeName, string attribute)
         {
             IList<IWebElement> radios = this.WebDriver.FindElements(selectLocator);
-            var radioToSelect = radios.FirstOrDefault(radio => radio.GetAttribute(attributeKey) == attribute);
+            var radioToSelect = radios.FirstOrDefault(radio => radio.GetAttribute(attributeName) == attribute);
 
             if (radioToSelect != null)
             {
