@@ -4,7 +4,7 @@
 
 using System.Collections.Generic;
 
-namespace DFC.TestAutomation.UI.TestSupport
+namespace DFC.TestAutomation.UI
 {
     public interface IObjectContext
     {

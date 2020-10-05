@@ -2,9 +2,7 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-using DFC.TestAutomation.UI.Settings;
-
-namespace DFC.TestAutomation.UI.TestSupport
+namespace DFC.TestAutomation.UI.Settings
 {
     public interface ISettingsLibrary<T>
     {

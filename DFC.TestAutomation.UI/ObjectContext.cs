@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DFC.TestAutomation.UI.TestSupport
+namespace DFC.TestAutomation.UI
 {
     public class ObjectContext : IObjectContext
     {

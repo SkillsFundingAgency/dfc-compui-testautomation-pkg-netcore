@@ -2,11 +2,10 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-using DFC.TestAutomation.UI.Settings;
 using Microsoft.Extensions.Configuration;
 using System.IO;
 
-namespace DFC.TestAutomation.UI.TestSupport
+namespace DFC.TestAutomation.UI.Settings
 {
     public class SettingsLibrary<T> : ISettingsLibrary<T>
         where T : IAppSettings
