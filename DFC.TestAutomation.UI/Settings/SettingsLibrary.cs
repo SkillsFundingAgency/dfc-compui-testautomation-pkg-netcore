@@ -7,9 +7,16 @@ using System.IO;
 
 namespace DFC.TestAutomation.UI.Settings
 {
+    /// <summary>
+    /// A container for all application settings.
+    /// </summary>
+    /// <typeparam name="T">The application settings type. This must be an interface member of IAppSettings.</typeparam>
     public class SettingsLibrary<T> : ISettingsLibrary<T>
         where T : IAppSettings
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SettingsLibrary{T}"/> class.
+        /// </summary>
         public SettingsLibrary()
         {
             var configurationBuilder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
@@ -24,18 +31,39 @@ namespace DFC.TestAutomation.UI.Settings
             this.TimeoutSettings = configurationRoot.GetSection("TimeoutSettings").Get<TimeoutSettings>();
         }
 
+        /// <summary>
+        /// Gets the app specific settings.
+        /// </summary>
         public T AppSettings { get; private set; }
 
-        public BrowserSettings BrowserSettings { get; set; }
+        /// <summary>
+        /// Gets the browser settings.
+        /// </summary>
+        public BrowserSettings BrowserSettings { get; private set; }
 
-        public BrowserStackSettings BrowserStackSettings { get; set; }
+        /// <summary>
+        /// Gets the BrowserStack settings.
+        /// </summary>
+        public BrowserStackSettings BrowserStackSettings { get; private set; }
 
-        public BuildSettings BuildSettings { get; set; }
+        /// <summary>
+        /// Gets the build settings.
+        /// </summary>
+        public BuildSettings BuildSettings { get; private set; }
 
-        public EnvironmentSettings EnvironmentSettings { get; set; }
+        /// <summary>
+        /// Gets the environments settings.
+        /// </summary>
+        public EnvironmentSettings EnvironmentSettings { get; private set; }
 
-        public MongoDatabaseSettings MongoDatabaseSettings { get; set; }
+        /// <summary>
+        /// Gets the Mongo database settings.
+        /// </summary>
+        public MongoDatabaseSettings MongoDatabaseSettings { get; private set; }
 
-        public TimeoutSettings TimeoutSettings { get; set; }
+        /// <summary>
+        /// Gets the timeout settings.
+        /// </summary>
+        public TimeoutSettings TimeoutSettings { get; private set; }
     }
 }

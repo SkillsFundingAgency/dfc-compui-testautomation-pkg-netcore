@@ -42,17 +42,17 @@ namespace DFC.TestAutomation.UI.Helper
         /// <summary>
         /// Executes an SQL read command.
         /// </summary>
-        /// <param name="query">The SQL command.</param>
+        /// <param name="command">The SQL command.</param>
         /// <param name="numberOfRecordsToReturn">The number of records to return.</param>
         /// <returns>The query result.</returns>
-        public List<object[]> ExecuteReadCommand(string query, int numberOfRecordsToReturn)
+        public List<object[]> ExecuteReadCommand(string command, int numberOfRecordsToReturn)
         {
             using (var databaseConnection = new SqlConnection(this.ConnectionString))
             {
                 databaseConnection.Open();
-                using (var command = new SqlCommand(query, databaseConnection))
+                using (var sqlCommand = new SqlCommand(command, databaseConnection))
                 {
-                    SqlDataReader dataReader = command.ExecuteReader();
+                    SqlDataReader dataReader = sqlCommand.ExecuteReader();
                     List<object[]> result = new List<object[]>();
                     while (dataReader.Read())
                     {

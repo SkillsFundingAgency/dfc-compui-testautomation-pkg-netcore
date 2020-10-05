@@ -28,15 +28,9 @@ namespace DFC.TestAutomation.UI.Helper
             Directory.CreateDirectory(this.FolderDirectory);
         }
 
-        /// <summary>
-        /// Gets the scenario context.
-        /// </summary>
-        public ScenarioContext Context { get; }
+        private ScenarioContext Context { get; set; }
 
-        /// <summary>
-        /// Gets the folder directory.
-        /// </summary>
-        public string FolderDirectory { get; private set; }
+        private string FolderDirectory { get; set; }
 
         /// <summary>
         /// Takes a screenshot of the current web browser view. The resulting screenshots can be found in the 'screenshots' folder
