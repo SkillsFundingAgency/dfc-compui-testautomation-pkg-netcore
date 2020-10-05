@@ -32,7 +32,9 @@ namespace DFC.TestAutomation.UI.Helper
         private string FileDirectory { get; set; }
 
         /// <summary>
-        /// Runs axe analysis on the current page. The axe results are stored in the AxeOutput folder in the base directory.
+        /// Runs axe analysis on the current page. The axe results are stored in the AxeOutput folder in the base directory. If the
+        /// output file does not exist it creates it. If the output already exists it is opened and amended. The output contains
+        /// information on the types of violations found during the analysis.
         /// </summary>
         public void Analyse()
         {

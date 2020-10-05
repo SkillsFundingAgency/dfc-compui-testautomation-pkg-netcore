@@ -57,7 +57,7 @@ namespace DFC.TestAutomation.UI.Helper
         }
 
         /// <summary>
-        /// Assesses whether the current test execution is cloud based.
+        /// Assesses whether the current test execution is cloud based. It uses the browser name to identify whether it is cloud based.
         /// </summary>
         /// <returns>True in the case where the current test execution is cloud based. False if the current execution is not cloud based.</returns>
         public bool IsExecutingInTheCloud()
