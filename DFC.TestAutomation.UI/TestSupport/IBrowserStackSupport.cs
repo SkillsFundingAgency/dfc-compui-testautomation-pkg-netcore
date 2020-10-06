@@ -6,7 +6,7 @@ using OpenQA.Selenium;
 
 namespace DFC.TestAutomation.UI.TestSupport
 {
-    public interface IBrowserStackConfigurator
+    public interface IBrowserStackSupport
     {
         IWebDriver CreateRemoteWebDriver();
     }

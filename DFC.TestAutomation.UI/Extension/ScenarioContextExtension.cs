@@ -4,8 +4,8 @@
 
 using DFC.TestAutomation.UI.Helper;
 using DFC.TestAutomation.UI.Settings;
-using DFC.TestAutomation.UI.TestSupport;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Remote;
 using TechTalk.SpecFlow;
 
 namespace DFC.TestAutomation.UI.Extension
@@ -53,6 +53,26 @@ namespace DFC.TestAutomation.UI.Extension
         public static void SetWebDriver(this ScenarioContext context, IWebDriver webDriver)
         {
             context?.Set(webDriver);
+        }
+
+        /// <summary>
+        /// Gets the remote Selenium Webdriver.
+        /// </summary>
+        /// <param name="context">Scenario context.</param>
+        /// <returns>A stored instance of the Selenium Webdriver.</returns>
+        public static RemoteWebDriver GetRemoteWebDriver(this ScenarioContext context)
+        {
+            return context?.Get<RemoteWebDriver>();
+        }
+
+        /// <summary>
+        /// Sets the remote Selenium Webdriver.
+        /// </summary>
+        /// <param name="context">Scenario context.</param>
+        /// <param name="remoteWebDriver">Remote Selenium Webdriver.</param>
+        public static void SetRemoteWebDriver(this ScenarioContext context, RemoteWebDriver remoteWebDriver)
+        {
+            context?.Set(remoteWebDriver);
         }
 
         /// <summary>

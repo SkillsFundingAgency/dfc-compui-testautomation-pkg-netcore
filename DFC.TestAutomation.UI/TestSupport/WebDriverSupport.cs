@@ -16,10 +16,10 @@ using TechTalk.SpecFlow;
 
 namespace DFC.TestAutomation.UI.TestSupport
 {
-    public class WebDriverConfigurator<T> : IWebDriverConfigurator
+    public class WebDriverSupport<T> : IWebDriverSupport
         where T : IAppSettings
     {
-        public WebDriverConfigurator(ScenarioContext scenarioContext)
+        public WebDriverSupport(ScenarioContext scenarioContext)
         {
             this.Context = scenarioContext;
             this.BrowserHelper = new BrowserHelper(this.Context.GetSettingsLibrary<T>().BrowserSettings.BrowserName);
@@ -66,7 +66,7 @@ namespace DFC.TestAutomation.UI.TestSupport
                     return new FirefoxDriver(GetFirefoxDriverPath());
 
                 case BrowserType.BrowserStack:
-                    return new BrowserStackConfigurator<T>(this.Context.GetSettingsLibrary<T>()).CreateRemoteWebDriver();
+                    return new BrowserStackSupport<T>(this.Context.GetSettingsLibrary<T>()).CreateRemoteWebDriver();
 
                 case BrowserType.InternetExplorer:
                     return new InternetExplorerDriver(GetInternetExplorerDriverPath());

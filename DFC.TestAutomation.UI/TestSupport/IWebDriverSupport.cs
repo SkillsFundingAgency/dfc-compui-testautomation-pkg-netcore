@@ -6,7 +6,7 @@ using OpenQA.Selenium;
 
 namespace DFC.TestAutomation.UI.TestSupport
 {
-    public interface IWebDriverConfigurator
+    public interface IWebDriverSupport
     {
         IWebDriver Create();
     }
