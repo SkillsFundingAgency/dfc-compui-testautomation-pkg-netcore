@@ -36,8 +36,8 @@ namespace DFC.TestAutomation.UI.Settings
         public EnvironmentSettings EnvironmentSettings { get; }
 
         /// <summary>
-        /// Gets the timeout settings.
+        /// Gets the test execution settings.
         /// </summary>
-        public TimeoutSettings TimeoutSettings { get; }
+        public TestExecutionSettings TestExecutionSettings { get; }
     }
 }

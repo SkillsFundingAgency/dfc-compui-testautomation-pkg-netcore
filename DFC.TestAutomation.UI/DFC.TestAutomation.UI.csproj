@@ -45,7 +45,7 @@
     <PackageReference Include="Selenium.Support" Version="3.141.0" />
     <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
     <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="85.0.4183.8700" />
-    <PackageReference Include="Specflow" Version="3.4.8" />
+    <PackageReference Include="SpecFlow" Version="3.4.14" />
     <PackageReference Include="Specflow.nunit" Version="3.4.8" />
     <PackageReference Include="Specflow.tools.msbuild.generation" Version="3.4.8" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />

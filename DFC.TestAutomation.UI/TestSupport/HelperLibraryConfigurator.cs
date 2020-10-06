@@ -15,7 +15,7 @@ namespace DFC.TestAutomation.UI.TestSupport
         public HelperLibraryConfigurator(ScenarioContext context)
         {
             this.JavaScriptHelper = new JavaScriptHelper(context.GetWebDriver());
-            this.WebDriverWaitHelper = new WebDriverWaitHelper(context.GetWebDriver(), context.GetSettingsLibrary<T>().TimeoutSettings, this.JavaScriptHelper);
+            this.WebDriverWaitHelper = new WebDriverWaitHelper(context.GetWebDriver(), context.GetSettingsLibrary<T>().TestExecutionSettings.TimeoutSettings, this.JavaScriptHelper);
             this.RetryHelper = new RetryHelper();
             this.AxeHelper = new AxeHelper(context.GetWebDriver());
             this.BrowserHelper = new BrowserHelper(context.GetSettingsLibrary<T>().BrowserSettings.BrowserName);

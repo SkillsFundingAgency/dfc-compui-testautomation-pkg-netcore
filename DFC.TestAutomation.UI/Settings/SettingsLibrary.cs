@@ -27,7 +27,7 @@ namespace DFC.TestAutomation.UI.Settings
             this.BrowserStackSettings = configurationRoot.GetSection("BrowserStackSettings").Get<BrowserStackSettings>();
             this.BuildSettings = configurationRoot.GetSection("BuildSettings").Get<BuildSettings>();
             this.EnvironmentSettings = configurationRoot.GetSection("EnvironmentSettings").Get<EnvironmentSettings>();
-            this.TimeoutSettings = configurationRoot.GetSection("TimeoutSettings").Get<TimeoutSettings>();
+            this.TestExecutionSettings = configurationRoot.GetSection("TestExecutionSettings").Get<TestExecutionSettings>();
         }
 
         /// <summary>
@@ -56,8 +56,8 @@ namespace DFC.TestAutomation.UI.Settings
         public EnvironmentSettings EnvironmentSettings { get; private set; }
 
         /// <summary>
-        /// Gets the timeout settings.
+        /// Gets the test execution settings.
         /// </summary>
-        public TimeoutSettings TimeoutSettings { get; private set; }
+        public TestExecutionSettings TestExecutionSettings { get; private set; }
     }
 }
