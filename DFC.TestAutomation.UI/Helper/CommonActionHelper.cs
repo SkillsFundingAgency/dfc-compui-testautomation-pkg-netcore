@@ -1,4 +1,4 @@
-﻿// <copyright file="PageInteractionHelper.cs" company="PlaceholderCompany">
+﻿// <copyright file="CommonActionHelper.cs" company="PlaceholderCompany">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
@@ -128,7 +128,11 @@ namespace DFC.TestAutomation.UI.Helper
             {
                 return this.WebDriver.FindElement(locator).Displayed;
             }
-            catch (Exception)
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
+            catch (StaleElementReferenceException)
             {
                 return false;
             }

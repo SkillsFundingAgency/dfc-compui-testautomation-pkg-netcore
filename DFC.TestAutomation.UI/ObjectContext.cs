@@ -8,8 +8,15 @@ using System.Linq;
 
 namespace DFC.TestAutomation.UI
 {
+    /// <summary>
+    /// The object context is used to store all test related objects during a test run. This provides a container for any object
+    /// to be stored so the object is accessible across different classes.
+    /// </summary>
     public class ObjectContext : IObjectContext
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObjectContext"/> class.
+        /// </summary>
         public ObjectContext()
         {
             this.Objects = new Dictionary<string, object>();
@@ -17,47 +24,94 @@ namespace DFC.TestAutomation.UI
 
         private Dictionary<string, object> Objects { get; set; }
 
-        public string Get(string key)
+        /// <summary>
+        /// Gets an object using the object key.
+        /// </summary>
+        /// <param name="key">The key used to store the object.</param>
+        /// <returns>The object.</returns>
+        public string GetObject(string key)
         {
             return this.Objects.TryGetValue(key, out var value) ? value.ToString() : string.Empty;
         }
 
-        public T Get<T>()
+        /// <summary>
+        /// Gets an object using the object type.
+        /// </summary>
+        /// <typeparam name="T">The object type.</typeparam>
+        /// <returns>The object.</returns>
+        public T GetObject<T>()
         {
-            return this.Get<T>(typeof(T).FullName);
+            return this.GetObject<T>(typeof(T).FullName);
         }
 
-        public T Get<T>(string key)
+        /// <summary>
+        /// Gets an object using the object key.
+        /// </summary>
+        /// <typeparam name="T">The object type.</typeparam>
+        /// <param name="key">The key used to store the object.</param>
+        /// <returns>The object.</returns>
+        public T GetObject<T>(string key)
         {
             return this.Objects.TryGetValue(key, out var value) ? (T)value : default(T);
         }
 
+        /// <summary>
+        /// Gets all objects with a given type.
+        /// </summary>
+        /// <typeparam name="T">The object type.</typeparam>
+        /// <returns>All objects with a specific type.</returns>
         public IEnumerable<T> GetAll<T>()
         {
             return this.Objects.Values.OfType<T>();
         }
 
+        /// <summary>
+        /// Gets all objects.
+        /// </summary>
+        /// <returns>All objects.</returns>
         public Dictionary<string, object> GetAll()
         {
             return this.Objects;
         }
 
-        public void Set<T>(string key, T value)
+        /// <summary>
+        /// Sets an object with a key.
+        /// </summary>
+        /// <typeparam name="T">The object type.</typeparam>
+        /// <param name="key">The key.</param>
+        /// <param name="value">The object.</param>
+        public void SetObject<T>(string key, T value)
         {
             this.Objects.Add(key, value);
         }
 
-        public void Set<T>(T value)
+        /// <summary>
+        /// Sets an object with a type.
+        /// </summary>
+        /// <typeparam name="T">The object type.</typeparam>
+        /// <param name="value">The object.</param>
+        public void SetObject<T>(T value)
         {
-            this.Set(typeof(T).FullName, value);
+            this.SetObject(typeof(T).FullName, value);
         }
 
-        public void Update<T>(T value)
+        /// <summary>
+        /// Overwrites an existing object using the object type.
+        /// </summary>
+        /// <typeparam name="T">The object type.</typeparam>
+        /// <param name="value">The object.</param>
+        public void UpdateObject<T>(T value)
         {
-            this.Update(typeof(T).FullName, value);
+            this.UpdateObject(typeof(T).FullName, value);
         }
 
-        public void Update<T>(string key, T value)
+        /// <summary>
+        /// Overwrites an existing object using the object key.
+        /// </summary>
+        /// <typeparam name="T">The object type.</typeparam>
+        /// <param name="key">The object key.</param>
+        /// <param name="value">The object.</param>
+        public void UpdateObject<T>(string key, T value)
         {
             if (this.Objects.ContainsKey(key))
             {

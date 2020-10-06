@@ -16,9 +16,17 @@ using TechTalk.SpecFlow;
 
 namespace DFC.TestAutomation.UI.TestSupport
 {
+    /// <summary>
+    /// Provides support functions for Selenium webdriver related operations.
+    /// </summary>
+    /// <typeparam name="T">The application settings type. This must be an interface member of IAppSettings.</typeparam>
     public class WebDriverSupport<T> : IWebDriverSupport
         where T : IAppSettings
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebDriverSupport{T}"/> class.
+        /// </summary>
+        /// <param name="scenarioContext">The scenario context.</param>
         public WebDriverSupport(ScenarioContext scenarioContext)
         {
             this.Context = scenarioContext;
@@ -43,6 +51,10 @@ namespace DFC.TestAutomation.UI.TestSupport
 
         private BrowserHelper BrowserHelper { get; set; }
 
+        /// <summary>
+        /// Creates an instance of the Selenium webdriver.
+        /// </summary>
+        /// <returns>The Selenium webdriver.</returns>
         public IWebDriver Create()
         {
             switch (this.BrowserHelper.GetBrowserType())

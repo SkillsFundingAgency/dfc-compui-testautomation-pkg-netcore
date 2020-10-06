@@ -1,0 +1,6 @@
+﻿[*.cs]
+
+# CS1591: Missing XML comment for publicly visible type or member
+# Added due to the warnings being presented for automatically
+# generated classes as part of the Specflow functionality.
+dotnet_diagnostic.CS1591.severity = none

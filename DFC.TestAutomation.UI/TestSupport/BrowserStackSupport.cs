@@ -14,10 +14,18 @@ using System.Globalization;
 
 namespace DFC.TestAutomation.UI.TestSupport
 {
+    /// <summary>
+    /// Provides support functions for BrowserStack related operations.
+    /// </summary>
+    /// <typeparam name="T">The application settings type. This must be an interface member of IAppSettings.</typeparam>
     public class BrowserStackSupport<T> : IBrowserStackSupport
         where T : IAppSettings
     {
-        public BrowserStackSupport(SettingsLibrary<T> settingsLibrary)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BrowserStackSupport{T}"/> class.
+        /// </summary>
+        /// <param name="settingsLibrary">The settings library.</param>
+        public BrowserStackSupport(ISettingsLibrary<T> settingsLibrary)
         {
             this.BrowserStackSettings = settingsLibrary?.BrowserStackSettings;
             this.BrowserSettings = settingsLibrary?.BrowserSettings;
@@ -41,6 +49,10 @@ namespace DFC.TestAutomation.UI.TestSupport
 
         private T ProjectSettings { get; set; }
 
+        /// <summary>
+        /// Creates an instance of the Selenium remote webdriver.
+        /// </summary>
+        /// <returns>The Selenium remote webdriver.</returns>
         public IWebDriver CreateRemoteWebDriver()
         {
             var chromeOptions = new ChromeOptions
@@ -65,6 +77,12 @@ namespace DFC.TestAutomation.UI.TestSupport
             return new RemoteWebDriver(this.BrowserStackSettings.RemoteAddressUri, chromeOptions);
         }
 
+        /// <summary>
+        /// Sends a message to the BrowserStack service.
+        /// </summary>
+        /// <param name="remoteWebDriver">The Selenium remote webdriver.</param>
+        /// <param name="status">The message status.</param>
+        /// <param name="message">The message body.</param>
         public void SendMessage(RemoteWebDriver remoteWebDriver, string status, string message)
         {
             var restClient = new RestClient(this.BrowserStackSettings.BaseUri);
