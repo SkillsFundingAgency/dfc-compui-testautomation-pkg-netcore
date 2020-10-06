@@ -27,7 +27,6 @@ namespace DFC.TestAutomation.UI.Settings
             this.BrowserStackSettings = configurationRoot.GetSection("BrowserStackSettings").Get<BrowserStackSettings>();
             this.BuildSettings = configurationRoot.GetSection("BuildSettings").Get<BuildSettings>();
             this.EnvironmentSettings = configurationRoot.GetSection("EnvironmentSettings").Get<EnvironmentSettings>();
-            this.MongoDatabaseSettings = configurationRoot.GetSection("MongoDatabaseSettings").Get<MongoDatabaseSettings>();
             this.TimeoutSettings = configurationRoot.GetSection("TimeoutSettings").Get<TimeoutSettings>();
         }
 
@@ -55,11 +54,6 @@ namespace DFC.TestAutomation.UI.Settings
         /// Gets the environments settings.
         /// </summary>
         public EnvironmentSettings EnvironmentSettings { get; private set; }
-
-        /// <summary>
-        /// Gets the Mongo database settings.
-        /// </summary>
-        public MongoDatabaseSettings MongoDatabaseSettings { get; private set; }
 
         /// <summary>
         /// Gets the timeout settings.

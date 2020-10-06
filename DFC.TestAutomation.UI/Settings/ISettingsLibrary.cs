@@ -36,11 +36,6 @@ namespace DFC.TestAutomation.UI.Settings
         public EnvironmentSettings EnvironmentSettings { get; }
 
         /// <summary>
-        /// Gets the Mongo database settings.
-        /// </summary>
-        public MongoDatabaseSettings MongoDatabaseSettings { get; }
-
-        /// <summary>
         /// Gets the timeout settings.
         /// </summary>
         public TimeoutSettings TimeoutSettings { get; }

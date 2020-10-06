@@ -1,13 +1,13 @@
-﻿// <copyright file="BrowserArguements.cs" company="PlaceholderCompany">
+﻿// <copyright file="BrowserArguments.cs" company="PlaceholderCompany">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
 namespace DFC.TestAutomation.UI.Settings
 {
     /// <summary>
-    /// A model used to parse browser arguements from the application settings.
+    /// A model used to parse browser arguments from the application settings.
     /// </summary>
-    public class BrowserArguements
+    public class BrowserArguments
     {
         /// <summary>
         /// Gets or sets a value indicating whether the browser is in sandbox mode.

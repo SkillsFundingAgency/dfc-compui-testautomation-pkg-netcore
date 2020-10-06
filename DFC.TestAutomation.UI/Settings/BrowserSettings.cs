@@ -22,9 +22,9 @@ namespace DFC.TestAutomation.UI.Settings
         public string BrowserVersion { get; set; }
 
         /// <summary>
-        /// Gets or sets the browser arguements.
+        /// Gets or sets the browser arguments.
         /// </summary>
-        public BrowserArguements BrowserArguements { get; set; }
+        public BrowserArguments BrowserArguments { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to use a proxy.

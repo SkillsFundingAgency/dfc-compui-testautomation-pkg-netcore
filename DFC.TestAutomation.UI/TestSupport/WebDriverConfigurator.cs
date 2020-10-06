@@ -24,7 +24,7 @@ namespace DFC.TestAutomation.UI.TestSupport
             this.Context = scenarioContext;
             this.BrowserHelper = new BrowserHelper(this.Context.GetSettingsLibrary<T>().BrowserSettings.BrowserName);
             this.ChromeOptions = new ChromeOptions();
-            var browserOptions = this.Context.GetSettingsLibrary<T>().BrowserSettings.BrowserArguements;
+            var browserOptions = this.Context.GetSettingsLibrary<T>().BrowserSettings.BrowserArguments;
 
             if (!browserOptions.InSandbox)
             {

@@ -30,9 +30,7 @@ namespace DFC.TestAutomation.UI.Helper
             IBrowserHelper browserHelper,
             IFormHelper formHelper,
             ICommonActionHelper commonActionHelper,
-            IMongoDatabaseHelper mongoDbConnectionHelper,
-            IScreenshotHelper screenshotHelper,
-            ISqlDatabaseHelper sqlDatabaseHelper)
+            IScreenshotHelper screenshotHelper)
         {
             this.JavaScriptHelper = javascriptHelper;
             this.WebDriverWaitHelper = webDriverWaitHelper;
@@ -41,8 +39,6 @@ namespace DFC.TestAutomation.UI.Helper
             this.BrowserHelper = browserHelper;
             this.FormHelper = formHelper;
             this.CommonActionHelper = commonActionHelper;
-            this.MongoDatabaseHelper = mongoDbConnectionHelper;
-            this.SqlDatabaseHelper = sqlDatabaseHelper;
             this.ScreenshotHelper = screenshotHelper;
         }
 
@@ -77,19 +73,9 @@ namespace DFC.TestAutomation.UI.Helper
         public IWebDriverWaitHelper WebDriverWaitHelper { get; private set; }
 
         /// <summary>
-        /// Gets the Mongo database helper.
-        /// </summary>
-        public IMongoDatabaseHelper MongoDatabaseHelper { get; private set; }
-
-        /// <summary>
         /// Gets the retry helper.
         /// </summary>
         public IRetryHelper RetryHelper { get; private set; }
-
-        /// <summary>
-        /// Gets the SQL database helper.
-        /// </summary>
-        public ISqlDatabaseHelper SqlDatabaseHelper { get; private set; }
 
         /// <summary>
         /// Gets the screenshot helper.

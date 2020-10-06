@@ -37,23 +37,23 @@ namespace DFC.TestAutomation.UI.Helper
         void ScrollElementIntoView(IWebElement webElement);
 
         /// <summary>
-        /// Executes javascript using IWebElements as arguements.
+        /// Executes javascript using IWebElements as arguments.
         /// </summary>
         /// <param name="javascript">The javascript to be executed. To reference the IWebElement use 'arguments[{index}]' where {index} is the zero based index of your IWebElements.</param>
-        /// <param name="webElements">The IWebElement arguements.</param>
+        /// <param name="webElements">The IWebElement arguments.</param>
         /// <returns>An object, the type of which is determined by the script.</returns>
         object ExecuteScript(string javascript, params IWebElement[] webElements);
 
         /// <summary>
-        /// Executes javascript using IWebElement locators as an arguements.
+        /// Executes javascript using IWebElement locators as an arguments.
         /// </summary>
         /// <param name="javascript">The javascript to be executed. To reference the IWebElement found using your locator use 'arguments[{index}]' where {index} is the zero based index of your locator.</param>
-        /// <param name="locators">The locator arguements.</param>
+        /// <param name="locators">The locator arguments.</param>
         /// <returns>An object, the type of which is determined by the script.</returns>
         object ExecuteScript(string javascript, params By[] locators);
 
         /// <summary>
-        /// Executes javascript without any arguements.
+        /// Executes javascript without any arguments.
         /// </summary>
         /// <param name="javascript">The javascript to be executed.</param>
         /// <returns>An object, the type of which is determined by the script.</returns>

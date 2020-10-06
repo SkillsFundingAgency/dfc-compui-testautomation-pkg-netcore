@@ -22,8 +22,6 @@ namespace DFC.TestAutomation.UI.TestSupport
             this.FormCompletionHelper = new FormHelper(context.GetWebDriver(), this.WebDriverWaitHelper, this.RetryHelper, this.JavaScriptHelper);
             this.HttpRequestHelper = null;
             this.PageInteractionHelper = new CommonActionHelper(context.GetWebDriver(), this.WebDriverWaitHelper, this.RetryHelper);
-            this.MongoDbConnectionHelper = new MongoDatabaseHelper(context.GetSettingsLibrary<T>().MongoDatabaseSettings);
-            this.SqlDatabaseConnectionHelper = new SqlDatabaseHelper("NEED A CONN STRING");
             this.ScreenshotHelper = new ScreenshotHelper(context);
         }
 
@@ -43,11 +41,7 @@ namespace DFC.TestAutomation.UI.TestSupport
 
         public ICommonActionHelper PageInteractionHelper { get; set; }
 
-        public IMongoDatabaseHelper MongoDbConnectionHelper { get; set; }
-
         public IScreenshotHelper ScreenshotHelper { get; set; }
-
-        public ISqlDatabaseHelper SqlDatabaseConnectionHelper { get; set; }
 
         public IHelperLibrary CreateHelperLibrary()
         {
@@ -59,9 +53,7 @@ namespace DFC.TestAutomation.UI.TestSupport
                 this.BrowserHelper,
                 this.FormCompletionHelper,
                 this.PageInteractionHelper,
-                this.MongoDbConnectionHelper,
-                this.ScreenshotHelper,
-                this.SqlDatabaseConnectionHelper);
+                this.ScreenshotHelper);
         }
     }
 }
