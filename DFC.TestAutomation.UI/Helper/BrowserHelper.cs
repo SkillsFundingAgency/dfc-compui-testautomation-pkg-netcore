@@ -2,7 +2,6 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-using DFC.TestAutomation.UI.Extension;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
