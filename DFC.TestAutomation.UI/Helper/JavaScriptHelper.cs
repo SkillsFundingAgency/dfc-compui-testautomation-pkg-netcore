@@ -69,7 +69,8 @@ namespace DFC.TestAutomation.UI.Helper
         /// <returns>An object, the type of which is determined by the script.</returns>
         public object ExecuteScript(string javascript, params IWebElement[] webElements)
         {
-            return ((IJavaScriptExecutor)this.WebDriver).ExecuteScript(javascript, webElements);
+            object[] arguements = webElements?.OfType<object>().ToArray();
+            return ((IJavaScriptExecutor)this.WebDriver).ExecuteScript(javascript, arguements);
         }
 
         /// <summary>
