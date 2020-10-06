@@ -1,4 +1,4 @@
-﻿// <copyright file="WebDriverConfigurator.cs" company="PlaceholderCompany">
+﻿// <copyright file="WebDriverSupport.cs" company="PlaceholderCompany">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 

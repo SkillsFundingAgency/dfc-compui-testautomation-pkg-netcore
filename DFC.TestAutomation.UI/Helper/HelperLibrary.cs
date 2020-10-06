@@ -2,44 +2,32 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
+using DFC.TestAutomation.UI.Extension;
+using DFC.TestAutomation.UI.Settings;
+using TechTalk.SpecFlow;
+
 namespace DFC.TestAutomation.UI.Helper
 {
     /// <summary>
     /// A container for all helper classes.
     /// </summary>
-    public class HelperLibrary : IHelperLibrary
+    public class HelperLibrary<T> : IHelperLibrary
+        where T : IAppSettings
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="HelperLibrary"/> class.
+        /// Initializes a new instance of the <see cref="HelperLibrary{T}"/> class.
         /// </summary>
-        /// <param name="javascriptHelper">The javascript helper.</param>
-        /// <param name="webDriverWaitHelper">The Webdriver wait helper.</param>
-        /// <param name="retryHelper">The retry helper.</param>
-        /// <param name="axeHelper">The axe helper.</param>
-        /// <param name="browserHelper">The browser helper.</param>
-        /// <param name="formHelper">The form helper.</param>
-        /// <param name="commonActionHelper">The common action helper.</param>
-        /// <param name="mongoDbConnectionHelper">The Mongo database connection helper.</param>
-        /// <param name="screenshotHelper">The screenshot helper.</param>
-        /// <param name="sqlDatabaseHelper">The SQL database connection helper.</param>
-        public HelperLibrary(
-            IJavaScriptHelper javascriptHelper,
-            IWebDriverWaitHelper webDriverWaitHelper,
-            IRetryHelper retryHelper,
-            IAxeHelper axeHelper,
-            IBrowserHelper browserHelper,
-            IFormHelper formHelper,
-            ICommonActionHelper commonActionHelper,
-            IScreenshotHelper screenshotHelper)
+        /// <param name="context">The scenario context.</param>
+        public HelperLibrary(ScenarioContext context)
         {
-            this.JavaScriptHelper = javascriptHelper;
-            this.WebDriverWaitHelper = webDriverWaitHelper;
-            this.RetryHelper = retryHelper;
-            this.AxeHelper = axeHelper;
-            this.BrowserHelper = browserHelper;
-            this.FormHelper = formHelper;
-            this.CommonActionHelper = commonActionHelper;
-            this.ScreenshotHelper = screenshotHelper;
+            this.JavaScriptHelper = new JavaScriptHelper(context.GetWebDriver());
+            this.WebDriverWaitHelper = new WebDriverWaitHelper(context.GetWebDriver(), context.GetSettingsLibrary<T>().TestExecutionSettings.TimeoutSettings, this.JavaScriptHelper);
+            this.RetryHelper = new RetryHelper();
+            this.AxeHelper = new AxeHelper(context.GetWebDriver());
+            this.BrowserHelper = new BrowserHelper(context.GetSettingsLibrary<T>().BrowserSettings.BrowserName);
+            this.FormHelper = new FormHelper(context.GetWebDriver(), this.WebDriverWaitHelper, this.RetryHelper, this.JavaScriptHelper);
+            this.CommonActionHelper = new CommonActionHelper(context.GetWebDriver(), this.WebDriverWaitHelper, this.RetryHelper);
+            this.ScreenshotHelper = new ScreenshotHelper(context);
         }
 
         /// <summary>
