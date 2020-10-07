@@ -3,6 +3,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
 
+using Io.Cucumber.Messages;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -57,12 +58,12 @@ namespace DFC.TestAutomation.UI.Helper
         }
 
         /// <summary>
-        /// Assesses whether the current test execution is cloud based. It uses the browser name to identify whether it is cloud based.
+        /// Assesses whether the current test execution is being hosted in BrowserStack.
         /// </summary>
-        /// <returns>True in the case where the current test execution is cloud based. False if the current execution is not cloud based.</returns>
-        public bool IsExecutingInTheCloud()
+        /// <returns>True in the case where the current test execution is hosted in BrowserStack. False if the current execution is not hosted in BrowserStack.</returns>
+        public bool IsExecutingInBrowserStack()
         {
-            return this.BrowserName.Equals("browserstack", StringComparison.CurrentCultureIgnoreCase) || this.BrowserName.Equals("cloud", StringComparison.CurrentCultureIgnoreCase);
+            return this.BrowserIndex[this.BrowserName].Equals(BrowserType.BrowserStack);
         }
     }
 }

@@ -17,9 +17,9 @@ namespace DFC.TestAutomation.UI.Helper
         BrowserType GetBrowserType();
 
         /// <summary>
-        /// Assesses whether the current test execution is cloud based.
+        /// Assesses whether the current test execution is hosted in BrowserStack.
         /// </summary>
-        /// <returns>True in the case where the current test execution is cloud based. False if the current execution is not cloud based.</returns>
-        bool IsExecutingInTheCloud();
+        /// <returns>True in the case where the current test execution is hosted in BrowserStack. False if the current execution is not hosted in BrowserStack.</returns>
+        bool IsExecutingInBrowserStack();
     }
 }
