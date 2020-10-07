@@ -23,7 +23,7 @@ namespace DFC.TestAutomation.UI.Helper
         {
             this.JavaScriptHelper = new JavaScriptHelper(webDriver);
             this.WebDriverWaitHelper = new WebDriverWaitHelper(webDriver, settingsLibrary?.TestExecutionSettings.TimeoutSettings, this.JavaScriptHelper);
-            this.RetryHelper = new RetryHelper();
+            this.RetryHelper = new RetryHelper(settingsLibrary.TestExecutionSettings.RetrySettings);
             this.AxeHelper = new AxeHelper(webDriver);
             this.BrowserHelper = new BrowserHelper(settingsLibrary?.BrowserSettings.BrowserName);
             this.FormHelper = new FormHelper(webDriver, this.WebDriverWaitHelper, this.RetryHelper, this.JavaScriptHelper);

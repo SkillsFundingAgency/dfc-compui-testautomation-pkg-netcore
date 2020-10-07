@@ -19,5 +19,10 @@ namespace DFC.TestAutomation.UI.Settings
         /// Gets or sets the timeout settings.
         /// </summary>
         public TimeoutSettings TimeoutSettings { get; set; }
+
+        /// <summary>
+        /// Gets or sets the retry settings.
+        /// </summary>
+        public RetrySettings RetrySettings { get; set; }
     }
 }
