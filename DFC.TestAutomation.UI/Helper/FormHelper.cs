@@ -1,5 +1,5 @@
-﻿// <copyright file="FormHelper.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="FormHelper.cs" company="National Careers Service">
+// Copyright (c) National Careers Service. All rights reserved.
 // </copyright>
 
 using OpenQA.Selenium;

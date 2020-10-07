@@ -1,5 +1,5 @@
-﻿// <copyright file="IScreenshotHelper.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="IScreenshotHelper.cs" company="National Careers Service">
+// Copyright (c) National Careers Service. All rights reserved.
 // </copyright>
 
 namespace DFC.TestAutomation.UI.Helper

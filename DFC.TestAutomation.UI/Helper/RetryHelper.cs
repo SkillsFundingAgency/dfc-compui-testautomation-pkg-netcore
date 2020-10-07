@@ -1,5 +1,5 @@
-﻿// <copyright file="RetryHelper.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="RetryHelper.cs" company="National Careers Service">
+// Copyright (c) National Careers Service. All rights reserved.
 // </copyright>
 
 using Polly;

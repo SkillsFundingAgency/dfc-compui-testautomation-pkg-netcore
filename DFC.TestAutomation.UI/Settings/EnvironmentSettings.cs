@@ -1,5 +1,5 @@
-﻿// <copyright file="EnvironmentSettings.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="EnvironmentSettings.cs" company="National Careers Service">
+// Copyright (c) National Careers Service. All rights reserved.
 // </copyright>
 
 namespace DFC.TestAutomation.UI.Settings
