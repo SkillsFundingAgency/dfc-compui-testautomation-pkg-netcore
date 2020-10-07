@@ -18,3 +18,86 @@ The settings classes are used as models. These models are used when parsing your
 # Installation
 It is recommended that this project be used as a NuGet package. This package can be found on [nuget.org](https://www.nuget.org/packages/DFC.TestAutomation.UI/). To include this NuGet in your solution you can use the Visual Studio NuGet package manager. To do this right click on your project in the *solution explorer* and select *Manage Nuget Packages*. Ensure that your package source is set to *nuget.org* and search for *DFC.TestAutomation.UI*. You will find the package listed where you will be able to select the install option.
 
+# Usage
+Below are examples you can use to get started.
+
+### 1. Create a settings class that conforms to *IAppSettings.cs*
+    
+    ```
+    internal class AppSettings : IAppSettings
+    {
+        public string AppName { get; set; }
+        
+        public Uri AppUrl { get; set; }
+    }
+    ```
+
+### 2. Set up your settings library
+
+    ```
+    private ScenarioContext Context { get; set; }
+    
+    public void SetUpSettingsLibrary()
+    {
+	    var settingsLibrary = new SettingsLibrary<AppSettings>();
+		this.Context.SetSettingsLibrary(settingsLibrary);
+	}
+    ```
+
+### 3. Set up your object context
+
+    ```
+    private ScenarioContext Context { get; set; }
+    
+    public void SetUpObjectContext()
+    {
+	    var objectContext= new ObjectContext();
+		this.Context.SetObjectContext(objectContext);
+	}
+    ```
+	
+### 4. Set up your Selenuim Webdriver
+
+    ```
+    private ScenarioContext Context { get; set; }
+    
+    public void SetUpWebDriver()
+    {
+	    var webdriverSupport = new WebDriverSupport<AppSettings>(this.Context);
+	    var webDriver = webdriverSupport.Create();
+	    this.Context.SetWebDriver(webDriver);
+    }
+    ```
+
+### 5. Set up the helper library
+
+    ```
+    private ScenarioContext Context { get; set; }
+    
+    public void SetUpHelperLibrary()
+    {
+	    var webDriver = this.Context.GetWebDriver();
+	    var settingsLibrary = this.Context.GetSettingsLibrary<AppSettings>();
+	    var helperLibrary = new HelperLibrary<AppSettings>(webDriver, settingsLibrary);
+	    this.Context.SetHelperLibrary(helperLibrary);
+    }
+    ```
+
+### Other useful examples
+
+    ```
+    private ScenarioContext Context { get; set; }
+    
+    public void TakeAScreenshot() 
+    {
+	    var helperLibrary = this.Context.GetHelperLibrary<AppSettings>();
+		helperLibrary.ScreenshotHelper.TakeScreenshot(this.Context);
+    }
+    
+    public void GetTextFromAnIWebElement() 
+    {
+	    var webElementLocator = By.CssSelector("my_css_selector");
+	    var helperLibrary = this.Context.GetHelperLibrary<AppSettings>();
+		var elementText = helperLibrary.CommonActionHelper.GetText(webElementLocator);
+    }
+    ```
