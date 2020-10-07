@@ -1,72 +1,20 @@
-# National Careers Service - UI Automation Framework
-This is a SpecFlow-Selenium functional testing framework created using Selenium WebDriver with NUnit and C# in SpecFlow BDD methodology and Page Object Pattern.
+# UI Automated Test Framework
+An automation framework designed to drive browser based user interfaces to assist in automated test execution.
 
-# Initialisation
+**Project name:** DFC.TestAutomation.UI
 
-The various configuration frameworks are intialised by supplying appsetting.json files containing the required values
+## Description
+This project is designed to provide a useful array of logic to assist in driving browser based applications. Simple interactions with the browser can be simulated easily by calling on logic defined in this project. This project is predominantly a [Selenium](https://www.selenium.dev/) wrapper meaning that the core component within this project is the [Selenium Webdriver](https://www.selenium.dev/documentation/en/webdriver/).  The key components within the project include:
 
-# Example Usage
+### Helpers
+The helper classes are broken down into specific classes (i.e. *FormHelper.cs*, *ScreenshotHelper.cs*, *JavaScriptHelper.cs* etc.). These classes are packaged neatly in what we call the *helper library*. Each of these classes have their individual helper methods that provide invaluable actions. The helpers are what make driving the browser quick and simple.
 
-```
-[Binding]
-    public class ContactUsConfigurationSetup
-    {
-        private readonly ScenarioContext _context;
-        private readonly ObjectContext _objectContext;
-        private readonly Configurator _configurator;
-        private readonly IConfigSection _configSection;
+### Test Support
+The test support classes are intended to be used as a 'one off'. For example we have the *WebDriverSupport.cs* class which can be used to create an instance of the Selenium Webdriver. This class does not hold instance data and so it can be disposed of once it has been finished with. You would not expect to use support classes continuously throughout your project.
 
-        public ContactUsConfigurationSetup(ScenarioContext context)
-        {
-            _context = context;
-            _objectContext = context.Get<ObjectContext>();
-            _configurator = new Configurator();
-            _configurator.InitializeHostingConfig("appsettings.Environment.json");
+### Settings
+The settings classes are used as models. These models are used when parsing your *appsettings.json* file. The settings files are passed to the helper library in order to initialise the helper classes.
 
-            _configurator.AddSettingsFile("appsettings.json")
-                         .AddSettingsFile("appsettings.Project.json")
-                         .AddSettingsFile("appsettings.local.Project.json")
-                         .AddSettingsFile("appsettings.local.json")
-                         .AddSettingsFile("appsettings.RestApi.json")
-                         .BuildConfig();
+# Installation
+It is recommended that this project be used as a NuGet package. This package can be found on [nuget.org](https://www.nuget.org/packages/DFC.TestAutomation.UI/). To include this NuGet in your solution you can use the Visual Studio NuGet package manager. To do this right click on your project in the *solution explorer* and select *Manage Nuget Packages*. Ensure that your package source is set to *nuget.org* and search for *DFC.TestAutomation.UI*. You will find the package listed where you will be able to select the install option.
 
-            _configSection = new ConfigSection(_configurator.GetConfig());
-
-        }
-
-        [BeforeScenario(Order = 1)]
-        public void SetUpConfiguration()
-        {
-            _context.Set(_configSection);
-
-            var configuration = new FrameworkConfig
-            {
-                TimeOutConfig = _configSection.GetConfigSection<TimeOutConfig>(),
-                BrowserStackSetting = _configSection.GetConfigSection<BrowserStackSetting>(),
-                TakeEveryPageScreenShot = _configurator.IsVstsExecution
-            };
-
-            _context.Set(configuration);
-
-            var executionConfig = new EnvironmentConfig { EnvironmentName = _configurator.EnvironmentName, ProjectName = _configurator.ProjectName };
-
-            _context.Set(executionConfig);
-
-            var testExecutionConfig = _configSection.GetConfigSection<TestExecutionConfig>();
-
-            _objectContext.SetBrowser(testExecutionConfig.Browser);
-
-            var config = _configSection.GetConfigSection<ContactUs>();
-            _context.SetContactUsConfig(config);
-
-            var mongoDbconfig = _configSection.GetConfigSection<MongoDbConfig>();
-            _context.SetMongoDbConfig(mongoDbconfig);
-
-            _objectContext.Replace("browser", config.Browser);
-            _objectContext.Replace("build", config.BuildNumber);
-            _objectContext.Replace("EnvironmentName", config.EnvironmentName);
-            
-            
-        }
-    }
-```
