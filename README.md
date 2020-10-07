@@ -93,6 +93,13 @@ Below are examples you can use to get started.
 	    var helperLibrary = this.Context.GetHelperLibrary<AppSettings>();
 		helperLibrary.ScreenshotHelper.TakeScreenshot(this.Context);
     }
+
+    public void SelectARadioButton() 
+    {
+	    var radioButtonLocator = By.Id("radio_button_id");
+        var formHelper = this.context.GetHelperLibrary<AppSettings>().FormHelper;
+        formHelper.SelectRadioButton(radioButtonLocator);   
+    }
     
     public void GetTextFromAnIWebElement() 
     {
@@ -100,4 +107,22 @@ Below are examples you can use to get started.
 	    var helperLibrary = this.Context.GetHelperLibrary<AppSettings>();
 		var elementText = helperLibrary.CommonActionHelper.GetText(webElementLocator);
     }
+
+    public void RunAxeAccessibilityAnalysis() 
+    {
+	    var axeHelper = this.Context.GetHelperLibrary<AppSettings>().AxeHelper;
+        axeHelper.Analyse();    
+    }
     ```
+
+# Support
+
+For any support queries please email the QA team at the National Careers Service.
+
+# Contributors
+
+Please note that this project is not open to contributors outside of the National Careers Service.
+
+# License
+
+Licensed under the MIT license. See LICENSE file in the project root for full license information.
