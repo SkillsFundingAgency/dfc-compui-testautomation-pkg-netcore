@@ -16,7 +16,7 @@
     <RepositoryUrl>https://github.com/SkillsFundingAgency/dfc-compui-testautomation-pkg-netcore</RepositoryUrl>
     <PackageTags>CompUI, Automation</PackageTags>
     <Description>
-      Automation support for CompUI
+      UI Test Automation support
     </Description>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>

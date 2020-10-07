@@ -8,7 +8,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="expression">MIT</license>
     <description>A user interface test automation framework built on top of Selenium.</description>
-    <tags>UI Automation National Careers Service DFC CompUI</tags>
+    <tags>UI Automation National Careers Service</tags>
     <copyright>Copyright (c) 2020 Education and Skills Funding Agency Team</copyright>
     <dependencies>
       <group targetFramework="netcoreapp3.1">
