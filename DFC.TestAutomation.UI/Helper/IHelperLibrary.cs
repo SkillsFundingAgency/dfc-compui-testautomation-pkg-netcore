@@ -3,17 +3,25 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
 
+using DFC.TestAutomation.UI.Settings;
+
 namespace DFC.TestAutomation.UI.Helper
 {
     /// <summary>
     /// An interface containing all helper library definitions.
     /// </summary>
-    public interface IHelperLibrary
+    public interface IHelperLibrary<T>
+        where T : IAppSettings
     {
         /// <summary>
         /// Gets the axe (web accessibility) helper.
         /// </summary>
         IAxeHelper AxeHelper { get; }
+
+        /// <summary>
+        /// Gets the BrowserStack helper.
+        /// </summary>
+        BrowserStackHelper<T> BrowserStackHelper { get; }
 
         /// <summary>
         /// Gets the browser helper.

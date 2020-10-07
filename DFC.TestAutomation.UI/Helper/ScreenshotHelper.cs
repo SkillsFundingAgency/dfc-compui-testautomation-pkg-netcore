@@ -3,7 +3,6 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
 
-using DFC.TestAutomation.UI.Extension;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using System;
@@ -21,15 +20,14 @@ namespace DFC.TestAutomation.UI.Helper
         /// <summary>
         /// Initializes a new instance of the <see cref="ScreenshotHelper"/> class.
         /// </summary>
-        /// <param name="context">The scenario context.</param>
-        public ScreenshotHelper(ScenarioContext context)
+        public ScreenshotHelper(IWebDriver webDriver)
         {
-            this.Context = context;
+            this.WebDriver = webDriver;
             this.FolderDirectory = $"{AppDomain.CurrentDomain.BaseDirectory}\\Screenshots\\{DateTime.Now.ToString("dd-MM-yyyy_HH-mm", CultureInfo.CurrentCulture)}";
             Directory.CreateDirectory(this.FolderDirectory);
         }
 
-        private ScenarioContext Context { get; set; }
+        public IWebDriver WebDriver { get; set; }
 
         private string FolderDirectory { get; set; }
 
@@ -37,10 +35,10 @@ namespace DFC.TestAutomation.UI.Helper
         /// Takes a screenshot of the current web browser view. The resulting screenshots can be found in the 'screenshots' folder
         /// within the base directory. The subfolder will be time stamped.
         /// </summary>
-        public void TakeScreenshot()
+        public void TakeScreenshot(ScenarioContext scenarioContext)
         {
-            var screenshotName = $"{DateTime.Now:HH-mm-ss}_{this.Context.StepContext.StepInfo.Text}.png";
-            ITakesScreenshot screenshotHandler = this.Context.GetWebDriver() as ITakesScreenshot;
+            var screenshotName = $"{DateTime.Now:HH-mm-ss}_{scenarioContext?.StepContext.StepInfo.Text}.png";
+            ITakesScreenshot screenshotHandler = this.WebDriver as ITakesScreenshot;
             Screenshot screenshot = screenshotHandler.GetScreenshot();
             var screenshotPath = Path.Combine(this.FolderDirectory, screenshotName);
             screenshot.SaveAsFile(screenshotPath, ScreenshotImageFormat.Png);

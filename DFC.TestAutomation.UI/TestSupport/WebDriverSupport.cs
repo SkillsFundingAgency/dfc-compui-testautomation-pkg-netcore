@@ -79,7 +79,7 @@ namespace DFC.TestAutomation.UI.TestSupport
                     return new FirefoxDriver(GetFirefoxDriverPath());
 
                 case BrowserType.BrowserStack:
-                    return new BrowserStackSupport<T>(this.Context.GetSettingsLibrary<T>()).CreateRemoteWebDriver();
+                    return new BrowserStackHelper<T>(this.Context.GetWebDriver(), this.Context.GetSettingsLibrary<T>()).CreateRemoteWebDriver();
 
                 case BrowserType.InternetExplorer:
                     return new InternetExplorerDriver(GetInternetExplorerDriverPath());

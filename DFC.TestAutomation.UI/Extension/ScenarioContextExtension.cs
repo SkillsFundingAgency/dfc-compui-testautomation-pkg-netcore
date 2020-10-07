@@ -6,7 +6,6 @@
 using DFC.TestAutomation.UI.Helper;
 using DFC.TestAutomation.UI.Settings;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Remote;
 using TechTalk.SpecFlow;
 
 namespace DFC.TestAutomation.UI.Extension
@@ -57,26 +56,6 @@ namespace DFC.TestAutomation.UI.Extension
         }
 
         /// <summary>
-        /// Gets the remote Selenium Webdriver.
-        /// </summary>
-        /// <param name="context">Scenario context.</param>
-        /// <returns>A stored instance of the Selenium Webdriver.</returns>
-        public static RemoteWebDriver GetRemoteWebDriver(this ScenarioContext context)
-        {
-            return context?.Get<RemoteWebDriver>();
-        }
-
-        /// <summary>
-        /// Sets the remote Selenium Webdriver.
-        /// </summary>
-        /// <param name="context">Scenario context.</param>
-        /// <param name="remoteWebDriver">Remote Selenium Webdriver.</param>
-        public static void SetRemoteWebDriver(this ScenarioContext context, RemoteWebDriver remoteWebDriver)
-        {
-            context?.Set(remoteWebDriver);
-        }
-
-        /// <summary>
         /// Gets the settings library.
         /// </summary>
         /// <typeparam name="T">The application settings type. This must be an interface member of IAppSettings.</typeparam>
@@ -105,9 +84,10 @@ namespace DFC.TestAutomation.UI.Extension
         /// </summary>
         /// <param name="context">Scenario context.</param>
         /// <returns>A stored instance of the helper library.</returns>
-        public static IHelperLibrary GetHelperLibrary(this ScenarioContext context)
+        public static IHelperLibrary<T> GetHelperLibrary<T>(this ScenarioContext context)
+            where T : IAppSettings
         {
-            return context?.Get<IHelperLibrary>();
+            return context?.Get<IHelperLibrary<T>>();
         }
 
         /// <summary>
@@ -115,7 +95,8 @@ namespace DFC.TestAutomation.UI.Extension
         /// </summary>
         /// <param name="context">Scenario context.</param>
         /// <param name="helperLibrary">Helper library.</param>
-        public static void SetHelperLibrary(this ScenarioContext context, IHelperLibrary helperLibrary)
+        public static void SetHelperLibrary<T>(this ScenarioContext context, IHelperLibrary<T> helperLibrary)
+            where T : IAppSettings
         {
             context?.Set(helperLibrary);
         }

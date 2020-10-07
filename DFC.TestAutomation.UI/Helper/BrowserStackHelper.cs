@@ -1,4 +1,4 @@
-﻿// <copyright file="BrowserStackSupport.cs" company="National Careers Service">
+﻿// <copyright file="BrowserStackHelper.cs" company="National Careers Service">
 // Copyright (c) National Careers Service. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
@@ -13,21 +13,23 @@ using RestSharp.Authenticators;
 using System;
 using System.Globalization;
 
-namespace DFC.TestAutomation.UI.TestSupport
+namespace DFC.TestAutomation.UI.Helper
 {
     /// <summary>
-    /// Provides support functions for BrowserStack related operations.
+    /// Provides helper functions for BrowserStack related operations.
     /// </summary>
     /// <typeparam name="T">The application settings type. This must be an interface member of IAppSettings.</typeparam>
-    public class BrowserStackSupport<T> : IBrowserStackSupport
+    public class BrowserStackHelper<T> : IBrowserStackHelper
         where T : IAppSettings
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="BrowserStackSupport{T}"/> class.
+        /// Initializes a new instance of the <see cref="BrowserStackHelper{T}"/> class.
         /// </summary>
+        /// <param name="webDriver">The Selenium webdriver.</param>
         /// <param name="settingsLibrary">The settings library.</param>
-        public BrowserStackSupport(ISettingsLibrary<T> settingsLibrary)
+        public BrowserStackHelper(IWebDriver webDriver, ISettingsLibrary<T> settingsLibrary)
         {
+            this.WebDriver = webDriver;
             this.BrowserStackSettings = settingsLibrary?.BrowserStackSettings;
             this.BrowserSettings = settingsLibrary?.BrowserSettings;
             this.EnvironmentSettings = settingsLibrary?.EnvironmentSettings;
@@ -39,6 +41,8 @@ namespace DFC.TestAutomation.UI.TestSupport
                 throw new Exception("Unable to initialise the BrowserStackSetup class as the settings do not contain a Browserstack username and/or password. You can set this configuration in the appsettings.json file.");
             }
         }
+
+        private IWebDriver WebDriver { get; set; }
 
         private BrowserStackSettings BrowserStackSettings { get; set; }
 
@@ -81,17 +85,16 @@ namespace DFC.TestAutomation.UI.TestSupport
         /// <summary>
         /// Sends a message to the BrowserStack service.
         /// </summary>
-        /// <param name="remoteWebDriver">The Selenium remote webdriver.</param>
         /// <param name="status">The message status.</param>
         /// <param name="message">The message body.</param>
-        public void SendMessage(RemoteWebDriver remoteWebDriver, string status, string message)
+        public void SendMessage(string status, string message)
         {
             var restClient = new RestClient(this.BrowserStackSettings.BaseUri);
             var authenticator = new HttpBasicAuthenticator(this.BrowserStackSettings.BrowserStackUsername, this.BrowserStackSettings.BrowserStackPassword);
             restClient.Authenticator = authenticator;
 
             var messageBody = JsonConvert.SerializeObject(new { status, reason = message });
-            var restRequest = new RestRequest($"{remoteWebDriver?.SessionId}.json", Method.PUT);
+            var restRequest = new RestRequest($"{(this.WebDriver as RemoteWebDriver)?.SessionId}.json", Method.PUT);
             restRequest.RequestFormat = DataFormat.Json;
             restRequest.AddJsonBody(messageBody);
 

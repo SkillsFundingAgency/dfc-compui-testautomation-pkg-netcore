@@ -3,38 +3,44 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
 
-using DFC.TestAutomation.UI.Extension;
 using DFC.TestAutomation.UI.Settings;
-using TechTalk.SpecFlow;
+using OpenQA.Selenium;
 
 namespace DFC.TestAutomation.UI.Helper
 {
     /// <summary>
     /// A container for all helper classes.
     /// </summary>
-    public class HelperLibrary<T> : IHelperLibrary
+    public class HelperLibrary<T> : IHelperLibrary<T>
         where T : IAppSettings
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="HelperLibrary{T}"/> class.
         /// </summary>
-        /// <param name="context">The scenario context.</param>
-        public HelperLibrary(ScenarioContext context)
+        /// <param name="webDriver">The Selenium webdriver.</param>
+        /// <param name="settingsLibrary">The settings library.</param>
+        public HelperLibrary(IWebDriver webDriver, ISettingsLibrary<T> settingsLibrary)
         {
-            this.JavaScriptHelper = new JavaScriptHelper(context.GetWebDriver());
-            this.WebDriverWaitHelper = new WebDriverWaitHelper(context.GetWebDriver(), context.GetSettingsLibrary<T>().TestExecutionSettings.TimeoutSettings, this.JavaScriptHelper);
+            this.JavaScriptHelper = new JavaScriptHelper(webDriver);
+            this.WebDriverWaitHelper = new WebDriverWaitHelper(webDriver, settingsLibrary?.TestExecutionSettings.TimeoutSettings, this.JavaScriptHelper);
             this.RetryHelper = new RetryHelper();
-            this.AxeHelper = new AxeHelper(context.GetWebDriver());
-            this.BrowserHelper = new BrowserHelper(context.GetSettingsLibrary<T>().BrowserSettings.BrowserName);
-            this.FormHelper = new FormHelper(context.GetWebDriver(), this.WebDriverWaitHelper, this.RetryHelper, this.JavaScriptHelper);
-            this.CommonActionHelper = new CommonActionHelper(context.GetWebDriver(), this.WebDriverWaitHelper, this.RetryHelper);
-            this.ScreenshotHelper = new ScreenshotHelper(context);
+            this.AxeHelper = new AxeHelper(webDriver);
+            this.BrowserHelper = new BrowserHelper(settingsLibrary?.BrowserSettings.BrowserName);
+            this.FormHelper = new FormHelper(webDriver, this.WebDriverWaitHelper, this.RetryHelper, this.JavaScriptHelper);
+            this.CommonActionHelper = new CommonActionHelper(webDriver, this.WebDriverWaitHelper, this.RetryHelper);
+            this.ScreenshotHelper = new ScreenshotHelper(webDriver);
+            this.BrowserStackHelper = new BrowserStackHelper<T>(webDriver, settingsLibrary);
         }
 
         /// <summary>
         /// Gets the axe helper.
         /// </summary>
         public IAxeHelper AxeHelper { get; private set; }
+
+        /// <summary>
+        /// Gets the BrowserStack helper.
+        /// </summary>
+        public BrowserStackHelper<T> BrowserStackHelper { get; private set; }
 
         /// <summary>
         /// Gets the browser helper.

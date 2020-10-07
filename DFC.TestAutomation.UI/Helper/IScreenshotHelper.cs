@@ -3,6 +3,8 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
 
+using TechTalk.SpecFlow;
+
 namespace DFC.TestAutomation.UI.Helper
 {
     /// <summary>
@@ -14,6 +16,6 @@ namespace DFC.TestAutomation.UI.Helper
         /// Takes a screenshot of the current web browser view. The resulting screenshots can be found in the 'screenshots' folder
         /// within the base directory. The subfolder will be time stamped.
         /// </summary>
-        void TakeScreenshot();
+        void TakeScreenshot(ScenarioContext scenarioContext);
     }
 }
