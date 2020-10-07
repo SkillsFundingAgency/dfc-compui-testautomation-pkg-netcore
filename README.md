@@ -4,7 +4,13 @@ An automation framework designed to drive browser based user interfaces to assis
 **Project name:** DFC.TestAutomation.UI
 
 ## Description
-This project is designed to provide a useful array of logic to assist in driving browser based applications. Simple interactions with the browser can be simulated easily by calling on logic defined in this project. This project is predominantly a [Selenium](https://www.selenium.dev/) wrapper meaning that the core component within this project is the [Selenium Webdriver](https://www.selenium.dev/documentation/en/webdriver/).  The key components within the project include:
+This project is designed to provide a useful array of logic to assist in driving browser based applications. Simple interactions with the browser can be simulated easily by calling on logic defined in this project. 
+
+This project is predominantly a [Selenium](https://www.selenium.dev/) wrapper meaning that the core component within this project is the [Selenium Webdriver](https://www.selenium.dev/documentation/en/webdriver/). 
+
+The framework depends heavily on the *scenario context* which is derived from [Specflow](https://specflow.org/). As such this project is intended to be used in a solution adopting behavioral driven development through the use of Specflow.
+
+The key components within the project include:
 
 ### Helpers
 The helper classes are broken down into specific classes (i.e. *FormHelper.cs*, *ScreenshotHelper.cs*, *JavaScriptHelper.cs* etc.). These classes are packaged neatly in what we call the *helper library*. Each of these classes have their individual helper methods that provide invaluable actions. The helpers are what make driving the browser quick and simple.
@@ -17,6 +23,8 @@ The settings classes are used as models. These models are used when parsing your
 
 # Installation
 It is recommended that this project be used as a NuGet package. This package can be found on [nuget.org](https://www.nuget.org/packages/DFC.TestAutomation.UI/). To include this NuGet in your solution you can use the Visual Studio NuGet package manager. To do this right click on your project in the *solution explorer* and select *Manage Nuget Packages*. Ensure that your package source is set to *nuget.org* and search for *DFC.TestAutomation.UI*. You will find the package listed where you will be able to select the install option.
+
+**Note:** Make sure to install the **Specflow** and **Selenium** NuGets also.
 
 # Usage
 Below are examples you can use to get started.
