@@ -5,7 +5,7 @@
 
 using OpenQA.Selenium;
 
-namespace DFC.TestAutomation.UI.TestSupport
+namespace DFC.TestAutomation.UI.Support
 {
     /// <summary>
     /// An interface containing definitions for for all Selenium webdriver related operations.
