@@ -3,8 +3,12 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
 
+using DFC.TestAutomation.UI.Settings;
+using NUnit.Framework;
 using Polly;
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 
 namespace DFC.TestAutomation.UI.Helper
 {
@@ -16,12 +20,16 @@ namespace DFC.TestAutomation.UI.Helper
         /// <summary>
         /// Initializes a new instance of the <see cref="RetryHelper"/> class.
         /// </summary>
-        public RetryHelper()
+        public RetryHelper(RetrySettings retrySettings)
         {
-            this.SleepDurations = new TimeSpan[] { TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(3) };
+            this.SleepDurations = new List<TimeSpan>();
+            for (int retryAttempt = 0; retryAttempt < retrySettings?.NumberOfRetries; retryAttempt++)
+            {
+                this.SleepDurations.Add(TimeSpan.FromSeconds(Convert.ToDouble(retrySettings?.ExplicitWaitInSeconds, CultureInfo.CurrentCulture)));
+            }
         }
 
-        private TimeSpan[] SleepDurations { get; set; }
+        private List<TimeSpan> SleepDurations { get; set; }
 
         /// <summary>
         /// Attempts to execute an action. If the action throws an exception, then the execution pauses for a number of seconds.

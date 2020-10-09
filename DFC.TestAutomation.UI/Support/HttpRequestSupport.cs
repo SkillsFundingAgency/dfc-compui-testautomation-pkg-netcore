@@ -1,4 +1,4 @@
-﻿// <copyright file="HttpRequestHelper.cs" company="National Careers Service">
+﻿// <copyright file="HttpRequestSupport.cs" company="National Careers Service">
 // Copyright (c) National Careers Service. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
@@ -11,31 +11,31 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DFC.TestAutomation.UI.Helper
+namespace DFC.TestAutomation.UI.Support
 {
     /// <summary>
-    /// Provides helper functions for all HTTP request related operations.
+    /// Provides support functions for all HTTP request related operations.
     /// </summary>
-    public class HttpRequestHelper<T> : IHttpRequestHelper, IDisposable
+    public class HttpRequestSupport<T> : IHttpRequestSupport, IDisposable
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="HttpRequestHelper{T}"/> class.
+        /// Initializes a new instance of the <see cref="HttpRequestSupport{T}"/> class.
         /// </summary>
         /// <param name="httpMethod">The HTTP method.</param>
         /// <param name="requestUrl">The HTTP request url.</param>
-        public HttpRequestHelper(HttpMethod httpMethod, Uri requestUrl)
+        public HttpRequestSupport(HttpMethod httpMethod, Uri requestUrl)
         {
             this.Client = new HttpClient();
             this.RequestMessage = CreateRequestMessage(httpMethod, requestUrl);
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="HttpRequestHelper{T}"/> class.
+        /// Initializes a new instance of the <see cref="HttpRequestSupport{T}"/> class.
         /// </summary>
         /// <param name="httpMethod">The HTTP method.</param>
         /// <param name="requestUrl">The HTTP request url.</param>
         /// <param name="content">The HTTP request message content.</param>
-        public HttpRequestHelper(HttpMethod httpMethod, Uri requestUrl, T content)
+        public HttpRequestSupport(HttpMethod httpMethod, Uri requestUrl, T content)
         {
             this.Client = new HttpClient();
             var messageContent = GetHttpContentFromObject(content);
@@ -43,13 +43,13 @@ namespace DFC.TestAutomation.UI.Helper
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="HttpRequestHelper{T}"/> class.
+        /// Initializes a new instance of the <see cref="HttpRequestSupport{T}"/> class.
         /// </summary>
         /// <param name="httpMethod">The HTTP method.</param>
         /// <param name="requestUrl">The HTTP request url.</param>
         /// <param name="content">The HTTP message content.</param>
         /// <param name="headers">The HTTP message headers.</param>
-        public HttpRequestHelper(HttpMethod httpMethod, Uri requestUrl, T content, IEnumerable<KeyValuePair<string, string>> headers)
+        public HttpRequestSupport(HttpMethod httpMethod, Uri requestUrl, T content, IEnumerable<KeyValuePair<string, string>> headers)
         {
             this.Client = new HttpClient();
             var messageContent = GetHttpContentFromObject(content);

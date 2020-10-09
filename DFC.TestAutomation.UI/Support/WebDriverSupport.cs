@@ -15,7 +15,7 @@ using System.IO;
 using System.Reflection;
 using TechTalk.SpecFlow;
 
-namespace DFC.TestAutomation.UI.TestSupport
+namespace DFC.TestAutomation.UI.Support
 {
     /// <summary>
     /// Provides support functions for Selenium webdriver related operations.
