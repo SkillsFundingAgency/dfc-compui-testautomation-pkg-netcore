@@ -19,8 +19,67 @@ The helper classes are broken down into specific classes (i.e. *FormHelper.cs*, 
 The test support classes are intended to be used as a 'one off'. For example we have the *WebDriverSupport.cs* class which can be used to create an instance of the Selenium Webdriver. This class does not hold instance data and so it can be disposed of once it has been finished with. You would not expect to use support classes continuously throughout your project.
 
 ### Settings
-The settings classes are used as models. These models are used when parsing your *appsettings.json* file. The settings files are passed to the helper library in order to initialise the helper classes.
+In order to use this package your project will need to have an *appsettings.json* file in the root of the project. The **Copy to output directory** property for this json file needs to be set to **Copy always** or **Copy if newer**.
 
+The following is an example of the appsettings.json file. This will provide an indication of the format and the the type of data expected:
+
+    ```
+    {
+	    "BrowserSettings": 
+	    {
+		    "BrowserName": "Chrome",
+		    "BrowserVersion": "85",
+		    "UseProxy": false,
+		    "ProxyUri": "https://localhost:1234/"
+		    "BrowserArguments": {
+			      "InSandbox": false,
+			      "InHeadless": false
+			},  
+	    },
+	    "BrowserStackSettings": 
+	    {
+		    "EnableNetworkLogs": true,
+		    "BrowserStackUsername": "yourusername",
+		    "BrowserStackPassword": "yourpassword",
+		    "Timezone": "London",
+		    "BaseUri": "https://baseurl.com/",
+		    "RemoteAddressUri": "https://remoteaddressurl.com/"
+	    },
+	    "EnvironmentSettings": 
+	    {
+		    "EnvironmentName": "dev",
+		    "OperatingSystem": "Windows",
+		    "OperatingSystemVersion": "10",
+		    "ScreenResolution": "1024x768"
+	    },
+	    "ProjectSettings": 
+	    {
+		    "AppUrl": "https://www.yourwebsite.com/",
+		    "AppName": "The name of your web application"
+	    },
+	    "TestExecutionSettings": 
+	    {
+		    "TakeScreenshots": true,
+		    "TimeoutSettings": 
+		    {
+			    "PageNavigation": "10",
+			    "ImplicitWait": "5",
+			    "CommandTimeout": "5"
+		    },
+		   "RetrySettings": 
+		   {
+		      "NumberOfRetries": 3,
+		      "ExplicitWaitInSeconds": 3
+		   }
+	    },
+	    "BuildSettings":
+	    {
+		    "BuildNumber": "1.0.0"
+	    }
+    }
+	```
+
+The settings classes are used as models. These models are used when parsing your appsettings.json file. The settings files are passed to the helper library in order to initialise the helper classes.
 # Installation
 It is recommended that this project be used as a NuGet package. This package can be found on [nuget.org](https://www.nuget.org/packages/DFC.TestAutomation.UI/). To include this NuGet in your solution you can use the Visual Studio NuGet package manager. To do this right click on your project in the *solution explorer* and select *Manage Nuget Packages*. Ensure that your package source is set to *nuget.org* and search for *DFC.TestAutomation.UI*. You will find the package listed where you will be able to select the install option.
 
