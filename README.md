@@ -182,10 +182,6 @@ Below are examples you can use to get started.
     }
     ```
 
-# Support
-
-For any support queries please email the QA team at the National Careers Service.
-
 # Contributors
 
 Please note that this project is not open to contributors outside of the National Careers Service.
