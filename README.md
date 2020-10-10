@@ -1,72 +1,191 @@
-# National Careers Service - UI Automation Framework
-This is a SpecFlow-Selenium functional testing framework created using Selenium WebDriver with NUnit and C# in SpecFlow BDD methodology and Page Object Pattern.
+# UI Automated Test Framework
+An automation framework designed to drive browser based user interfaces to assist in automated test execution.
 
-# Initialisation
+**Project name:** DFC.TestAutomation.UI
 
-The various configuration frameworks are intialised by supplying appsetting.json files containing the required values
+## Description
+This project is designed to provide a useful array of logic to assist in driving browser based applications. Simple interactions with the browser can be simulated easily by calling on logic defined in this project. 
 
-# Example Usage
+This project is predominantly a [Selenium](https://www.selenium.dev/) wrapper meaning that the core component within this project is the [Selenium Webdriver](https://www.selenium.dev/documentation/en/webdriver/). 
 
-```
-[Binding]
-    public class ContactUsConfigurationSetup
+The framework depends heavily on the *scenario context* which is derived from [Specflow](https://specflow.org/). As such this project is intended to be used in a solution adopting behavioral driven development through the use of Specflow.
+
+The key components within the project include:
+
+### Helpers
+The helper classes are broken down into specific classes (i.e. *FormHelper.cs*, *ScreenshotHelper.cs*, *JavaScriptHelper.cs* etc.). These classes are packaged neatly in what we call the *helper library*. Each of these classes have their individual helper methods that provide invaluable actions. The helpers are what make driving the browser quick and simple.
+
+### Test Support
+The test support classes are intended to be used as a 'one off'. For example we have the *WebDriverSupport.cs* class which can be used to create an instance of the Selenium Webdriver. This class does not hold instance data and so it can be disposed of once it has been finished with. You would not expect to use support classes continuously throughout your project.
+
+### Settings
+In order to use this package your project will need to have an *appsettings.json* file in the root of the project. The **Copy to output directory** property for this json file needs to be set to **Copy always** or **Copy if newer**.
+
+The following is an example of the appsettings.json file. This will provide an indication of the format and the the type of data expected:
+
+    ```
     {
-        private readonly ScenarioContext _context;
-        private readonly ObjectContext _objectContext;
-        private readonly Configurator _configurator;
-        private readonly IConfigSection _configSection;
-
-        public ContactUsConfigurationSetup(ScenarioContext context)
-        {
-            _context = context;
-            _objectContext = context.Get<ObjectContext>();
-            _configurator = new Configurator();
-            _configurator.InitializeHostingConfig("appsettings.Environment.json");
-
-            _configurator.AddSettingsFile("appsettings.json")
-                         .AddSettingsFile("appsettings.Project.json")
-                         .AddSettingsFile("appsettings.local.Project.json")
-                         .AddSettingsFile("appsettings.local.json")
-                         .AddSettingsFile("appsettings.RestApi.json")
-                         .BuildConfig();
-
-            _configSection = new ConfigSection(_configurator.GetConfig());
-
-        }
-
-        [BeforeScenario(Order = 1)]
-        public void SetUpConfiguration()
-        {
-            _context.Set(_configSection);
-
-            var configuration = new FrameworkConfig
-            {
-                TimeOutConfig = _configSection.GetConfigSection<TimeOutConfig>(),
-                BrowserStackSetting = _configSection.GetConfigSection<BrowserStackSetting>(),
-                TakeEveryPageScreenShot = _configurator.IsVstsExecution
-            };
-
-            _context.Set(configuration);
-
-            var executionConfig = new EnvironmentConfig { EnvironmentName = _configurator.EnvironmentName, ProjectName = _configurator.ProjectName };
-
-            _context.Set(executionConfig);
-
-            var testExecutionConfig = _configSection.GetConfigSection<TestExecutionConfig>();
-
-            _objectContext.SetBrowser(testExecutionConfig.Browser);
-
-            var config = _configSection.GetConfigSection<ContactUs>();
-            _context.SetContactUsConfig(config);
-
-            var mongoDbconfig = _configSection.GetConfigSection<MongoDbConfig>();
-            _context.SetMongoDbConfig(mongoDbconfig);
-
-            _objectContext.Replace("browser", config.Browser);
-            _objectContext.Replace("build", config.BuildNumber);
-            _objectContext.Replace("EnvironmentName", config.EnvironmentName);
-            
-            
-        }
+	    "BrowserSettings": 
+	    {
+		    "BrowserName": "Chrome",
+		    "BrowserVersion": "85",
+		    "UseProxy": false,
+		    "ProxyUri": "https://localhost:1234/"
+		    "BrowserArguments": {
+			      "InSandbox": false,
+			      "InHeadless": false
+			},  
+	    },
+	    "BrowserStackSettings": 
+	    {
+		    "EnableNetworkLogs": true,
+		    "BrowserStackUsername": "yourusername",
+		    "BrowserStackPassword": "yourpassword",
+		    "Timezone": "London",
+		    "BaseUri": "https://baseurl.com/",
+		    "RemoteAddressUri": "https://remoteaddressurl.com/"
+	    },
+	    "EnvironmentSettings": 
+	    {
+		    "EnvironmentName": "dev",
+		    "OperatingSystem": "Windows",
+		    "OperatingSystemVersion": "10",
+		    "ScreenResolution": "1024x768"
+	    },
+	    "ProjectSettings": 
+	    {
+		    "AppUrl": "https://www.yourwebsite.com/",
+		    "AppName": "The name of your web application"
+	    },
+	    "TestExecutionSettings": 
+	    {
+		    "TakeScreenshots": true,
+		    "TimeoutSettings": 
+		    {
+			    "PageNavigation": "10",
+			    "ImplicitWait": "5",
+			    "CommandTimeout": "5"
+		    },
+		   "RetrySettings": 
+		   {
+		      "NumberOfRetries": 3,
+		      "ExplicitWaitInSeconds": 3
+		   }
+	    },
+	    "BuildSettings":
+	    {
+		    "BuildNumber": "1.0.0"
+	    }
     }
-```
+	```
+
+The settings classes are used as models. These models are used when parsing your appsettings.json file. The settings files are passed to the helper library in order to initialise the helper classes.
+# Installation
+It is recommended that this project be used as a NuGet package. This package can be found on [nuget.org](https://www.nuget.org/packages/DFC.TestAutomation.UI/). To include this NuGet in your solution you can use the Visual Studio NuGet package manager. To do this right click on your project in the *solution explorer* and select *Manage Nuget Packages*. Ensure that your package source is set to *nuget.org* and search for *DFC.TestAutomation.UI*. You will find the package listed where you will be able to select the install option.
+
+**Note:** Make sure to install the **Specflow** and **Selenium** NuGets also.
+
+# Usage
+Below are examples you can use to get started.
+
+### 1. Create a settings class that conforms to *IAppSettings.cs*
+    
+    ```
+    internal class AppSettings : IAppSettings
+    {
+        public string AppName { get; set; }
+        
+        public Uri AppUrl { get; set; }
+    }
+    ```
+
+### 2. Set up your settings library
+
+    ```
+    private ScenarioContext Context { get; set; }
+    
+    public void SetUpSettingsLibrary()
+    {
+	    var settingsLibrary = new SettingsLibrary<AppSettings>();
+		this.Context.SetSettingsLibrary(settingsLibrary);
+	}
+    ```
+
+### 3. Set up your object context
+
+    ```
+    private ScenarioContext Context { get; set; }
+    
+    public void SetUpObjectContext()
+    {
+	    var objectContext= new ObjectContext();
+		this.Context.SetObjectContext(objectContext);
+	}
+    ```
+	
+### 4. Set up your Selenuim Webdriver
+
+    ```
+    private ScenarioContext Context { get; set; }
+    
+    public void SetUpWebDriver()
+    {
+	    var webdriverSupport = new WebDriverSupport<AppSettings>(this.Context);
+	    var webDriver = webdriverSupport.Create();
+	    this.Context.SetWebDriver(webDriver);
+    }
+    ```
+
+### 5. Set up the helper library
+
+    ```
+    private ScenarioContext Context { get; set; }
+    
+    public void SetUpHelperLibrary()
+    {
+	    var webDriver = this.Context.GetWebDriver();
+	    var settingsLibrary = this.Context.GetSettingsLibrary<AppSettings>();
+	    var helperLibrary = new HelperLibrary<AppSettings>(webDriver, settingsLibrary);
+	    this.Context.SetHelperLibrary(helperLibrary);
+    }
+    ```
+
+### Other useful examples
+
+    ```
+    private ScenarioContext Context { get; set; }
+    
+    public void TakeAScreenshot() 
+    {
+	    var helperLibrary = this.Context.GetHelperLibrary<AppSettings>();
+		helperLibrary.ScreenshotHelper.TakeScreenshot(this.Context);
+    }
+
+    public void SelectARadioButton() 
+    {
+	    var radioButtonLocator = By.Id("radio_button_id");
+        var formHelper = this.context.GetHelperLibrary<AppSettings>().FormHelper;
+        formHelper.SelectRadioButton(radioButtonLocator);   
+    }
+    
+    public void GetTextFromAnIWebElement() 
+    {
+	    var webElementLocator = By.CssSelector("my_css_selector");
+	    var helperLibrary = this.Context.GetHelperLibrary<AppSettings>();
+		var elementText = helperLibrary.CommonActionHelper.GetText(webElementLocator);
+    }
+
+    public void RunAxeAccessibilityAnalysis() 
+    {
+	    var axeHelper = this.Context.GetHelperLibrary<AppSettings>().AxeHelper;
+        axeHelper.Analyse();    
+    }
+    ```
+
+# Contributors
+
+Please note that this project is not open to contributors outside of the National Careers Service.
+
+# License
+
+Licensed under the MIT license. See LICENSE file in the project root for full license information.
