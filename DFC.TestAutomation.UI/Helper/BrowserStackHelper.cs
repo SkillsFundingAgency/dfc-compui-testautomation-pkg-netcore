@@ -30,9 +30,10 @@ namespace DFC.TestAutomation.UI.Helper
         /// </summary>
         /// <param name="browserStackSettings">The BrowserStack settings</param>
         /// <param name="appSettings">The project settings.</param>
-        public BrowserStackHelper(BrowserStackSettings browserStackSettings, T appSettings)
+        public BrowserStackHelper(BrowserStackSettings browserStackSettings, T appSettings, BuildSettings buildSettings)
         {
             this.BrowserStackSettings = browserStackSettings;
+            this.BuildSettings = buildSettings;
             this.AppSettings = appSettings;
 
             if (this.BrowserStackSettings.Username == null || this.BrowserStackSettings.AccessKey == null)
@@ -57,6 +58,8 @@ namespace DFC.TestAutomation.UI.Helper
 
         private BrowserStackSettings BrowserStackSettings { get; set; }
 
+        private BuildSettings BuildSettings { get; set; }
+
         private T AppSettings { get; set; }
 
         /// <summary>
@@ -74,7 +77,7 @@ namespace DFC.TestAutomation.UI.Helper
             driverOptions.AddAdditionalCapability("resolution", this.BrowserStackSettings.ScreenResolution);
             driverOptions.AddAdditionalCapability("browserstack.user", this.BrowserStackSettings.Username);
             driverOptions.AddAdditionalCapability("browserstack.key", this.BrowserStackSettings.AccessKey);
-            driverOptions.AddAdditionalCapability("build", this.BrowserStackSettings.Build);
+            driverOptions.AddAdditionalCapability("build", this.BuildSettings.BuildNumber);
             driverOptions.AddAdditionalCapability("project", this.BrowserStackSettings.Project);
             driverOptions.AddAdditionalCapability("browserstack.debug", this.BrowserStackSettings.EnableDebug);
             driverOptions.AddAdditionalCapability("browserstack.networkLogs", this.BrowserStackSettings.EnableNetworkLogs);

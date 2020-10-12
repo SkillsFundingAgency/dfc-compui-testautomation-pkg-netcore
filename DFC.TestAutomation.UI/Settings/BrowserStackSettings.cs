@@ -75,13 +75,6 @@ namespace DFC.TestAutomation.UI.Settings
         public string BrowserVersion { get; set; }
 
         /// <summary>
-        /// Gets or sets the build name. This allows the user to specify a name for a logical group of tests i.e. Build 1.0
-        ///
-        /// Default: Untitled Build.
-        /// </summary>
-        public string Build { get; set; }
-
-        /// <summary>
         /// Gets or sets the project name. This allows the user to specify a name for a logical group of builds i.e. login form.
         ///
         /// Default: Untitled Project.
