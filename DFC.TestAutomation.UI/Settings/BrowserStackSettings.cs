@@ -15,36 +15,26 @@ namespace DFC.TestAutomation.UI.Settings
         /// <summary>
         /// Gets or sets the BrowserStack username.
         /// </summary>
-        public string BrowserStackUsername { get; set; }
+        public string Username { get; set; }
 
         /// <summary>
-        /// Gets or sets the BrowserStack password.
+        /// Gets or sets the BrowserStack access key.
         /// </summary>
-        public string BrowserStackPassword { get; set; }
+        public string AccessKey { get; set; }
 
         /// <summary>
         /// Gets or sets the BrowserStack remote address url.
         /// </summary>
-        public Uri RemoteAddressUri { get; set; }
+        public Uri WebdriverRemoteServerUrl { get; set; }
 
         /// <summary>
-        /// Gets or sets the BrowserStack base url.
+        /// Gets or sets the remote browser version.
         /// </summary>
-        public Uri BaseUri { get; set; }
+        public string BrowserVersion { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether BrowserStack should log network activity.
         /// </summary>
         public bool EnableNetworkLogs { get; set; }
-
-        /// <summary>
-        /// Gets or sets the BrowserStack timezone.
-        /// </summary>
-        public string Timezone { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name used by BrowserStack when referencing the test run.
-        /// </summary>
-        public string Name { get; set; }
     }
 }

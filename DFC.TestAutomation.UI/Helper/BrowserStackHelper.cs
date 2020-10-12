@@ -36,7 +36,7 @@ namespace DFC.TestAutomation.UI.Helper
             this.BuildSettings = settingsLibrary?.BuildSettings;
             this.ProjectSettings = settingsLibrary.AppSettings;
 
-            if (this.BrowserStackSettings.BrowserStackUsername == null || this.BrowserStackSettings.BrowserStackPassword == null)
+            if (this.BrowserStackSettings.Username == null || this.BrowserStackSettings.AccessKey == null)
             {
                 throw new Exception("Unable to initialise the BrowserStackSetup class as the settings do not contain a Browserstack username and/or password. You can set this configuration in the appsettings.json file.");
             }
@@ -66,39 +66,20 @@ namespace DFC.TestAutomation.UI.Helper
             };
 
             chromeOptions.AddAdditionalCapability("browser", this.BrowserSettings.BrowserName, true);
-            chromeOptions.AddAdditionalCapability("browser_version", this.BrowserSettings.BrowserVersion, true);
+            chromeOptions.AddAdditionalCapability("browser_version", this.BrowserStackSettings.BrowserVersion, true);
             chromeOptions.AddAdditionalCapability("os", this.EnvironmentSettings.OperatingSystem, true);
             chromeOptions.AddAdditionalCapability("os_version", this.EnvironmentSettings.OperatingSystemVersion, true);
             chromeOptions.AddAdditionalCapability("resolution", this.EnvironmentSettings.ScreenResolution, true);
-            chromeOptions.AddAdditionalCapability("browserstack.user", this.BrowserStackSettings.BrowserStackUsername, true);
-            chromeOptions.AddAdditionalCapability("browserstack.key", this.BrowserStackSettings.BrowserStackPassword, true);
+            chromeOptions.AddAdditionalCapability("browserstack.user", this.BrowserStackSettings.Username, true);
+            chromeOptions.AddAdditionalCapability("browserstack.key", this.BrowserStackSettings.AccessKey, true);
             chromeOptions.AddAdditionalCapability("build", $"dfc.acceptance.{this.EnvironmentSettings.EnvironmentName.ToUpper(CultureInfo.CurrentCulture)}.{this.BuildSettings.BuildNumber}", true);
             chromeOptions.AddAdditionalCapability("project", this.ProjectSettings.AppName, true);
             chromeOptions.AddAdditionalCapability("browserstack.debug", "true", true);
             chromeOptions.AddAdditionalCapability("browserstack.networkLogs", this.BrowserStackSettings.EnableNetworkLogs, true);
-            chromeOptions.AddAdditionalCapability("browserstack.timezone", this.BrowserStackSettings.Timezone, true);
+            chromeOptions.AddAdditionalCapability("browserstack.timezone", "Europe/London", true);
             chromeOptions.AddAdditionalCapability("browserstack.console", "info", true);
 
-            return new RemoteWebDriver(this.BrowserStackSettings.RemoteAddressUri, chromeOptions);
-        }
-
-        /// <summary>
-        /// Sends a message to the BrowserStack service.
-        /// </summary>
-        /// <param name="status">The message status.</param>
-        /// <param name="message">The message body.</param>
-        public void SendMessage(string status, string message)
-        {
-            var restClient = new RestClient(this.BrowserStackSettings.BaseUri);
-            var authenticator = new HttpBasicAuthenticator(this.BrowserStackSettings.BrowserStackUsername, this.BrowserStackSettings.BrowserStackPassword);
-            restClient.Authenticator = authenticator;
-
-            var messageBody = JsonConvert.SerializeObject(new { status, reason = message });
-            var restRequest = new RestRequest($"{(this.WebDriver as RemoteWebDriver)?.SessionId}.json", Method.PUT);
-            restRequest.RequestFormat = DataFormat.Json;
-            restRequest.AddJsonBody(messageBody);
-
-            restClient.Put(restRequest);
+            return new RemoteWebDriver(this.BrowserStackSettings.WebdriverRemoteServerUrl, chromeOptions);
         }
     }
 }
