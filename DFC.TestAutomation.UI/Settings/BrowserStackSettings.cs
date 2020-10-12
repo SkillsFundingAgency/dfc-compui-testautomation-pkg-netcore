@@ -44,7 +44,7 @@ namespace DFC.TestAutomation.UI.Settings
         ///
         /// OS X: 1024x768, 1280x960, 1280x1024, 1600x1200, 1920x1080.
         ///
-        /// Default: 1024x76.
+        /// Default: 1024x768.
         /// </summary>
         public string ScreenResolution { get; set; }
 
