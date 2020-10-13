@@ -23,62 +23,62 @@ In order to use this package your project will need to have an *appsettings.json
 
 The following is an example of the appsettings.json file. This will provide an indication of the format and the the type of data expected:
 
-    ```
-    {
-	    "BrowserSettings": 
-	    {
-		    "BrowserName": "Chrome",
-		    "BrowserVersion": "85",
-		    "UseProxy": false,
-		    "ProxyUri": "https://localhost:1234/",
-		    "BrowserArguments": 
-			{
-			      "InSandbox": false,
-			      "InHeadless": false
-			},  
-	    },
-	    "BrowserStackSettings": 
-	    {
-		    "EnableNetworkLogs": true,
-		    "BrowserStackUsername": "yourusername",
-		    "BrowserStackPassword": "yourpassword",
-		    "Timezone": "London",
-		    "BaseUri": "https://baseurl.com/",
-		    "RemoteAddressUri": "https://remoteaddressurl.com/"
-	    },
-	    "EnvironmentSettings": 
-	    {
-		    "EnvironmentName": "dev",
-		    "OperatingSystem": "Windows",
-		    "OperatingSystemVersion": "10",
-		    "ScreenResolution": "1024x768"
-	    },
-	    "ProjectSettings": 
-	    {
-		    "AppUrl": "https://www.yourwebsite.com/",
-		    "AppName": "The name of your web application"
-	    },
-	    "TestExecutionSettings": 
-	    {
-		    "TakeScreenshots": true,
-		    "TimeoutSettings": 
-		    {
-			    "PageNavigation": "10",
-			    "ImplicitWait": "5",
-			    "CommandTimeout": "5"
-		    },
-		   "RetrySettings": 
-		   {
-		      "NumberOfRetries": 3,
-		      "ExplicitWaitInSeconds": 3
-		   }
-	    },
-	    "BuildSettings":
-	    {
-		    "BuildNumber": "1.0.0"
-	    }
-    }
-	```
+```JSON
+{
+	"BrowserSettings": 
+	{
+		"BrowserName": "Chrome",
+		"BrowserVersion": "85",
+		"UseProxy": false,
+		"ProxyUri": "https://localhost:1234/",
+		"BrowserArguments": 
+		{
+			    "InSandbox": false,
+			    "InHeadless": false
+		},  
+	},
+	"BrowserStackSettings": 
+	{
+		"EnableNetworkLogs": true,
+		"BrowserStackUsername": "yourusername",
+		"BrowserStackPassword": "yourpassword",
+		"Timezone": "London",
+		"BaseUri": "https://baseurl.com/",
+		"RemoteAddressUri": "https://remoteaddressurl.com/"
+	},
+	"EnvironmentSettings": 
+	{
+		"EnvironmentName": "dev",
+		"OperatingSystem": "Windows",
+		"OperatingSystemVersion": "10",
+		"ScreenResolution": "1024x768"
+	},
+	"ProjectSettings": 
+	{
+		"AppUrl": "https://www.yourwebsite.com/",
+		"AppName": "The name of your web application"
+	},
+	"TestExecutionSettings": 
+	{
+		"TakeScreenshots": true,
+		"TimeoutSettings": 
+		{
+			"PageNavigation": "10",
+			"ImplicitWait": "5",
+			"CommandTimeout": "5"
+		},
+		"RetrySettings": 
+		{
+		    "NumberOfRetries": 3,
+		    "ExplicitWaitInSeconds": 3
+		}
+	},
+	"BuildSettings":
+	{
+		"BuildNumber": "1.0.0"
+	}
+}
+```
 
 The settings classes are used as models. These models are used when parsing your appsettings.json file. The settings files are passed to the helper library in order to initialise the helper classes.
 # Installation
