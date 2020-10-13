@@ -17,12 +17,5 @@ namespace DFC.TestAutomation.UI.Helper
         /// </summary>
         /// <returns>The Selenium remote webdriver.</returns>
         IWebDriver CreateRemoteWebDriver();
-
-        /// <summary>
-        /// Sends a message to the BrowserStack service.
-        /// </summary>
-        /// <param name="status">The message status.</param>
-        /// <param name="message">The message body.</param>
-        void SendMessage(string status, string message);
     }
 }

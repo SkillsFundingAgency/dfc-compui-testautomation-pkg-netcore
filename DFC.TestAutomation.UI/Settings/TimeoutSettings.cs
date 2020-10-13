@@ -19,10 +19,5 @@ namespace DFC.TestAutomation.UI.Settings
         /// Gets or sets the implicit timeout in seconds.
         /// </summary>
         public int ImplicitWait { get; set; }
-
-        /// <summary>
-        /// Gets or sets the command timeout in seconds.
-        /// </summary>
-        public int CommandTimeout { get; set; }
     }
 }

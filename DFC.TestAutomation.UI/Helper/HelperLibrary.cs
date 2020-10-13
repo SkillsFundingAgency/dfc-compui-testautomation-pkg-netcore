@@ -29,7 +29,7 @@ namespace DFC.TestAutomation.UI.Helper
             this.FormHelper = new FormHelper(webDriver, this.WebDriverWaitHelper, this.RetryHelper, this.JavaScriptHelper);
             this.CommonActionHelper = new CommonActionHelper(webDriver, this.WebDriverWaitHelper, this.RetryHelper);
             this.ScreenshotHelper = new ScreenshotHelper(webDriver);
-            this.BrowserStackHelper = new BrowserStackHelper<T>(webDriver, settingsLibrary);
+            this.BrowserStackHelper = new BrowserStackHelper<T>(settingsLibrary.BrowserStackSettings, settingsLibrary.AppSettings, settingsLibrary.BuildSettings);
         }
 
         /// <summary>

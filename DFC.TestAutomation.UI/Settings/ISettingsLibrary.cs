@@ -32,11 +32,6 @@ namespace DFC.TestAutomation.UI.Settings
         public BuildSettings BuildSettings { get; }
 
         /// <summary>
-        /// Gets the environment settings.
-        /// </summary>
-        public EnvironmentSettings EnvironmentSettings { get; }
-
-        /// <summary>
         /// Gets the test execution settings.
         /// </summary>
         public TestExecutionSettings TestExecutionSettings { get; }

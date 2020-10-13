@@ -18,11 +18,6 @@ namespace DFC.TestAutomation.UI.Settings
         public string BrowserName { get; set; }
 
         /// <summary>
-        /// Gets or sets the browser version.
-        /// </summary>
-        public string BrowserVersion { get; set; }
-
-        /// <summary>
         /// Gets or sets the browser arguments.
         /// </summary>
         public BrowserArguments BrowserArguments { get; set; }

@@ -4,13 +4,16 @@
 // </copyright>
 
 using DFC.TestAutomation.UI.Settings;
-using Newtonsoft.Json;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Edge;
+using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Remote;
-using RestSharp;
-using RestSharp.Authenticators;
+using OpenQA.Selenium.Safari;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 
 namespace DFC.TestAutomation.UI.Helper
@@ -25,34 +28,39 @@ namespace DFC.TestAutomation.UI.Helper
         /// <summary>
         /// Initializes a new instance of the <see cref="BrowserStackHelper{T}"/> class.
         /// </summary>
-        /// <param name="webDriver">The Selenium webdriver.</param>
-        /// <param name="settingsLibrary">The settings library.</param>
-        public BrowserStackHelper(IWebDriver webDriver, ISettingsLibrary<T> settingsLibrary)
+        /// <param name="browserStackSettings">The BrowserStack settings</param>
+        /// <param name="appSettings">The project settings.</param>
+        public BrowserStackHelper(BrowserStackSettings browserStackSettings, T appSettings, BuildSettings buildSettings)
         {
-            this.WebDriver = webDriver;
-            this.BrowserStackSettings = settingsLibrary?.BrowserStackSettings;
-            this.BrowserSettings = settingsLibrary?.BrowserSettings;
-            this.EnvironmentSettings = settingsLibrary?.EnvironmentSettings;
-            this.BuildSettings = settingsLibrary?.BuildSettings;
-            this.ProjectSettings = settingsLibrary.AppSettings;
+            this.BrowserStackSettings = browserStackSettings;
+            this.BuildSettings = buildSettings;
+            this.AppSettings = appSettings;
 
-            if (this.BrowserStackSettings.BrowserStackUsername == null || this.BrowserStackSettings.BrowserStackPassword == null)
+            if (this.BrowserStackSettings.Username == null || this.BrowserStackSettings.AccessKey == null)
             {
                 throw new Exception("Unable to initialise the BrowserStackSetup class as the settings do not contain a Browserstack username and/or password. You can set this configuration in the appsettings.json file.");
             }
+
+            if (!this.RecognisedBrowsers.Contains(this.BrowserStackSettings.BrowserName.Trim().ToLower(CultureInfo.CurrentCulture)))
+            {
+                throw new InvalidOperationException($"Unable to initialise the BrowserStackHelper class as the browser '{this.BrowserStackSettings.BrowserName}' was not recognised.");
+            }
         }
 
-        private IWebDriver WebDriver { get; set; }
+        private List<string> RecognisedBrowsers { get; } = new List<string>()
+        {
+            "ie",
+            "edge",
+            "chrome",
+            "firefox",
+            "safari",
+        };
 
         private BrowserStackSettings BrowserStackSettings { get; set; }
 
-        private BrowserSettings BrowserSettings { get; set; }
-
-        private EnvironmentSettings EnvironmentSettings { get; set; }
-
         private BuildSettings BuildSettings { get; set; }
 
-        private T ProjectSettings { get; set; }
+        private T AppSettings { get; set; }
 
         /// <summary>
         /// Creates an instance of the Selenium remote webdriver.
@@ -60,45 +68,48 @@ namespace DFC.TestAutomation.UI.Helper
         /// <returns>The Selenium remote webdriver.</returns>
         public IWebDriver CreateRemoteWebDriver()
         {
-            var chromeOptions = new ChromeOptions
-            {
-                AcceptInsecureCertificates = true,
-            };
+            var driverOptions = this.GetDriverOptions();
+            driverOptions.AcceptInsecureCertificates = true;
+            driverOptions.AddAdditionalCapability("browser", this.BrowserStackSettings.BrowserName);
+            driverOptions.AddAdditionalCapability("browser_version", this.BrowserStackSettings.BrowserVersion);
+            driverOptions.AddAdditionalCapability("os", this.BrowserStackSettings.OperatingSystem);
+            driverOptions.AddAdditionalCapability("os_version", this.BrowserStackSettings.OperatingSystemVersion);
+            driverOptions.AddAdditionalCapability("resolution", this.BrowserStackSettings.ScreenResolution);
+            driverOptions.AddAdditionalCapability("browserstack.user", this.BrowserStackSettings.Username);
+            driverOptions.AddAdditionalCapability("browserstack.key", this.BrowserStackSettings.AccessKey);
+            driverOptions.AddAdditionalCapability("build", this.BuildSettings.BuildNumber);
+            driverOptions.AddAdditionalCapability("project", this.BrowserStackSettings.Project);
+            driverOptions.AddAdditionalCapability("browserstack.debug", this.BrowserStackSettings.EnableDebug);
+            driverOptions.AddAdditionalCapability("browserstack.networkLogs", this.BrowserStackSettings.EnableNetworkLogs);
+            driverOptions.AddAdditionalCapability("browserstack.timezone", "Europe/London");
+            driverOptions.AddAdditionalCapability("browserstack.video", this.BrowserStackSettings.RecordVideo);
+            driverOptions.AddAdditionalCapability("browserstack.seleniumLogs", this.BrowserStackSettings.EnableSeleniumLogs);
 
-            chromeOptions.AddAdditionalCapability("browser", this.BrowserSettings.BrowserName, true);
-            chromeOptions.AddAdditionalCapability("browser_version", this.BrowserSettings.BrowserVersion, true);
-            chromeOptions.AddAdditionalCapability("os", this.EnvironmentSettings.OperatingSystem, true);
-            chromeOptions.AddAdditionalCapability("os_version", this.EnvironmentSettings.OperatingSystemVersion, true);
-            chromeOptions.AddAdditionalCapability("resolution", this.EnvironmentSettings.ScreenResolution, true);
-            chromeOptions.AddAdditionalCapability("browserstack.user", this.BrowserStackSettings.BrowserStackUsername, true);
-            chromeOptions.AddAdditionalCapability("browserstack.key", this.BrowserStackSettings.BrowserStackPassword, true);
-            chromeOptions.AddAdditionalCapability("build", $"dfc.acceptance.{this.EnvironmentSettings.EnvironmentName.ToUpper(CultureInfo.CurrentCulture)}.{this.BuildSettings.BuildNumber}", true);
-            chromeOptions.AddAdditionalCapability("project", this.ProjectSettings.AppName, true);
-            chromeOptions.AddAdditionalCapability("browserstack.debug", "true", true);
-            chromeOptions.AddAdditionalCapability("browserstack.networkLogs", this.BrowserStackSettings.EnableNetworkLogs, true);
-            chromeOptions.AddAdditionalCapability("browserstack.timezone", this.BrowserStackSettings.Timezone, true);
-            chromeOptions.AddAdditionalCapability("browserstack.console", "info", true);
-
-            return new RemoteWebDriver(this.BrowserStackSettings.RemoteAddressUri, chromeOptions);
+            return new RemoteWebDriver(this.AppSettings.AppUrl, driverOptions);
         }
 
-        /// <summary>
-        /// Sends a message to the BrowserStack service.
-        /// </summary>
-        /// <param name="status">The message status.</param>
-        /// <param name="message">The message body.</param>
-        public void SendMessage(string status, string message)
+        private DriverOptions GetDriverOptions()
         {
-            var restClient = new RestClient(this.BrowserStackSettings.BaseUri);
-            var authenticator = new HttpBasicAuthenticator(this.BrowserStackSettings.BrowserStackUsername, this.BrowserStackSettings.BrowserStackPassword);
-            restClient.Authenticator = authenticator;
+            switch (this.BrowserStackSettings.BrowserName.ToLower(CultureInfo.CurrentCulture))
+            {
+                case "chrome":
+                    return new ChromeOptions();
 
-            var messageBody = JsonConvert.SerializeObject(new { status, reason = message });
-            var restRequest = new RestRequest($"{(this.WebDriver as RemoteWebDriver)?.SessionId}.json", Method.PUT);
-            restRequest.RequestFormat = DataFormat.Json;
-            restRequest.AddJsonBody(messageBody);
+                case "ie":
+                    return new InternetExplorerOptions();
 
-            restClient.Put(restRequest);
+                case "edge":
+                    return new EdgeOptions();
+
+                case "firefox":
+                    return new FirefoxOptions();
+
+                case "safari":
+                    return new SafariOptions();
+
+                default:
+                    throw new ArgumentOutOfRangeException("Unable to create the browser specific driver options. An update is required.");
+            }
         }
     }
 }

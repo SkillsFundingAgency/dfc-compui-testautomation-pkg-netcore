@@ -30,8 +30,9 @@ The following is an example of the appsettings.json file. This will provide an i
 		"BrowserName": "Chrome",
 		"BrowserVersion": "85",
 		"UseProxy": false,
-		"ProxyUri": "https://localhost:1234/"
-		"BrowserArguments": {
+		"ProxyUri": "https://localhost:1234/",
+		"BrowserArguments": 
+		{
 			    "InSandbox": false,
 			    "InHeadless": false
 		},  

@@ -27,7 +27,6 @@ namespace DFC.TestAutomation.UI.Settings
             this.BrowserSettings = configurationRoot.GetSection("BrowserSettings").Get<BrowserSettings>();
             this.BrowserStackSettings = configurationRoot.GetSection("BrowserStackSettings").Get<BrowserStackSettings>();
             this.BuildSettings = configurationRoot.GetSection("BuildSettings").Get<BuildSettings>();
-            this.EnvironmentSettings = configurationRoot.GetSection("EnvironmentSettings").Get<EnvironmentSettings>();
             this.TestExecutionSettings = configurationRoot.GetSection("TestExecutionSettings").Get<TestExecutionSettings>();
         }
 
@@ -50,11 +49,6 @@ namespace DFC.TestAutomation.UI.Settings
         /// Gets the build settings.
         /// </summary>
         public BuildSettings BuildSettings { get; private set; }
-
-        /// <summary>
-        /// Gets the environments settings.
-        /// </summary>
-        public EnvironmentSettings EnvironmentSettings { get; private set; }
 
         /// <summary>
         /// Gets the test execution settings.
