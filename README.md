@@ -91,95 +91,97 @@ Below are examples you can use to get started.
 
 ### 1. Create a settings class that conforms to *IAppSettings.cs*
     
-    ```
-    internal class AppSettings : IAppSettings
-    {        
-        public Uri AppUrl { get; set; }
-    }
-    ```
+```C#
+internal class AppSettings : IAppSettings
+{
+    public string AppName { get; set; }
+        
+    public Uri AppUrl { get; set; }
+}
+```
 
 ### 2. Set up your settings library
 
-    ```
-    private ScenarioContext Context { get; set; }
+```C#
+private ScenarioContext Context { get; set; }
     
-    public void SetUpSettingsLibrary()
-    {
-	    var settingsLibrary = new SettingsLibrary<AppSettings>();
-		this.Context.SetSettingsLibrary(settingsLibrary);
-	}
-    ```
+public void SetUpSettingsLibrary()
+{
+	var settingsLibrary = new SettingsLibrary<AppSettings>();
+	this.Context.SetSettingsLibrary(settingsLibrary);
+}
+```
 
 ### 3. Set up your object context
 
-    ```
-    private ScenarioContext Context { get; set; }
+```C#
+private ScenarioContext Context { get; set; }
     
-    public void SetUpObjectContext()
-    {
-	    var objectContext= new ObjectContext();
-		this.Context.SetObjectContext(objectContext);
-	}
-    ```
+public void SetUpObjectContext()
+{
+	var objectContext= new ObjectContext();
+	this.Context.SetObjectContext(objectContext);
+}
+```
 	
 ### 4. Set up your Selenuim Webdriver
 
-    ```
-    private ScenarioContext Context { get; set; }
+```C#
+private ScenarioContext Context { get; set; }
     
-    public void SetUpWebDriver()
-    {
-	    var webdriverSupport = new WebDriverSupport<AppSettings>(this.Context);
-	    var webDriver = webdriverSupport.Create();
-	    this.Context.SetWebDriver(webDriver);
-    }
-    ```
+public void SetUpWebDriver()
+{
+	var webdriverSupport = new WebDriverSupport<AppSettings>(this.Context);
+	var webDriver = webdriverSupport.Create();
+	this.Context.SetWebDriver(webDriver);
+}
+```
 
 ### 5. Set up the helper library
 
-    ```
-    private ScenarioContext Context { get; set; }
+```C#
+private ScenarioContext Context { get; set; }
     
-    public void SetUpHelperLibrary()
-    {
-	    var webDriver = this.Context.GetWebDriver();
-	    var settingsLibrary = this.Context.GetSettingsLibrary<AppSettings>();
-	    var helperLibrary = new HelperLibrary<AppSettings>(webDriver, settingsLibrary);
-	    this.Context.SetHelperLibrary(helperLibrary);
-    }
-    ```
+public void SetUpHelperLibrary()
+{
+	var webDriver = this.Context.GetWebDriver();
+	var settingsLibrary = this.Context.GetSettingsLibrary<AppSettings>();
+	var helperLibrary = new HelperLibrary<AppSettings>(webDriver, settingsLibrary);
+	this.Context.SetHelperLibrary(helperLibrary);
+}
+```
 
 ### Other useful examples
 
-    ```
-    private ScenarioContext Context { get; set; }
+```C#
+private ScenarioContext Context { get; set; }
     
-    public void TakeAScreenshot() 
-    {
-	    var helperLibrary = this.Context.GetHelperLibrary<AppSettings>();
-		helperLibrary.ScreenshotHelper.TakeScreenshot(this.Context);
-    }
+public void TakeAScreenshot() 
+{
+	var helperLibrary = this.Context.GetHelperLibrary<AppSettings>();
+	helperLibrary.ScreenshotHelper.TakeScreenshot(this.Context);
+}
 
-    public void SelectARadioButton() 
-    {
-	    var radioButtonLocator = By.Id("radio_button_id");
-        var formHelper = this.context.GetHelperLibrary<AppSettings>().FormHelper;
-        formHelper.SelectRadioButton(radioButtonLocator);   
-    }
+public void SelectARadioButton() 
+{
+	var radioButtonLocator = By.Id("radio_button_id");
+    var formHelper = this.context.GetHelperLibrary<AppSettings>().FormHelper;
+    formHelper.SelectRadioButton(radioButtonLocator);   
+}
     
-    public void GetTextFromAnIWebElement() 
-    {
-	    var webElementLocator = By.CssSelector("my_css_selector");
-	    var helperLibrary = this.Context.GetHelperLibrary<AppSettings>();
-		var elementText = helperLibrary.CommonActionHelper.GetText(webElementLocator);
-    }
+public void GetTextFromAnIWebElement() 
+{
+	var webElementLocator = By.CssSelector("my_css_selector");
+	var helperLibrary = this.Context.GetHelperLibrary<AppSettings>();
+	var elementText = helperLibrary.CommonActionHelper.GetText(webElementLocator);
+}
 
-    public void RunAxeAccessibilityAnalysis() 
-    {
-	    var axeHelper = this.Context.GetHelperLibrary<AppSettings>().AxeHelper;
-        axeHelper.Analyse();    
-    }
-    ```
+public void RunAxeAccessibilityAnalysis() 
+{
+	var axeHelper = this.Context.GetHelperLibrary<AppSettings>().AxeHelper;
+    axeHelper.Analyse();    
+}
+```
 
 # Contributors
 
