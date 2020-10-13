@@ -92,9 +92,7 @@ Below are examples you can use to get started.
     
     ```
     internal class AppSettings : IAppSettings
-    {
-        public string AppName { get; set; }
-        
+    {        
         public Uri AppUrl { get; set; }
     }
     ```
