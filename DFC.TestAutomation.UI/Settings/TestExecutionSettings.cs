@@ -11,11 +11,6 @@ namespace DFC.TestAutomation.UI.Settings
     public class TestExecutionSettings
     {
         /// <summary>
-        /// Gets or sets a value indicating whether to take screenshots.
-        /// </summary>
-        public bool TakeScreenshots { get; set; }
-
-        /// <summary>
         /// Gets or sets the timeout settings.
         /// </summary>
         public TimeoutSettings TimeoutSettings { get; set; }
