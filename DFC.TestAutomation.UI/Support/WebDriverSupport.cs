@@ -56,6 +56,8 @@ namespace DFC.TestAutomation.UI.Support
         /// <returns>The Selenium webdriver.</returns>
         public IWebDriver Create()
         {
+            IWebDriver webDriver = null;
+
             switch (this.BrowserHelper.GetBrowserType())
             {
                 case BrowserType.Chrome:
@@ -71,20 +73,27 @@ namespace DFC.TestAutomation.UI.Support
                         };
                     }
 
-                    return new ChromeDriver(GetChromeDriverPath(), this.ChromeOptions);
+                    webDriver = new ChromeDriver(GetChromeDriverPath(), this.ChromeOptions);
+                    break;
 
                 case BrowserType.Firefox:
-                    return new FirefoxDriver(GetFirefoxDriverPath());
+                    webDriver = new FirefoxDriver(GetFirefoxDriverPath());
+                    break;
 
                 case BrowserType.BrowserStack:
-                    return new BrowserStackHelper<T>(this.SettingsLibrary.BrowserStackSettings, this.SettingsLibrary.AppSettings, this.SettingsLibrary.BuildSettings).CreateRemoteWebDriver();
+                    webDriver = new BrowserStackHelper<T>(this.SettingsLibrary.BrowserStackSettings, this.SettingsLibrary.AppSettings, this.SettingsLibrary.BuildSettings).CreateRemoteWebDriver();
+                    break;
 
                 case BrowserType.InternetExplorer:
-                    return new InternetExplorerDriver(GetInternetExplorerDriverPath());
+                    webDriver = new InternetExplorerDriver(GetInternetExplorerDriverPath());
+                    break;
 
                 default:
                     throw new ArgumentOutOfRangeException($"The WebDriverConfigurator class has not been updated to handle the web driver type '{this.BrowserHelper.GetBrowserType()}'. An update is required.");
             }
+
+            webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(this.SettingsLibrary.TestExecutionSettings.TimeoutSettings.PageNavigation);
+            return webDriver;
         }
 
         private static string GetWebDriverPathForExecutable(string executableName)
