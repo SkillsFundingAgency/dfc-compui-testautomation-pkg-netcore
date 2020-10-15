@@ -30,9 +30,10 @@ namespace DFC.TestAutomation.UI.Helper
         /// </summary>
         /// <param name="browserStackSettings">The BrowserStack settings.</param>
         /// <param name="buildSettings">The build settings.</param>
-        public BrowserStackHelper(BrowserStackSettings browserStackSettings, BuildSettings buildSettings)
+        public BrowserStackHelper(BrowserStackSettings browserStackSettings, BuildSettings buildSettings, TimeoutSettings timeoutSettings)
         {
             this.BrowserStackSettings = browserStackSettings;
+            this.TimeoutSettings = timeoutSettings;
 
             if (this.BrowserStackSettings.Username == null || this.BrowserStackSettings.AccessKey == null)
             {
@@ -73,6 +74,8 @@ namespace DFC.TestAutomation.UI.Helper
 
         private BrowserStackSettings BrowserStackSettings { get; set; }
 
+        private TimeoutSettings TimeoutSettings { get; set; }
+
         /// <summary>
         /// Creates an instance of the Selenium remote webdriver.
         /// </summary>
@@ -80,7 +83,11 @@ namespace DFC.TestAutomation.UI.Helper
         public IWebDriver CreateRemoteWebDriver()
         {
             var driverOptions = this.GetDriverOptions();
-            return new RemoteWebDriver(new Uri("http://hub-cloud.browserstack.com/wd/hub/"), driverOptions);
+            using (var remoteWebDriver = new RemoteWebDriver(new Uri("http://hub-cloud.browserstack.com/wd/hub/"), driverOptions))
+            {
+                remoteWebDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(this.TimeoutSettings.ImplicitWait);
+                return remoteWebDriver;
+            }
         }
 
         private DriverOptions GetDriverOptions()

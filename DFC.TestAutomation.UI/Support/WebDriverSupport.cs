@@ -81,7 +81,7 @@ namespace DFC.TestAutomation.UI.Support
                     break;
 
                 case BrowserType.BrowserStack:
-                    webDriver = new BrowserStackHelper<T>(this.SettingsLibrary.BrowserStackSettings, this.SettingsLibrary.BuildSettings).CreateRemoteWebDriver();
+                    webDriver = new BrowserStackHelper<T>(this.SettingsLibrary.BrowserStackSettings, this.SettingsLibrary.BuildSettings, this.SettingsLibrary.TestExecutionSettings.TimeoutSettings).CreateRemoteWebDriver();
                     break;
 
                 case BrowserType.InternetExplorer:
@@ -92,7 +92,7 @@ namespace DFC.TestAutomation.UI.Support
                     throw new ArgumentOutOfRangeException($"The WebDriverConfigurator class has not been updated to handle the web driver type '{this.BrowserHelper.GetBrowserType()}'. An update is required.");
             }
 
-            webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(this.SettingsLibrary.TestExecutionSettings.TimeoutSettings.PageNavigation);
+            webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(this.SettingsLibrary.TestExecutionSettings.TimeoutSettings.ImplicitWait);
             return webDriver;
         }
 
