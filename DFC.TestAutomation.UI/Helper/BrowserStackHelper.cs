@@ -85,7 +85,7 @@ namespace DFC.TestAutomation.UI.Helper
             driverOptions.AddAdditionalCapability("browserstack.video", this.BrowserStackSettings.RecordVideo);
             driverOptions.AddAdditionalCapability("browserstack.seleniumLogs", this.BrowserStackSettings.EnableSeleniumLogs);
 
-            return new RemoteWebDriver(this.AppSettings.AppUrl, driverOptions);
+            return new RemoteWebDriver("http://hub-cloud.browserstack.com/wd/hub/", driverOptions);
         }
 
         private DriverOptions GetDriverOptions()
