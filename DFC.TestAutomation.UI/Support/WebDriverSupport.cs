@@ -26,7 +26,7 @@ namespace DFC.TestAutomation.UI.Support
         /// Initializes a new instance of the <see cref="WebDriverSupport{T}"/> class.
         /// </summary>
         /// <param name="settingsLibrary">The settings library.</param>
-        public WebDriverSupport(SettingsLibrary<T> settingsLibrary)
+        public WebDriverSupport(ISettingsLibrary<T> settingsLibrary)
         {
             this.SettingsLibrary = settingsLibrary;
             this.BrowserHelper = new BrowserHelper(this.SettingsLibrary.BrowserSettings.BrowserName);
@@ -44,7 +44,7 @@ namespace DFC.TestAutomation.UI.Support
             }
         }
 
-        private SettingsLibrary<T> SettingsLibrary { get; set; }
+        private ISettingsLibrary<T> SettingsLibrary { get; set; }
 
         private ChromeOptions ChromeOptions { get; set; } = new ChromeOptions();
 
