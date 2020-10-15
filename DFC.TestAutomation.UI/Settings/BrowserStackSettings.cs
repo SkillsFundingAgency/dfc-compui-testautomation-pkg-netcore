@@ -109,6 +109,6 @@ namespace DFC.TestAutomation.UI.Settings
         ///
         /// Default: true.
         /// </summary>
-        public string EnableSeleniumLogs { get; set; }
+        public bool EnableSeleniumLogs { get; set; }
     }
 }

@@ -28,13 +28,11 @@ namespace DFC.TestAutomation.UI.Helper
         /// <summary>
         /// Initializes a new instance of the <see cref="BrowserStackHelper{T}"/> class.
         /// </summary>
-        /// <param name="browserStackSettings">The BrowserStack settings</param>
-        /// <param name="appSettings">The project settings.</param>
-        public BrowserStackHelper(BrowserStackSettings browserStackSettings, T appSettings, BuildSettings buildSettings)
+        /// <param name="browserStackSettings">The BrowserStack settings.</param>
+        /// <param name="buildSettings">The build settings.</param>
+        public BrowserStackHelper(BrowserStackSettings browserStackSettings, BuildSettings buildSettings)
         {
             this.BrowserStackSettings = browserStackSettings;
-            this.BuildSettings = buildSettings;
-            this.AppSettings = appSettings;
 
             if (this.BrowserStackSettings.Username == null || this.BrowserStackSettings.AccessKey == null)
             {
@@ -45,7 +43,24 @@ namespace DFC.TestAutomation.UI.Helper
             {
                 throw new InvalidOperationException($"Unable to initialise the BrowserStackHelper class as the browser '{this.BrowserStackSettings.BrowserName}' was not recognised.");
             }
+
+            this.AdditionalCapabilities.Add("browser", this.BrowserStackSettings.BrowserName);
+            this.AdditionalCapabilities.Add("browser_version", this.BrowserStackSettings.BrowserVersion);
+            this.AdditionalCapabilities.Add("os", this.BrowserStackSettings.OperatingSystem);
+            this.AdditionalCapabilities.Add("os_version", this.BrowserStackSettings.OperatingSystemVersion);
+            this.AdditionalCapabilities.Add("resolution", this.BrowserStackSettings.ScreenResolution);
+            this.AdditionalCapabilities.Add("browserstack.user", this.BrowserStackSettings.Username);
+            this.AdditionalCapabilities.Add("browserstack.key", this.BrowserStackSettings.AccessKey);
+            this.AdditionalCapabilities.Add("build", buildSettings?.BuildNumber);
+            this.AdditionalCapabilities.Add("project", this.BrowserStackSettings.Project);
+            this.AdditionalCapabilities.Add("browserstack.debug", this.BrowserStackSettings.EnableDebug);
+            this.AdditionalCapabilities.Add("browserstack.networkLogs", this.BrowserStackSettings.EnableNetworkLogs);
+            this.AdditionalCapabilities.Add("browserstack.timezone", "Europe/London");
+            this.AdditionalCapabilities.Add("browserstack.video", this.BrowserStackSettings.RecordVideo);
+            this.AdditionalCapabilities.Add("browserstack.seleniumLogs", this.BrowserStackSettings.EnableSeleniumLogs);
         }
+
+        private Dictionary<string, object> AdditionalCapabilities { get; set; } = new Dictionary<string, object>();
 
         private List<string> RecognisedBrowsers { get; } = new List<string>()
         {
@@ -58,10 +73,6 @@ namespace DFC.TestAutomation.UI.Helper
 
         private BrowserStackSettings BrowserStackSettings { get; set; }
 
-        private BuildSettings BuildSettings { get; set; }
-
-        private T AppSettings { get; set; }
-
         /// <summary>
         /// Creates an instance of the Selenium remote webdriver.
         /// </summary>
@@ -69,23 +80,7 @@ namespace DFC.TestAutomation.UI.Helper
         public IWebDriver CreateRemoteWebDriver()
         {
             var driverOptions = this.GetDriverOptions();
-            driverOptions.AcceptInsecureCertificates = true;
-            driverOptions.AddAdditionalCapability("browser", this.BrowserStackSettings.BrowserName);
-            driverOptions.AddAdditionalCapability("browser_version", this.BrowserStackSettings.BrowserVersion);
-            driverOptions.AddAdditionalCapability("os", this.BrowserStackSettings.OperatingSystem);
-            driverOptions.AddAdditionalCapability("os_version", this.BrowserStackSettings.OperatingSystemVersion);
-            driverOptions.AddAdditionalCapability("resolution", this.BrowserStackSettings.ScreenResolution);
-            driverOptions.AddAdditionalCapability("browserstack.user", this.BrowserStackSettings.Username);
-            driverOptions.AddAdditionalCapability("browserstack.key", this.BrowserStackSettings.AccessKey);
-            driverOptions.AddAdditionalCapability("build", this.BuildSettings.BuildNumber);
-            driverOptions.AddAdditionalCapability("project", this.BrowserStackSettings.Project);
-            driverOptions.AddAdditionalCapability("browserstack.debug", this.BrowserStackSettings.EnableDebug);
-            driverOptions.AddAdditionalCapability("browserstack.networkLogs", this.BrowserStackSettings.EnableNetworkLogs);
-            driverOptions.AddAdditionalCapability("browserstack.timezone", "Europe/London");
-            driverOptions.AddAdditionalCapability("browserstack.video", this.BrowserStackSettings.RecordVideo);
-            driverOptions.AddAdditionalCapability("browserstack.seleniumLogs", this.BrowserStackSettings.EnableSeleniumLogs);
-
-            return new RemoteWebDriver(this.AppSettings.AppUrl, driverOptions);
+            return new RemoteWebDriver(new Uri("http://hub-cloud.browserstack.com/wd/hub/"), driverOptions);
         }
 
         private DriverOptions GetDriverOptions()
@@ -93,19 +88,49 @@ namespace DFC.TestAutomation.UI.Helper
             switch (this.BrowserStackSettings.BrowserName.ToLower(CultureInfo.CurrentCulture))
             {
                 case "chrome":
-                    return new ChromeOptions();
+                    var chromeDriverOptions = new ChromeOptions();
+                    foreach (var capability in this.AdditionalCapabilities)
+                    {
+                        chromeDriverOptions.AddAdditionalCapability(capability.Key, capability.Value, true);
+                    }
+
+                    return chromeDriverOptions;
 
                 case "ie":
-                    return new InternetExplorerOptions();
+                    var ieDriverOptions = new InternetExplorerOptions();
+                    foreach (var capability in this.AdditionalCapabilities)
+                    {
+                        ieDriverOptions.AddAdditionalCapability(capability.Key, capability.Value, true);
+                    }
+
+                    return ieDriverOptions;
 
                 case "edge":
-                    return new EdgeOptions();
+                    var edgeDriverOptions = new EdgeOptions();
+                    foreach (var capability in this.AdditionalCapabilities)
+                    {
+                        edgeDriverOptions.AddAdditionalCapability(capability.Key, capability.Value);
+                    }
+
+                    return edgeDriverOptions;
 
                 case "firefox":
-                    return new FirefoxOptions();
+                    var firefoxDriverOptions = new FirefoxOptions();
+                    foreach (var capability in this.AdditionalCapabilities)
+                    {
+                        firefoxDriverOptions.AddAdditionalCapability(capability.Key, capability.Value, true);
+                    }
+
+                    return firefoxDriverOptions;
 
                 case "safari":
-                    return new SafariOptions();
+                    var safariDriverOptions = new SafariOptions();
+                    foreach (var capability in this.AdditionalCapabilities)
+                    {
+                        safariDriverOptions.AddAdditionalCapability(capability.Key, capability.Value);
+                    }
+
+                    return safariDriverOptions;
 
                 default:
                     throw new ArgumentOutOfRangeException("Unable to create the browser specific driver options. An update is required.");
