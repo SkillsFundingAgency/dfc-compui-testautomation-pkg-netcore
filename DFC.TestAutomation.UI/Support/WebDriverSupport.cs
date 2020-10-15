@@ -3,7 +3,6 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
 
-using DFC.TestAutomation.UI.Extension;
 using DFC.TestAutomation.UI.Helper;
 using DFC.TestAutomation.UI.Settings;
 using OpenQA.Selenium;
@@ -13,7 +12,6 @@ using OpenQA.Selenium.IE;
 using System;
 using System.IO;
 using System.Reflection;
-using TechTalk.SpecFlow;
 
 namespace DFC.TestAutomation.UI.Support
 {
@@ -27,13 +25,13 @@ namespace DFC.TestAutomation.UI.Support
         /// <summary>
         /// Initializes a new instance of the <see cref="WebDriverSupport{T}"/> class.
         /// </summary>
-        /// <param name="scenarioContext">The scenario context.</param>
-        public WebDriverSupport(ScenarioContext scenarioContext)
+        /// <param name="settingsLibrary">The settings library.</param>
+        public WebDriverSupport(SettingsLibrary<T> settingsLibrary)
         {
-            this.Context = scenarioContext;
-            this.BrowserHelper = new BrowserHelper(this.Context.GetSettingsLibrary<T>().BrowserSettings.BrowserName);
+            this.SettingsLibrary = settingsLibrary;
+            this.BrowserHelper = new BrowserHelper(this.SettingsLibrary.BrowserSettings.BrowserName);
             this.ChromeOptions = new ChromeOptions();
-            var browserOptions = this.Context.GetSettingsLibrary<T>().BrowserSettings.BrowserArguments;
+            var browserOptions = this.SettingsLibrary.BrowserSettings.BrowserArguments;
 
             if (!browserOptions.InSandbox)
             {
@@ -46,7 +44,7 @@ namespace DFC.TestAutomation.UI.Support
             }
         }
 
-        private ScenarioContext Context { get; set; }
+        private SettingsLibrary<T> SettingsLibrary { get; set; }
 
         private ChromeOptions ChromeOptions { get; set; } = new ChromeOptions();
 
@@ -61,9 +59,9 @@ namespace DFC.TestAutomation.UI.Support
             switch (this.BrowserHelper.GetBrowserType())
             {
                 case BrowserType.Chrome:
-                    if (this.Context.GetSettingsLibrary<T>().BrowserSettings.UseProxy)
+                    if (this.SettingsLibrary.BrowserSettings.UseProxy)
                     {
-                        var proxy = this.Context.GetSettingsLibrary<T>().BrowserSettings.Proxy;
+                        var proxy = this.SettingsLibrary.BrowserSettings.Proxy;
 
                         this.ChromeOptions.Proxy = new Proxy
                         {
@@ -79,7 +77,7 @@ namespace DFC.TestAutomation.UI.Support
                     return new FirefoxDriver(GetFirefoxDriverPath());
 
                 case BrowserType.BrowserStack:
-                    return new BrowserStackHelper<T>(this.Context.GetSettingsLibrary<T>().BrowserStackSettings, this.Context.GetSettingsLibrary<T>().AppSettings, this.Context.GetSettingsLibrary<T>().BuildSettings).CreateRemoteWebDriver();
+                    return new BrowserStackHelper<T>(this.SettingsLibrary.BrowserStackSettings, this.SettingsLibrary.AppSettings, this.SettingsLibrary.BuildSettings).CreateRemoteWebDriver();
 
                 case BrowserType.InternetExplorer:
                     return new InternetExplorerDriver(GetInternetExplorerDriverPath());

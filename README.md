@@ -25,58 +25,45 @@ The following is an example of the appsettings.json file. This will provide an i
 
 ```JSON
 {
-	"BrowserSettings": 
-	{
-		"BrowserName": "Chrome",
-		"BrowserVersion": "85",
-		"UseProxy": false,
-		"ProxyUri": "https://localhost:1234/",
-		"BrowserArguments": 
-		{
-			    "InSandbox": false,
-			    "InHeadless": false
-		},  
-	},
-	"BrowserStackSettings": 
-	{
-		"EnableNetworkLogs": true,
-		"BrowserStackUsername": "yourusername",
-		"BrowserStackPassword": "yourpassword",
-		"Timezone": "London",
-		"BaseUri": "https://baseurl.com/",
-		"RemoteAddressUri": "https://remoteaddressurl.com/"
-	},
-	"EnvironmentSettings": 
-	{
-		"EnvironmentName": "dev",
-		"OperatingSystem": "Windows",
-		"OperatingSystemVersion": "10",
-		"ScreenResolution": "1024x768"
-	},
-	"ProjectSettings": 
-	{
-		"AppUrl": "https://www.yourwebsite.com/",
-		"AppName": "The name of your web application"
-	},
-	"TestExecutionSettings": 
-	{
-		"TakeScreenshots": true,
-		"TimeoutSettings": 
-		{
-			"PageNavigation": "10",
-			"ImplicitWait": "5",
-			"CommandTimeout": "5"
-		},
-		"RetrySettings": 
-		{
-		    "NumberOfRetries": 3,
-		    "ExplicitWaitInSeconds": 3
-		}
-	},
-	"BuildSettings":
-	{
-		"BuildNumber": "1.0.0"
-	}
+  "BrowserSettings": {
+    "BrowserName": "Chrome",
+    "BrowserArguments": {
+      "InSandbox": false,
+      "InHeadless": false
+    },
+    "UseProxy": false,
+    "Proxy": ""
+  },
+  "BrowserStackSettings": {
+    "OperatingSystem": "Windows",
+    "OperatingSystemVersion": "10",
+    "BrowserName": "Chrome",
+    "BrowserVersion": "latest",
+    "ScreenResolution": null,
+    "Project": "BrowserStack tests",
+    "EnableDebug": false,
+    "EnableNetworkLogs": true,
+    "RecordVideo": false,
+    "EnableSeleniumLogs": true,
+    "Username": "USERNAME",
+    "AccessKey": "AND_ENCRYPTED_KEY"
+  },
+  "AppSettings": {
+    "AppUrl": "YOUR_APPLICATION_URL"
+  },
+  "TestExecutionSettings": {
+    "TimeoutSettings": {
+      "PageNavigation": 60,
+      "ImplicitWait": 10
+    },
+    "RetrySettings": {
+      "NumberOfRetries": 3,
+      "ExplicitWaitInSeconds": 1
+    }
+  },
+  "BuildSettings": {
+    "BuildNumber": "1.0"
+  }
 }
 ```
 
@@ -131,7 +118,8 @@ private ScenarioContext Context { get; set; }
     
 public void SetUpWebDriver()
 {
-	var webdriverSupport = new WebDriverSupport<AppSettings>(this.Context);
+    var settingsLibrary = this.Context.GetSettingsLibrary<AppSettings>();
+	var webdriverSupport = new WebDriverSupport<AppSettings>(settingsLibrary);
 	var webDriver = webdriverSupport.Create();
 	this.Context.SetWebDriver(webDriver);
 }
