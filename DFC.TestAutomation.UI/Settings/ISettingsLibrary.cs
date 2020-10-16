@@ -27,11 +27,6 @@ namespace DFC.TestAutomation.UI.Settings
         public BrowserStackSettings BrowserStackSettings { get; }
 
         /// <summary>
-        /// Gets the build settings.
-        /// </summary>
-        public BuildSettings BuildSettings { get; }
-
-        /// <summary>
         /// Gets the test execution settings.
         /// </summary>
         public TestExecutionSettings TestExecutionSettings { get; }

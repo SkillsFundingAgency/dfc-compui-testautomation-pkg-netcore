@@ -30,7 +30,7 @@ namespace DFC.TestAutomation.UI.Helper
         /// </summary>
         /// <param name="browserStackSettings">The BrowserStack settings.</param>
         /// <param name="buildSettings">The build settings.</param>
-        public BrowserStackHelper(BrowserStackSettings browserStackSettings, BuildSettings buildSettings)
+        public BrowserStackHelper(BrowserStackSettings browserStackSettings)
         {
             this.BrowserStackSettings = browserStackSettings;
 
@@ -51,13 +51,14 @@ namespace DFC.TestAutomation.UI.Helper
             this.AdditionalCapabilities.Add("resolution", this.BrowserStackSettings.ScreenResolution);
             this.AdditionalCapabilities.Add("browserstack.user", this.BrowserStackSettings.Username);
             this.AdditionalCapabilities.Add("browserstack.key", this.BrowserStackSettings.AccessKey);
-            this.AdditionalCapabilities.Add("build", buildSettings?.BuildNumber);
+            this.AdditionalCapabilities.Add("build", this.BrowserStackSettings.Build);
             this.AdditionalCapabilities.Add("project", this.BrowserStackSettings.Project);
             this.AdditionalCapabilities.Add("browserstack.debug", this.BrowserStackSettings.EnableDebug);
             this.AdditionalCapabilities.Add("browserstack.networkLogs", this.BrowserStackSettings.EnableNetworkLogs);
             this.AdditionalCapabilities.Add("browserstack.timezone", "Europe/London");
             this.AdditionalCapabilities.Add("browserstack.video", this.BrowserStackSettings.RecordVideo);
             this.AdditionalCapabilities.Add("browserstack.seleniumLogs", this.BrowserStackSettings.EnableSeleniumLogs);
+            this.AdditionalCapabilities.Add("name", this.BrowserStackSettings.Name);
         }
 
         private Dictionary<string, object> AdditionalCapabilities { get; set; } = new Dictionary<string, object>();
