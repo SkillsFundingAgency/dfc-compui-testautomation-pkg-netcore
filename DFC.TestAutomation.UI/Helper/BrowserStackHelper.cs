@@ -83,11 +83,7 @@ namespace DFC.TestAutomation.UI.Helper
         public IWebDriver CreateRemoteWebDriver()
         {
             var driverOptions = this.GetDriverOptions();
-            using (var remoteWebDriver = new RemoteWebDriver(new Uri("http://hub-cloud.browserstack.com/wd/hub/"), driverOptions))
-            {
-                remoteWebDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(this.TimeoutSettings.ImplicitWait);
-                return remoteWebDriver;
-            }
+            return new RemoteWebDriver(new Uri("http://hub-cloud.browserstack.com/wd/hub/"), driverOptions);
         }
 
         private DriverOptions GetDriverOptions()
