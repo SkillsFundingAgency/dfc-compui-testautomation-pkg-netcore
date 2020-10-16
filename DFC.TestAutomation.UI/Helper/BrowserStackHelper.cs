@@ -30,10 +30,9 @@ namespace DFC.TestAutomation.UI.Helper
         /// </summary>
         /// <param name="browserStackSettings">The BrowserStack settings.</param>
         /// <param name="buildSettings">The build settings.</param>
-        public BrowserStackHelper(BrowserStackSettings browserStackSettings, BuildSettings buildSettings, TimeoutSettings timeoutSettings)
+        public BrowserStackHelper(BrowserStackSettings browserStackSettings, BuildSettings buildSettings)
         {
             this.BrowserStackSettings = browserStackSettings;
-            this.TimeoutSettings = timeoutSettings;
 
             if (this.BrowserStackSettings.Username == null || this.BrowserStackSettings.AccessKey == null)
             {
@@ -73,8 +72,6 @@ namespace DFC.TestAutomation.UI.Helper
         };
 
         private BrowserStackSettings BrowserStackSettings { get; set; }
-
-        private TimeoutSettings TimeoutSettings { get; set; }
 
         /// <summary>
         /// Creates an instance of the Selenium remote webdriver.

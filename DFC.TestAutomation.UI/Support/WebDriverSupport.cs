@@ -81,7 +81,7 @@ namespace DFC.TestAutomation.UI.Support
                     break;
 
                 case BrowserType.BrowserStack:
-                    webDriver = new BrowserStackHelper<T>(this.SettingsLibrary.BrowserStackSettings, this.SettingsLibrary.BuildSettings, this.SettingsLibrary.TestExecutionSettings.TimeoutSettings).CreateRemoteWebDriver();
+                    webDriver = new BrowserStackHelper<T>(this.SettingsLibrary.BrowserStackSettings, this.SettingsLibrary.BuildSettings).CreateRemoteWebDriver();
                     break;
 
                 case BrowserType.InternetExplorer:
