@@ -13,6 +13,11 @@ namespace DFC.TestAutomation.UI.Settings
     public class BrowserStackSettings
     {
         /// <summary>
+        /// Gets or sets the name of the test run. This is the name of the test run displayed in BrowserStack.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
         /// Gets or sets the browser.
         ///
         /// Firefox, Safari, IE, Chrome, Opera, Edge.
@@ -80,6 +85,11 @@ namespace DFC.TestAutomation.UI.Settings
         /// Default: Untitled Project.
         /// </summary>
         public string Project { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name for a logical group of tests.
+        /// </summary>
+        public string Build { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether or not to take screenshots at various steps in your tests.
