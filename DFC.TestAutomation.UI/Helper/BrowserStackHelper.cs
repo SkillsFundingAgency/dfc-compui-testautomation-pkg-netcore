@@ -94,7 +94,7 @@ namespace DFC.TestAutomation.UI.Helper
         /// <param name="webDriverSessionId">The remote webdriver session id.</param>
         /// <param name="reason">The reason for the test failure.</param>
         /// <returns>A task providing information on the asynchronous operation.</returns>
-        public async Task SetTestToFailedWithReason(string webDriverSessionId, string reason)
+        public async Task<HttpResponseMessage> SetTestToFailedWithReason(string webDriverSessionId, string reason)
         {
             using (var requestSupport = new HttpRequestSupport<BrowserStackTestStatus>(
                 new NetworkCredential(this.BrowserStackSettings.Username, this.BrowserStackSettings.AccessKey),
@@ -102,7 +102,7 @@ namespace DFC.TestAutomation.UI.Helper
                 new Uri($"https://api.browserstack.com/automate/sessions/{webDriverSessionId}.json"),
                 new BrowserStackTestStatus() { Status = "failed", Reason = reason }))
             {
-                await requestSupport.Execute().ConfigureAwait(false);
+                return await requestSupport.Execute().ConfigureAwait(false);
             }
         }
 
