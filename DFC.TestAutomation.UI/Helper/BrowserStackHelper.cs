@@ -106,6 +106,23 @@ namespace DFC.TestAutomation.UI.Helper
             }
         }
 
+        /// <summary>
+        /// Sets the current test to passed.
+        /// </summary>
+        /// <param name="webDriverSessionId">The remote webdriver session id.</param>
+        /// <returns>A task providing information on the asynchronous operation.</returns>
+        public async Task<HttpResponseMessage> SetTestToPassed(string webDriverSessionId)
+        {
+            using (var requestSupport = new HttpRequestSupport<BrowserStackTestStatus>(
+                new NetworkCredential(this.BrowserStackSettings.Username, this.BrowserStackSettings.AccessKey),
+                HttpMethod.Put,
+                new Uri($"https://api.browserstack.com/automate/sessions/{webDriverSessionId}.json"),
+                new BrowserStackTestStatus() { Status = "passed", Reason = string.Empty }))
+            {
+                return await requestSupport.Execute().ConfigureAwait(false);
+            }
+        }
+
         private DriverOptions GetDriverOptions()
         {
             switch (this.BrowserStackSettings.BrowserName.ToLower(CultureInfo.CurrentCulture))

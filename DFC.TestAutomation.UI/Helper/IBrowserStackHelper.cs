@@ -4,6 +4,8 @@
 // </copyright>
 
 using OpenQA.Selenium;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace DFC.TestAutomation.UI.Helper
 {
@@ -17,5 +19,20 @@ namespace DFC.TestAutomation.UI.Helper
         /// </summary>
         /// <returns>The Selenium remote webdriver.</returns>
         IWebDriver CreateRemoteWebDriver();
+
+        /// <summary>
+        /// Sets the current test to failed.
+        /// </summary>
+        /// <param name="webDriverSessionId">The remote webdriver session id.</param>
+        /// <param name="reason">The reason for the test failure.</param>
+        /// <returns>A task providing information on the asynchronous operation.</returns>
+        Task<HttpResponseMessage> SetTestToFailedWithReason(string webDriverSessionId, string reason);
+
+        /// <summary>
+        /// Sets the current test to passed.
+        /// </summary>
+        /// <param name="webDriverSessionId">The remote webdriver session id.</param>
+        /// <returns>A task providing information on the asynchronous operation.</returns>
+        Task<HttpResponseMessage> SetTestToPassed(string webDriverSessionId);
     }
 }
