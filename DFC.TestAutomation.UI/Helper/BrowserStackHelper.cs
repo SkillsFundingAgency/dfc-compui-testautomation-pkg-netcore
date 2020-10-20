@@ -99,7 +99,7 @@ namespace DFC.TestAutomation.UI.Helper
             using (var requestSupport = new HttpRequestSupport<BrowserStackTestStatus>(
                 new NetworkCredential(this.BrowserStackSettings.Username, this.BrowserStackSettings.AccessKey),
                 HttpMethod.Put,
-                new Uri($"https://www.browserstack.com/automate/sessions/{webDriverSessionId}.json"),
+                new Uri($"https://api.browserstack.com/automate/sessions/{webDriverSessionId}.json"),
                 new BrowserStackTestStatus() { Status = "failed", Reason = reason }))
             {
                 await requestSupport.Execute().ConfigureAwait(false);
