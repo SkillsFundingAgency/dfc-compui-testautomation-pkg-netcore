@@ -96,17 +96,11 @@ namespace DFC.TestAutomation.UI.Helper
         /// <returns>A task providing information on the asynchronous operation.</returns>
         public async Task SetTestToFailedWithReason(string webDriverSessionId, string reason)
         {
-            var headers = new List<KeyValuePair<string, string>>
-            {
-                new KeyValuePair<string, string>("Content-Type", "application/json"),
-            };
-
             using (var requestSupport = new HttpRequestSupport<BrowserStackTestStatus>(
                 new NetworkCredential(this.BrowserStackSettings.Username, this.BrowserStackSettings.AccessKey),
                 HttpMethod.Put,
                 new Uri($"https://www.browserstack.com/automate/sessions/{webDriverSessionId}.json"),
-                new BrowserStackTestStatus() { Status = "failed", Reason = reason },
-                headers))
+                new BrowserStackTestStatus() { Status = "failed", Reason = reason }))
             {
                 await requestSupport.Execute().ConfigureAwait(false);
             }
