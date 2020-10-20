@@ -101,25 +101,5 @@ namespace DFC.TestAutomation.UI.Extension
         {
             context?.Set(helperLibrary);
         }
-
-        /// <summary>
-        /// Gets the custom set exception.
-        /// </summary>
-        /// <param name="context">Scenario context.</param>
-        /// <returns>A stored instance of the custom exception.</returns>
-        public static Exception GetCustomException(this ScenarioContext context)
-        {
-            return context?.Get<Exception>();
-        }
-
-        /// <summary>
-        /// Sets the helper library.
-        /// </summary>
-        /// <param name="context">Scenario context.</param>
-        /// <param name="exception">The custom exception.</param>
-        public static void SetCustomException(this ScenarioContext context, Exception exception)
-        {
-            context?.Set(exception);
-        }
     }
 }
