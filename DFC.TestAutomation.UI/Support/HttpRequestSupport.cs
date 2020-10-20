@@ -178,7 +178,7 @@ namespace DFC.TestAutomation.UI.Support
             var jsonContent = JsonConvert.SerializeObject(content);
             var byteContent = Encoding.UTF8.GetBytes(jsonContent);
             this.MessageContent = new ByteArrayContent(byteContent);
-            this.MessageContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            this.MessageContent.Headers.ContentType = new MediaTypeWithQualityHeaderValue("application/json");
         }
 
         private void AddNetworkCredentials(NetworkCredential networkCredential)
