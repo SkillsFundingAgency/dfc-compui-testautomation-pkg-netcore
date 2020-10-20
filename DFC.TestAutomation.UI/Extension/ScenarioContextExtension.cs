@@ -6,6 +6,7 @@
 using DFC.TestAutomation.UI.Helper;
 using DFC.TestAutomation.UI.Settings;
 using OpenQA.Selenium;
+using System;
 using TechTalk.SpecFlow;
 
 namespace DFC.TestAutomation.UI.Extension
@@ -99,6 +100,26 @@ namespace DFC.TestAutomation.UI.Extension
             where T : IAppSettings
         {
             context?.Set(helperLibrary);
+        }
+
+        /// <summary>
+        /// Gets the custom set exception.
+        /// </summary>
+        /// <param name="context">Scenario context.</param>
+        /// <returns>A stored instance of the custom exception.</returns>
+        public static Exception GetCustomException(this ScenarioContext context)
+        {
+            return context?.Get<Exception>();
+        }
+
+        /// <summary>
+        /// Sets the helper library.
+        /// </summary>
+        /// <param name="context">Scenario context.</param>
+        /// <param name="exception">The custom exception.</param>
+        public static void GetCustomException(this ScenarioContext context, Exception exception)
+        {
+            context?.Set(exception);
         }
     }
 }
