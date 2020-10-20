@@ -117,7 +117,7 @@ namespace DFC.TestAutomation.UI.Extension
         /// </summary>
         /// <param name="context">Scenario context.</param>
         /// <param name="exception">The custom exception.</param>
-        public static void GetCustomException(this ScenarioContext context, Exception exception)
+        public static void SetCustomException(this ScenarioContext context, Exception exception)
         {
             context?.Set(exception);
         }
