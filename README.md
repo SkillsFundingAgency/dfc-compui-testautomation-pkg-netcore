@@ -40,7 +40,7 @@ The following is an example of the appsettings.json file. This will provide an i
     "BrowserName": "Chrome",
     "BrowserVersion": "latest",
     "ScreenResolution": null,
-    "Project": "BrowserStack tests",
+    "Project": "BrowserStack project",
     "EnableDebug": false,
     "EnableNetworkLogs": true,
     "RecordVideo": false,
@@ -49,7 +49,7 @@ The following is an example of the appsettings.json file. This will provide an i
     "AccessKey": "AND_ENCRYPTED_KEY"
   },
   "AppSettings": {
-    "AppUrl": "YOUR_APPLICATION_URL"
+    "AppBaseUrl": "YOUR_APPLICATION_BASE_URL"
   },
   "TestExecutionSettings": {
     "TimeoutSettings": {
@@ -60,9 +60,6 @@ The following is an example of the appsettings.json file. This will provide an i
       "NumberOfRetries": 3,
       "ExplicitWaitInSeconds": 1
     }
-  },
-  "BuildSettings": {
-    "BuildNumber": "1.0"
   }
 }
 ```
@@ -94,8 +91,8 @@ private ScenarioContext Context { get; set; }
     
 public void SetUpSettingsLibrary()
 {
-	var settingsLibrary = new SettingsLibrary<AppSettings>();
-	this.Context.SetSettingsLibrary(settingsLibrary);
+    var settingsLibrary = new SettingsLibrary<AppSettings>();
+    this.Context.SetSettingsLibrary(settingsLibrary);
 }
 ```
 
@@ -106,8 +103,8 @@ private ScenarioContext Context { get; set; }
     
 public void SetUpObjectContext()
 {
-	var objectContext= new ObjectContext();
-	this.Context.SetObjectContext(objectContext);
+    var objectContext= new ObjectContext();
+    this.Context.SetObjectContext(objectContext);
 }
 ```
 	
@@ -119,9 +116,9 @@ private ScenarioContext Context { get; set; }
 public void SetUpWebDriver()
 {
     var settingsLibrary = this.Context.GetSettingsLibrary<AppSettings>();
-	var webdriverSupport = new WebDriverSupport<AppSettings>(settingsLibrary);
-	var webDriver = webdriverSupport.Create();
-	this.Context.SetWebDriver(webDriver);
+    var webdriverSupport = new WebDriverSupport<AppSettings>(settingsLibrary);
+    var webDriver = webdriverSupport.Create();
+    this.Context.SetWebDriver(webDriver);
 }
 ```
 
@@ -132,10 +129,10 @@ private ScenarioContext Context { get; set; }
     
 public void SetUpHelperLibrary()
 {
-	var webDriver = this.Context.GetWebDriver();
-	var settingsLibrary = this.Context.GetSettingsLibrary<AppSettings>();
-	var helperLibrary = new HelperLibrary<AppSettings>(webDriver, settingsLibrary);
-	this.Context.SetHelperLibrary(helperLibrary);
+    var webDriver = this.Context.GetWebDriver();
+    var settingsLibrary = this.Context.GetSettingsLibrary<AppSettings>();
+    var helperLibrary = new HelperLibrary<AppSettings>(webDriver, settingsLibrary);
+    this.Context.SetHelperLibrary(helperLibrary);
 }
 ```
 
@@ -146,27 +143,27 @@ private ScenarioContext Context { get; set; }
     
 public void TakeAScreenshot() 
 {
-	var helperLibrary = this.Context.GetHelperLibrary<AppSettings>();
-	helperLibrary.ScreenshotHelper.TakeScreenshot(this.Context);
+    var helperLibrary = this.Context.GetHelperLibrary<AppSettings>();
+    helperLibrary.ScreenshotHelper.TakeScreenshot(this.Context);
 }
 
 public void SelectARadioButton() 
 {
-	var radioButtonLocator = By.Id("radio_button_id");
+    var radioButtonLocator = By.Id("radio_button_id");
     var formHelper = this.context.GetHelperLibrary<AppSettings>().FormHelper;
     formHelper.SelectRadioButton(radioButtonLocator);   
 }
     
 public void GetTextFromAnIWebElement() 
 {
-	var webElementLocator = By.CssSelector("my_css_selector");
-	var helperLibrary = this.Context.GetHelperLibrary<AppSettings>();
-	var elementText = helperLibrary.CommonActionHelper.GetText(webElementLocator);
+    var webElementLocator = By.CssSelector("my_css_selector");
+    var helperLibrary = this.Context.GetHelperLibrary<AppSettings>();
+    var elementText = helperLibrary.CommonActionHelper.GetText(webElementLocator);
 }
 
 public void RunAxeAccessibilityAnalysis() 
 {
-	var axeHelper = this.Context.GetHelperLibrary<AppSettings>().AxeHelper;
+    var axeHelper = this.Context.GetHelperLibrary<AppSettings>().AxeHelper;
     axeHelper.Analyse();    
 }
 ```
