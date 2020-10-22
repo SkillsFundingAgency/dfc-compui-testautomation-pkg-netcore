@@ -3,7 +3,6 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
 
-using NUnit.Framework;
 using OpenQA.Selenium;
 using System;
 using System.Globalization;
@@ -42,7 +41,6 @@ namespace DFC.TestAutomation.UI.Helper
             Screenshot screenshot = screenshotHandler.GetScreenshot();
             var screenshotPath = Path.Combine(this.FolderDirectory, screenshotName);
             screenshot.SaveAsFile(screenshotPath, ScreenshotImageFormat.Png);
-            TestContext.AddTestAttachment(screenshotPath, screenshotName);
         }
     }
 }

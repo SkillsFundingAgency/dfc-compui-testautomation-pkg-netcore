@@ -19,15 +19,12 @@
         <dependency id="Microsoft.Extensions.Configuration.Binder" version="3.1.9" />
         <dependency id="Microsoft.Extensions.Configuration.EnvironmentVariables" version="3.1.9" />
         <dependency id="Microsoft.Extensions.Configuration.Json" version="3.1.9" />
-        <dependency id="NUnit" version="3.12.0" />
         <dependency id="Polly" version="7.2.1" />
         <dependency id="RestSharp" version="106.11.7" />
-        <dependency id="Selenium.Axe" version="1.5.2" />
+        <dependency id="Selenium.Axe" version="2.0.0" />
         <dependency id="Selenium.Support" version="3.141.0" />
         <dependency id="Selenium.WebDriver" version="3.141.0" />
         <dependency id="Specflow" version="3.4.14" />
-        <dependency id="Specflow.nunit" version="3.4.14" />
-        <dependency id="Specflow.tools.msbuild.generation" version="3.4.14" />
       </group>
     </dependencies>
   </metadata>
