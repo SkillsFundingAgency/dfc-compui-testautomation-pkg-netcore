@@ -4,7 +4,6 @@
 // </copyright>
 
 using DFC.TestAutomation.UI.Settings;
-using NUnit.Framework;
 using Polly;
 using System;
 using System.Collections.Generic;
