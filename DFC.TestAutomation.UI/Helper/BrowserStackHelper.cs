@@ -15,6 +15,7 @@ using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Safari;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Globalization;
 using System.Net;
 using System.Net.Http;
@@ -37,14 +38,14 @@ namespace DFC.TestAutomation.UI.Helper
         {
             this.BrowserStackSettings = browserStackSettings;
 
-            if (this.BrowserStackSettings.Username == null || this.BrowserStackSettings.AccessKey == null)
+            if (string.IsNullOrEmpty(this.BrowserStackSettings.Username) || string.IsNullOrEmpty(this.BrowserStackSettings.AccessKey))
             {
-                throw new Exception("Unable to initialise the BrowserStackSetup class as the settings do not contain a Browserstack username and/or password. You can set this configuration in the appsettings.json file.");
+                throw new ConfigurationErrorsException("Unable to initialise the BrowserStackSetup class as the settings do not contain a Browserstack username and/or password. You can set this configuration in the appsettings.json file.");
             }
 
             if (!this.RecognisedBrowsers.Contains(this.BrowserStackSettings.BrowserName.Trim().ToLower(CultureInfo.CurrentCulture)))
             {
-                throw new InvalidOperationException($"Unable to initialise the BrowserStackHelper class as the browser '{this.BrowserStackSettings.BrowserName}' was not recognised.");
+                throw new ConfigurationErrorsException($"Unable to initialise the BrowserStackHelper class as the browser '{this.BrowserStackSettings.BrowserName}' was not recognised.");
             }
 
             this.AdditionalCapabilities.Add("browser", this.BrowserStackSettings.BrowserName);

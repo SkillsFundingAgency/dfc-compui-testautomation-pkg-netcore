@@ -4,7 +4,7 @@
 // </copyright>
 
 using DFC.TestAutomation.UI.Helper;
-using System;
+using System.Configuration;
 using Xunit;
 
 namespace DFC.TestAutomation.UI.UnitTests.HelperTests.HelperLibraryTests
@@ -14,7 +14,7 @@ namespace DFC.TestAutomation.UI.UnitTests.HelperTests.HelperLibraryTests
         [Fact]
         public void UnrecognisedBrowserName()
         {
-            Assert.Throws<InvalidOperationException>(() => new BrowserHelper("unrecognised-browser-name"));
+            Assert.Throws<ConfigurationErrorsException>(() => new BrowserHelper("unrecognised-browser-name"));
         }
 
         [Theory]
