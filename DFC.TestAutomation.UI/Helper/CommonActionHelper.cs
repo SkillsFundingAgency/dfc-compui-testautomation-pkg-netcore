@@ -9,6 +9,7 @@ using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace DFC.TestAutomation.UI.Helper
 {
@@ -45,6 +46,11 @@ namespace DFC.TestAutomation.UI.Helper
         /// <returns>True if the IWebElement contains the expected text. False if the IWebElement does not contain the expected text.</returns>
         public bool ElementContainsText(By locator, string expectedText)
         {
+            if (string.IsNullOrEmpty(expectedText))
+            {
+                throw new InvalidOperationException("Unable to assertain whether the web element contains null or an empty string. The expected text parameter must be provided.");
+            }
+
             bool Action()
             {
                 this.WebDriverWaitHelper.WaitForPageToLoad();
