@@ -6,6 +6,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -32,14 +33,42 @@ namespace DFC.TestAutomation.UI.Support
         /// <summary>
         /// Initializes a new instance of the <see cref="HttpRequestSupport{T}"/> class.
         /// </summary>
+        /// <param name="networkCredentials">The network credentials.</param>
+        /// <param name="httpMethod">The HTTP method.</param>
+        /// <param name="requestUrl">The HTTP request url.</param>
+        public HttpRequestSupport(NetworkCredential networkCredentials, HttpMethod httpMethod, Uri requestUrl)
+        {
+            this.Client = new HttpClient();
+            this.RequestMessage = CreateRequestMessage(httpMethod, requestUrl);
+            this.AddNetworkCredentials(networkCredentials);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HttpRequestSupport{T}"/> class.
+        /// </summary>
         /// <param name="httpMethod">The HTTP method.</param>
         /// <param name="requestUrl">The HTTP request url.</param>
         /// <param name="content">The HTTP request message content.</param>
         public HttpRequestSupport(HttpMethod httpMethod, Uri requestUrl, T content)
         {
             this.Client = new HttpClient();
-            var messageContent = GetHttpContentFromObject(content);
-            this.RequestMessage = CreateRequestMessage(httpMethod, requestUrl, messageContent);
+            this.CreateHttpMessageContentFromObject(content);
+            this.CreateHttpRequestMessage(httpMethod, requestUrl, this.MessageContent);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HttpRequestSupport{T}"/> class.
+        /// </summary>
+        /// <param name="networkCredentials">The network credentials.</param>
+        /// <param name="httpMethod">The HTTP method.</param>
+        /// <param name="requestUrl">The HTTP request url.</param>
+        /// <param name="content">The HTTP request message content.</param>
+        public HttpRequestSupport(NetworkCredential networkCredentials, HttpMethod httpMethod, Uri requestUrl, T content)
+        {
+            this.Client = new HttpClient();
+            this.CreateHttpMessageContentFromObject(content);
+            this.CreateHttpRequestMessage(httpMethod, requestUrl, this.MessageContent);
+            this.AddNetworkCredentials(networkCredentials);
         }
 
         /// <summary>
@@ -52,8 +81,8 @@ namespace DFC.TestAutomation.UI.Support
         public HttpRequestSupport(HttpMethod httpMethod, Uri requestUrl, T content, IEnumerable<KeyValuePair<string, string>> headers)
         {
             this.Client = new HttpClient();
-            var messageContent = GetHttpContentFromObject(content);
-            this.RequestMessage = CreateRequestMessage(httpMethod, requestUrl, messageContent);
+            this.CreateHttpMessageContentFromObject(content);
+            this.CreateHttpRequestMessage(httpMethod, requestUrl, this.MessageContent);
 
             if (headers != null)
             {
@@ -64,11 +93,38 @@ namespace DFC.TestAutomation.UI.Support
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HttpRequestSupport{T}"/> class.
+        /// </summary>
+        /// <param name="networkCredentials">The network credentials.</param>
+        /// <param name="httpMethod">The HTTP method.</param>
+        /// <param name="requestUrl">The HTTP request url.</param>
+        /// <param name="content">The HTTP message content.</param>
+        /// <param name="headers">The HTTP message headers.</param>
+        public HttpRequestSupport(NetworkCredential networkCredentials, HttpMethod httpMethod, Uri requestUrl, T content, IEnumerable<KeyValuePair<string, string>> headers)
+        {
+            this.Client = new HttpClient();
+            this.CreateHttpMessageContentFromObject(content);
+            this.CreateHttpRequestMessage(httpMethod, requestUrl, this.MessageContent);
+
+            if (headers != null)
+            {
+                foreach (var header in headers)
+                {
+                    this.RequestMessage.Headers.Add(header.Key, header.Value);
+                }
+            }
+
+            this.AddNetworkCredentials(networkCredentials);
+        }
+
         private bool Disposed { get; set; }
 
         private HttpClient Client { get; set; }
 
         private HttpRequestMessage RequestMessage { get; set; }
+
+        private ByteArrayContent MessageContent { get; set; }
 
         /// <inheritdoc/>
         public void Dispose()
@@ -110,23 +166,25 @@ namespace DFC.TestAutomation.UI.Support
             return new HttpRequestMessage(httpMethod, requestUrl);
         }
 
-        private static HttpRequestMessage CreateRequestMessage(HttpMethod httpMethod, Uri requestUrl, HttpContent httpContent)
+        private void CreateHttpRequestMessage(HttpMethod httpMethod, Uri requestUrl, HttpContent httpContent)
         {
             var requestMessage = CreateRequestMessage(httpMethod, requestUrl);
             requestMessage.Content = httpContent;
-            return requestMessage;
+            this.RequestMessage = requestMessage;
         }
 
-        private static HttpContent GetHttpContentFromObject(T content)
+        private void CreateHttpMessageContentFromObject(T content)
         {
             var jsonContent = JsonConvert.SerializeObject(content);
             var byteContent = Encoding.UTF8.GetBytes(jsonContent);
+            this.MessageContent = new ByteArrayContent(byteContent);
+            this.MessageContent.Headers.ContentType = new MediaTypeWithQualityHeaderValue("application/json");
+        }
 
-            using (var messageContent = new ByteArrayContent(byteContent))
-            {
-                messageContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                return messageContent;
-            }
+        private void AddNetworkCredentials(NetworkCredential networkCredential)
+        {
+            var byteArray = Encoding.ASCII.GetBytes(networkCredential?.UserName + ":" + networkCredential?.Password);
+            this.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
         }
     }
 }

@@ -13,8 +13,8 @@ namespace DFC.TestAutomation.UI.Settings
     public interface IAppSettings
     {
         /// <summary>
-        /// Gets or sets the url of the landing page for the application being tested.
+        /// Gets or sets the base url for the application being tested.
         /// </summary>
-        public Uri AppUrl { get; set; }
+        public Uri AppBaseUrl { get; set; }
     }
 }
