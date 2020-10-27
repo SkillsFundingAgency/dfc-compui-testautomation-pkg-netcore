@@ -202,52 +202,30 @@ namespace DFC.TestAutomation.UI.Helper
         public Uri GetUrl() => new Uri(this.WebDriver.Url);
 
         /// <summary>
-        /// Gets a hyperlink IWebElement with a specific text value.
-        /// </summary>
-        /// <param name="locator">The IWebElement locator.</param>
-        /// <param name="linkText">The hyperlink text.</param>
-        /// <returns>The hyperlink IWebElement with a text value equal to the link text.</returns>
-        public IWebElement GetLinkByText(By locator, string linkText) => this.GetLink(locator, (x) => x == linkText);
-
-        /// <summary>
-        /// Gets a hyperlink IWebElement containing a specific text value.
-        /// </summary>
-        /// <param name="locator">The IWebElement locator.</param>
-        /// <param name="linkText">The hyperlink text.</param>
-        /// <returns>The hyperlink IWebElement with a text value containing the link text.</returns>
-        public IWebElement GetLinkContainingText(By locator, string linkText) => this.GetLink(locator, (x) => x.Contains(linkText, StringComparison.CurrentCultureIgnoreCase));
-
-        /// <summary>
-        /// Gets a table row IWebElement containing a cell with specific text.
-        /// </summary>
-        /// <param name="tableIdentifier">The table IWebElement locator.</param>
-        /// <param name="cellText">The cell text.</param>
-        /// <returns>The table row IWebElement.</returns>
-        public string GetTableRowContainingCellWithText(By tableIdentifier, string cellText)
-        {
-            return this.GetAllTableRows(tableIdentifier).Where(x => x.FindElements(By.CssSelector("td")).Any(y => y?.Text == cellText)).SingleOrDefault()?.Text;
-        }
-
-        /// <summary>
-        /// Gets all table row IWebElements.
-        /// </summary>
-        /// <param name="tableIdentifier">The table IWebelement locator.</param>
-        /// <returns>All table row IWebElements.</returns>
-        public List<IWebElement> GetAllTableRows(By tableIdentifier)
-        {
-            return this.WebDriver.FindElement(tableIdentifier).FindElements(By.CssSelector("tr")).ToList();
-        }
-
-        /// <summary>
         /// Gets all select options for a select IWebElement.
         /// </summary>
         /// <param name="locator">The IWebElement locator.</param>
         /// <returns>All select options.</returns>
-        public List<string> GetAllSelectOptions(By locator)
+        public IList<IWebElement> GetAllSelectOptions(By locator)
         {
-            return new SelectElement(this.WebDriver.FindElement(locator)).Options.Where(t => string.IsNullOrEmpty(t.Text)).Select(x => x.Text).ToList();
-        }
+            if (this.IsElementPresent(locator))
+            {
+                var webElement = this.WebDriver.FindElement(locator);
 
-        private IWebElement GetLink(By locator, Func<string, bool> func) => this.WebDriver.FindElements(locator).ToList().First(x => func(x.GetAttribute("innerText")));
+                if (webElement.TagName.Equals("select", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    var selectElement = new SelectElement(webElement);
+                    return selectElement.Options;
+                }
+                else
+                {
+                    throw new UnexpectedTagNameException("Unable to cast the web element as a SelectElement. Check that the locator provided is unique or that the intended element is the first web element on the page to match the locator.");
+                }
+            }
+            else
+            {
+                throw new NotFoundException($"Unable to get the select options from the element with locator '{locator}' as the element cannot be found.");
+            }
+        }
     }
 }

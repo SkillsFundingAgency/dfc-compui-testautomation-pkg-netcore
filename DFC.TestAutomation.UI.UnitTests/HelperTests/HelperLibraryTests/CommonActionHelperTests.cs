@@ -7,6 +7,7 @@ using DFC.TestAutomation.UI.Helper;
 using DFC.TestAutomation.UI.Settings;
 using FakeItEasy;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,16 +20,11 @@ namespace DFC.TestAutomation.UI.UnitTests.HelperTests.HelperLibraryTests
         public CommonActionHelperTests()
         {
             this.WebElement = A.Fake<IWebElement>();
-            A.CallTo(() => this.WebElement.Text).Returns("My faked element returns this text");
-            A.CallTo(() => this.WebElement.GetAttribute(A<string>._)).Returns("Attribute value");
-
             var webDriverWaitHelper = A.Fake<IWebDriverWaitHelper>();
-            A.CallTo(() => webDriverWaitHelper.WaitForPageToLoad()).DoesNothing();
-
             this.WebDriver = A.Fake<IWebDriver>();
-            A.CallTo(() => this.WebDriver.FindElement(A<By>._)).Returns(this.WebElement);
-
             var retryHelper = new RetryHelper(this.RetrySettings);
+            A.CallTo(() => webDriverWaitHelper.WaitForPageToLoad()).DoesNothing();
+            A.CallTo(() => this.WebDriver.FindElement(A<By>._)).Returns(this.WebElement);
             this.CommonActionHelper = new CommonActionHelper(this.WebDriver, webDriverWaitHelper, retryHelper);
         }
 
@@ -39,8 +35,6 @@ namespace DFC.TestAutomation.UI.UnitTests.HelperTests.HelperLibraryTests
         };
 
         public CommonActionHelper CommonActionHelper { get; set; }
-
-        public IRetryHelper RetryHelper { get; set; }
 
         public IWebElement WebElement { get; set; }
 
@@ -55,6 +49,7 @@ namespace DFC.TestAutomation.UI.UnitTests.HelperTests.HelperLibraryTests
         [InlineData(" My faked element returns this text ")]
         public void ElementContainsText(string expectedText)
         {
+            A.CallTo(() => this.WebElement.Text).Returns("My faked element returns this text");
             Assert.True(this.CommonActionHelper.ElementContainsText(By.Id("id"), expectedText));
         }
 
@@ -63,6 +58,7 @@ namespace DFC.TestAutomation.UI.UnitTests.HelperTests.HelperLibraryTests
         [InlineData("My faked element returns this text and some more")]
         public void ElementDoesNotContainText(string expectedText)
         {
+            A.CallTo(() => this.WebElement.Text).Returns("My faked element returns this text");
             Assert.False(this.CommonActionHelper.ElementContainsText(By.Id("id"), expectedText));
         }
 
@@ -75,8 +71,23 @@ namespace DFC.TestAutomation.UI.UnitTests.HelperTests.HelperLibraryTests
         }
 
         [Fact]
+        public void GetText()
+        {
+            A.CallTo(() => this.WebElement.Text).Returns("My faked element returns this text");
+            Assert.Equal("My faked element returns this text", this.CommonActionHelper.GetText(this.WebElement));
+        }
+
+        [Fact]
+        public void GetUrl()
+        {
+            A.CallTo(() => this.WebDriver.Url).Returns("https://www.aurl.com/");
+            Assert.Equal(new Uri("https://www.aurl.com/"), this.CommonActionHelper.GetUrl());
+        }
+
+        [Fact]
         public void GetAttributeValueReturnsWebElementAttribute()
         {
+            A.CallTo(() => this.WebElement.GetAttribute(A<string>._)).Returns("Attribute value");
             Assert.Equal("Attribute value", this.CommonActionHelper.GetAttributeValue(By.Id("id"), "attributeName"));
         }
 
@@ -97,6 +108,7 @@ namespace DFC.TestAutomation.UI.UnitTests.HelperTests.HelperLibraryTests
         [Fact]
         public void GetTextFromElementsReturnsConcatenatedString()
         {
+            A.CallTo(() => this.WebElement.Text).Returns("My faked element returns this text");
             var secondWebElement = A.Fake<IWebElement>();
             A.CallTo(() => secondWebElement.Text).Returns("... and this text!");
             A.CallTo(() => this.WebDriver.FindElements(A<By>._)).Returns(new ReadOnlyCollection<IWebElement>(new List<IWebElement>() { this.WebElement, secondWebElement }));
@@ -131,6 +143,42 @@ namespace DFC.TestAutomation.UI.UnitTests.HelperTests.HelperLibraryTests
         {
             A.CallTo(() => this.WebDriver.FindElements(A<By>._)).Returns(new ReadOnlyCollection<IWebElement>(new List<IWebElement>() { this.WebElement, this.WebElement }));
             Assert.True(this.CommonActionHelper.IsElementPresent(By.Id("id")));
+        }
+
+        [Fact]
+        public void IsElementDisplayedReturnsFalseWhenElementIsNotFound()
+        {
+            A.CallTo(() => this.WebElement.Displayed).Throws<NoSuchElementException>();
+            Assert.False(this.CommonActionHelper.IsElementDisplayed(By.Id("id")));
+        }
+
+        [Fact]
+        public void IsElementDisplayedReturnsFalseWhenElementIsStale()
+        {
+            A.CallTo(() => this.WebElement.Displayed).Throws<StaleElementReferenceException>();
+            Assert.False(this.CommonActionHelper.IsElementDisplayed(By.Id("id")));
+        }
+
+        [Fact]
+        public void SetElementFocusThrowsExceptionWhenElementIsNotFound()
+        {
+            A.CallTo(() => this.WebDriver.FindElements(A<By>._)).Returns(new ReadOnlyCollection<IWebElement>(new List<IWebElement>()));
+            Assert.Throws<NotFoundException>(() => this.CommonActionHelper.SetElementFocus(By.Id("id")));
+        }
+
+        [Fact]
+        public void GetAllSelectOptionsThrowsUnexpectedTagNameException()
+        {
+            A.CallTo(() => this.WebElement.TagName).Returns("input");
+            A.CallTo(() => this.WebDriver.FindElements(A<By>._)).Returns(new ReadOnlyCollection<IWebElement>(new List<IWebElement>() { this.WebElement }));
+            Assert.Throws<UnexpectedTagNameException>(() => this.CommonActionHelper.GetAllSelectOptions(By.Id("id")));
+        }
+
+        [Fact]
+        public void GetAllSelectOptionsThrowsNotFoundException()
+        {
+            A.CallTo(() => this.WebDriver.FindElements(A<By>._)).Returns(new ReadOnlyCollection<IWebElement>(new List<IWebElement>()));
+            Assert.Throws<NotFoundException>(() => this.CommonActionHelper.GetAllSelectOptions(By.Id("id")));
         }
     }
 }
