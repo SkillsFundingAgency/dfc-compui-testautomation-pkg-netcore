@@ -8,6 +8,8 @@ using DFC.TestAutomation.UI.Settings;
 using FakeItEasy;
 using OpenQA.Selenium;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Xunit;
 
 namespace DFC.TestAutomation.UI.UnitTests.HelperTests.HelperLibraryTests
@@ -16,17 +18,18 @@ namespace DFC.TestAutomation.UI.UnitTests.HelperTests.HelperLibraryTests
     {
         public CommonActionHelperTests()
         {
-            var webElement = A.Fake<IWebElement>();
-            A.CallTo(() => webElement.Text).Returns("My faked element returns this text");
+            this.WebElement = A.Fake<IWebElement>();
+            A.CallTo(() => this.WebElement.Text).Returns("My faked element returns this text");
+            A.CallTo(() => this.WebElement.GetAttribute(A<string>._)).Returns("Attribute value");
 
             var webDriverWaitHelper = A.Fake<IWebDriverWaitHelper>();
             A.CallTo(() => webDriverWaitHelper.WaitForPageToLoad()).DoesNothing();
 
-            var webDriver = A.Fake<IWebDriver>();
-            A.CallTo(() => webDriver.FindElement(A<By>.Ignored)).Returns(webElement);
+            this.WebDriver = A.Fake<IWebDriver>();
+            A.CallTo(() => this.WebDriver.FindElement(A<By>._)).Returns(this.WebElement);
 
             var retryHelper = new RetryHelper(this.RetrySettings);
-            this.CommonActionHelper = new CommonActionHelper(webDriver, webDriverWaitHelper, retryHelper);
+            this.CommonActionHelper = new CommonActionHelper(this.WebDriver, webDriverWaitHelper, retryHelper);
         }
 
         public RetrySettings RetrySettings { get; } = new RetrySettings()
@@ -36,6 +39,12 @@ namespace DFC.TestAutomation.UI.UnitTests.HelperTests.HelperLibraryTests
         };
 
         public CommonActionHelper CommonActionHelper { get; set; }
+
+        public IRetryHelper RetryHelper { get; set; }
+
+        public IWebElement WebElement { get; set; }
+
+        public IWebDriver WebDriver { get; set; }
 
         [Theory]
         [InlineData("m")]
@@ -63,6 +72,65 @@ namespace DFC.TestAutomation.UI.UnitTests.HelperTests.HelperLibraryTests
         public void ElementContainsEmptyText(string expectedText)
         {
             Assert.Throws<InvalidOperationException>(() => this.CommonActionHelper.ElementContainsText(By.Id("id"), expectedText));
+        }
+
+        [Fact]
+        public void GetAttributeValueReturnsWebElementAttribute()
+        {
+            Assert.Equal("Attribute value", this.CommonActionHelper.GetAttributeValue(By.Id("id"), "attributeName"));
+        }
+
+        [Fact]
+        public void GetAttributeValueCallsOnGetAttributeOnce()
+        {
+            this.CommonActionHelper.GetAttributeValue(By.Id("id"), "attributeName");
+            A.CallTo(() => this.WebElement.GetAttribute("attributeName")).MustHaveHappenedOnceExactly();
+        }
+
+        [Fact]
+        public void GetTextFromElementsReturnsEmptyString()
+        {
+            A.CallTo(() => this.WebDriver.FindElements(A<By>._)).Returns(new ReadOnlyCollection<IWebElement>(new List<IWebElement>()));
+            Assert.Equal(string.Empty, this.CommonActionHelper.GetTextFromElements(By.Id("id")));
+        }
+
+        [Fact]
+        public void GetTextFromElementsReturnsConcatenatedString()
+        {
+            var secondWebElement = A.Fake<IWebElement>();
+            A.CallTo(() => secondWebElement.Text).Returns("... and this text!");
+            A.CallTo(() => this.WebDriver.FindElements(A<By>._)).Returns(new ReadOnlyCollection<IWebElement>(new List<IWebElement>() { this.WebElement, secondWebElement }));
+            Assert.Equal("My faked element returns this text ... and this text!", this.CommonActionHelper.GetTextFromElements(By.Id("id")));
+        }
+
+        [Fact]
+        public void GetMultipleCountOfElements()
+        {
+            var secondWebElement = A.Fake<IWebElement>();
+            var thirdWebElement = A.Fake<IWebElement>();
+            A.CallTo(() => this.WebDriver.FindElements(A<By>._)).Returns(new ReadOnlyCollection<IWebElement>(new List<IWebElement>() { this.WebElement, secondWebElement, thirdWebElement }));
+            Assert.Equal(3, this.CommonActionHelper.GetCountOfElements(By.Id("id")));
+        }
+
+        [Fact]
+        public void GetZeroCountOfElements()
+        {
+            A.CallTo(() => this.WebDriver.FindElements(A<By>._)).Returns(new ReadOnlyCollection<IWebElement>(new List<IWebElement>()));
+            Assert.Equal(0, this.CommonActionHelper.GetCountOfElements(By.Id("id")));
+        }
+
+        [Fact]
+        public void IsElementPresentWhenNoElementsFound()
+        {
+            A.CallTo(() => this.WebDriver.FindElements(A<By>._)).Returns(new ReadOnlyCollection<IWebElement>(new List<IWebElement>()));
+            Assert.False(this.CommonActionHelper.IsElementPresent(By.Id("id")));
+        }
+
+        [Fact]
+        public void IsElementPresentWhenMultipleElementsFound()
+        {
+            A.CallTo(() => this.WebDriver.FindElements(A<By>._)).Returns(new ReadOnlyCollection<IWebElement>(new List<IWebElement>() { this.WebElement, this.WebElement }));
+            Assert.True(this.CommonActionHelper.IsElementPresent(By.Id("id")));
         }
     }
 }

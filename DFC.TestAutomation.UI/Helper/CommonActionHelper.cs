@@ -74,7 +74,7 @@ namespace DFC.TestAutomation.UI.Helper
                 return this.WebDriver.FindElement(locator).GetAttribute(attributeName);
             }
 
-            return this.RetryHelper.RetryOnException<string>(Action);
+            return this.RetryHelper.RetryOnException(Action);
         }
 
         /// <summary>
@@ -89,7 +89,14 @@ namespace DFC.TestAutomation.UI.Helper
 
             foreach (IWebElement webElement in webElementGroup)
             {
-                text += this.GetText(webElement);
+                if (string.IsNullOrEmpty(text))
+                {
+                    text = this.GetText(webElement);
+                }
+                else
+                {
+                    text += $" {this.GetText(webElement)}";
+                }
             }
 
             return text;
