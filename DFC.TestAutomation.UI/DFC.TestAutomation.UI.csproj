@@ -7,7 +7,7 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <AssemblyName>DFC.TestAutomation.UI</AssemblyName>
     <OutputType>Library</OutputType>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Version>1.0.0</Version>
     <Company>Education and Skills Funding Agency</Company>
