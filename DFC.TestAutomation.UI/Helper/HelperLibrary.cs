@@ -26,7 +26,7 @@ namespace DFC.TestAutomation.UI.Helper
             this.RetryHelper = new RetryHelper(settingsLibrary.TestExecutionSettings.RetrySettings);
             this.AxeHelper = new AxeHelper(webDriver);
             this.BrowserHelper = new BrowserHelper(settingsLibrary?.BrowserSettings.BrowserName);
-            this.FormHelper = new FormHelper(webDriver, this.WebDriverWaitHelper, this.RetryHelper, this.JavaScriptHelper);
+            this.FormHelper = new FormHelper(webDriver, this.WebDriverWaitHelper);
             this.CommonActionHelper = new CommonActionHelper(webDriver, this.WebDriverWaitHelper, this.RetryHelper);
             this.ScreenshotHelper = new ScreenshotHelper(webDriver);
             this.BrowserStackHelper = new BrowserStackHelper<T>(settingsLibrary.BrowserStackSettings);

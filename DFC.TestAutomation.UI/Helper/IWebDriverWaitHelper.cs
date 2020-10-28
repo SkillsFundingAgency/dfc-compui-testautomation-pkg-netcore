@@ -44,6 +44,12 @@ namespace DFC.TestAutomation.UI.Helper
         void WaitForElementToBeClickable(By locator);
 
         /// <summary>
+        /// Waits for an IWebElement to be clickable. Clickable means the IWebElement is present and enabled.
+        /// </summary>
+        /// <param name="webElement">The IWebElement.</param>
+        void WaitForElementToBeClickable(IWebElement webElement);
+
+        /// <summary>
         /// Waits for the page DOM to report as ready. Ready means that the document and all sub-resources have finished loading.
         /// </summary>
         void WaitForPageToLoad();

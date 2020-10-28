@@ -87,6 +87,15 @@ namespace DFC.TestAutomation.UI.Helper
         }
 
         /// <summary>
+        /// Waits for an IWebElement to be clickable. Clickable means the IWebElement is present and enabled.
+        /// </summary>
+        /// <param name="webElement">The IWebElement.</param>
+        public void WaitForElementToBeClickable(IWebElement webElement)
+        {
+            this.WebDriverImplicitWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(webElement));
+        }
+
+        /// <summary>
         /// Waits for the page DOM to report as ready. Ready means that the document and all sub-resources have finished loading.
         /// </summary>
         public void WaitForPageToLoad()
