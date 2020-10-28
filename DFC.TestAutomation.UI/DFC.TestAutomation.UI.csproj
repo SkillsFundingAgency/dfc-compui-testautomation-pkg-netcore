@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <ProjectGuid>12B1A410-DE8B-4F45-97E1-E0B502FDECC7</ProjectGuid>
-    <IncludeSymbols>false</IncludeSymbols>
+    <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <AssemblyName>DFC.TestAutomation.UI</AssemblyName>
     <OutputType>Library</OutputType>
@@ -14,10 +14,8 @@
     <Copyright>Copyright (c) 2020 Education and Skills Funding Agency Team</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/SkillsFundingAgency/dfc-compui-testautomation-pkg-netcore</RepositoryUrl>
-    <PackageTags>CompUI, Automation</PackageTags>
-    <Description>
-      UI Test Automation support
-    </Description>
+    <PackageTags>UI Automation National Careers Service</PackageTags>
+    <description>A user interface test automation framework built on top of Selenium.</description>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
