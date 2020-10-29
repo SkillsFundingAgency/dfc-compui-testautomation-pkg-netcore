@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Xunit;
 
-namespace DFC.TestAutomation.UI.UnitTests.HelperTests.HelperLibraryTests
+namespace DFC.TestAutomation.UI.UnitTests.HelperTests
 {
     public class CommonActionHelperTests
     {

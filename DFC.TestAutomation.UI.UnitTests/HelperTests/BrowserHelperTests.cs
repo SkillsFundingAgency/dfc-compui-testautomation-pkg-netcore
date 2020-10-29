@@ -7,7 +7,7 @@ using DFC.TestAutomation.UI.Helper;
 using System.Configuration;
 using Xunit;
 
-namespace DFC.TestAutomation.UI.UnitTests.HelperTests.HelperLibraryTests
+namespace DFC.TestAutomation.UI.UnitTests.HelperTests
 {
     public class BrowserHelperTests
     {
