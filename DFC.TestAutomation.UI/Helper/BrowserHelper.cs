@@ -3,9 +3,8 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
 
-using Io.Cucumber.Messages;
-using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Globalization;
 
 namespace DFC.TestAutomation.UI.Helper
@@ -25,7 +24,7 @@ namespace DFC.TestAutomation.UI.Helper
 
             if (!this.BrowserIndex.ContainsKey(this.BrowserName))
             {
-                throw new InvalidOperationException($"Unable to initialise the BrowserHelper class as the browser '{this.BrowserName}' was not recognised.");
+                throw new ConfigurationErrorsException($"Unable to initialise the BrowserHelper class as the browser '{this.BrowserName}' was not recognised.");
             }
         }
 

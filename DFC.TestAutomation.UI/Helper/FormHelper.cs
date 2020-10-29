@@ -25,23 +25,15 @@ namespace DFC.TestAutomation.UI.Helper
         /// </summary>
         /// <param name="webDriver">The Selenium Webdriver.</param>
         /// <param name="webDriverWaitHelper">The Selenium Webdriver wait helper.</param>
-        /// <param name="retryHelper">The Retry helper.</param>
-        /// <param name="javascriptHelper">The Javascript helper.</param>
-        public FormHelper(IWebDriver webDriver, IWebDriverWaitHelper webDriverWaitHelper, IRetryHelper retryHelper, IJavaScriptHelper javascriptHelper)
+        public FormHelper(IWebDriver webDriver, IWebDriverWaitHelper webDriverWaitHelper)
         {
             this.WebDriver = webDriver;
             this.WebDriverWaitHelper = webDriverWaitHelper;
-            this.RetryHelper = retryHelper;
-            this.JavascriptHelper = javascriptHelper;
         }
 
         private IWebDriver WebDriver { get; set; }
 
         private IWebDriverWaitHelper WebDriverWaitHelper { get; set; }
-
-        private IRetryHelper RetryHelper { get; set; }
-
-        private IJavaScriptHelper JavascriptHelper { get; set; }
 
         /// <summary>
         /// Selects a radio button using an IWebElement. If the radio button is already selected, then it will remain selected.
@@ -49,7 +41,13 @@ namespace DFC.TestAutomation.UI.Helper
         /// <param name="radioButtonElement">A radio button IWebElement.</param>
         public void SelectRadioButton(IWebElement radioButtonElement)
         {
-            this.ClickElement(radioButtonElement);
+            if (radioButtonElement == null)
+            {
+                throw new ArgumentNullException(nameof(radioButtonElement), "Unable to select the radio button as the web element is null.");
+            }
+
+            this.WebDriverWaitHelper.WaitForElementToBeClickable(radioButtonElement);
+            radioButtonElement.Click();
         }
 
         /// <summary>
@@ -58,7 +56,8 @@ namespace DFC.TestAutomation.UI.Helper
         /// <param name="radioButtonLocator">The locator for an IWebElement.</param>
         public void SelectRadioButton(By radioButtonLocator)
         {
-            this.ClickElement(radioButtonLocator);
+            var radioButtonElement = this.WebDriver.FindElement(radioButtonLocator);
+            this.SelectRadioButton(radioButtonElement);
         }
 
         /// <summary>
@@ -68,7 +67,17 @@ namespace DFC.TestAutomation.UI.Helper
         /// <param name="text">The text value to enter.</param>
         public void EnterText(IWebElement textEditableWebElement, string text)
         {
-            textEditableWebElement?.Clear();
+            if (textEditableWebElement == null)
+            {
+                throw new ArgumentNullException(nameof(textEditableWebElement), "Unable to enter text into the text field as the web element is null.");
+            }
+
+            if (string.IsNullOrEmpty(text))
+            {
+                throw new ArgumentException("Unable to enter text into the text field. The text parameter cannot be null or empty.");
+            }
+
+            textEditableWebElement.Clear();
             textEditableWebElement.SendKeys(text);
         }
 
@@ -79,7 +88,8 @@ namespace DFC.TestAutomation.UI.Helper
         /// <param name="text">The text value to enter.</param>
         public void EnterText(By textEditableLocator, string text)
         {
-            this.EnterText(this.WebDriver.FindElement(textEditableLocator), text);
+            var textEditableWebElement = this.WebDriver.FindElement(textEditableLocator);
+            this.EnterText(textEditableWebElement, text);
         }
 
         /// <summary>
@@ -89,6 +99,11 @@ namespace DFC.TestAutomation.UI.Helper
         /// <param name="integerValue">The integer value to enter.</param>
         public void EnterIntegerValue(IWebElement textEditableWebElement, int integerValue)
         {
+            if (textEditableWebElement == null)
+            {
+                throw new ArgumentNullException(nameof(textEditableWebElement), "Unable to enter a value into the text field as the web element is null.");
+            }
+
             this.EnterText(textEditableWebElement, integerValue.ToString(CultureInfo.CurrentCulture));
         }
 
@@ -109,7 +124,9 @@ namespace DFC.TestAutomation.UI.Helper
         /// <param name="optionIndex">The option index.</param>
         public void SelectByIndex(By selectLocator, int optionIndex)
         {
-            this.SelectByIndex(this.WebDriver.FindElement(selectLocator), optionIndex);
+            var webElement = this.WebDriver.FindElement(selectLocator);
+            var selectElement = new SelectElement(webElement);
+            this.SelectByIndex(selectElement, optionIndex);
         }
 
         /// <summary>
@@ -117,9 +134,14 @@ namespace DFC.TestAutomation.UI.Helper
         /// </summary>
         /// <param name="selectElement">A select field IWebElement.</param>
         /// <param name="optionIndex">The option index.</param>
-        public void SelectByIndex(IWebElement selectElement, int optionIndex)
+        public void SelectByIndex(SelectElement selectElement, int optionIndex)
         {
-            new SelectElement(selectElement).SelectByIndex(optionIndex);
+            if (selectElement == null)
+            {
+                throw new ArgumentNullException(nameof(selectElement), "Unable to select an option from the select element as the element is null.");
+            }
+
+            selectElement.SelectByIndex(optionIndex);
         }
 
         /// <summary>
@@ -129,7 +151,9 @@ namespace DFC.TestAutomation.UI.Helper
         /// <param name="optionValue">The option value.</param>
         public void SelectByValue(By selectLocator, string optionValue)
         {
-            this.SelectByValue(this.WebDriver.FindElement(selectLocator), optionValue);
+            var webElement = this.WebDriver.FindElement(selectLocator);
+            var selectElement = new SelectElement(webElement);
+            this.SelectByValue(selectElement, optionValue);
         }
 
         /// <summary>
@@ -137,29 +161,41 @@ namespace DFC.TestAutomation.UI.Helper
         /// </summary>
         /// <param name="selectElement">A select field IWebElement.</param>
         /// <param name="optionValue">The option value.</param>
-        public void SelectByValue(IWebElement selectElement, string optionValue)
+        public void SelectByValue(SelectElement selectElement, string optionValue)
         {
-            new SelectElement(selectElement).SelectByValue(optionValue);
+            if (selectElement == null)
+            {
+                throw new ArgumentNullException(nameof(selectElement), "Unable to select an option from the select element as the element is null.");
+            }
+
+            selectElement.SelectByValue(optionValue);
         }
 
         /// <summary>
         /// Select an option by the option text.
         /// </summary>
-        /// <param name="selectElement">A select field IWebElement.</param>
+        /// <param name="selectLocator">A select field IWebElement.</param>
         /// <param name="optionText">The option text.</param>
-        public void SelectByText(By selectElement, string optionText)
+        public void SelectByText(By selectLocator, string optionText)
         {
-            this.SelectByText(this.WebDriver.FindElement(selectElement), optionText);
+            var webElement = this.WebDriver.FindElement(selectLocator);
+            var selectElement = new SelectElement(webElement);
+            this.SelectByText(selectElement, optionText);
         }
 
         /// <summary>
         /// Select an option by the option text.
         /// </summary>
-        /// <param name="selectLocator">A select field locator for an IWebElement.</param>
+        /// <param name="selectElement">A select field locator for an IWebElement.</param>
         /// <param name="optionText">The option text.</param>
-        public void SelectByText(IWebElement selectLocator, string optionText)
+        public void SelectByText(SelectElement selectElement, string optionText)
         {
-            new SelectElement(selectLocator).SelectByText(optionText);
+            if (selectElement == null)
+            {
+                throw new ArgumentNullException(nameof(selectElement), "Unable to select an option from the select element as the element is null.");
+            }
+
+            selectElement.SelectByText(optionText);
         }
 
         /// <summary>
@@ -170,13 +206,14 @@ namespace DFC.TestAutomation.UI.Helper
         {
             if (checkboxElement == null)
             {
-                throw new NullReferenceException("Unable to check the checkbox object as the element provided is null.");
+                throw new ArgumentNullException(nameof(checkboxElement), "Unable to check the checkbox object as the element provided is null.");
             }
 
             if (checkboxElement.Displayed)
             {
                 if (!checkboxElement.Selected)
                 {
+                    this.WebDriverWaitHelper.WaitForElementToBeClickable(checkboxElement);
                     checkboxElement.Click();
                 }
             }
@@ -185,56 +222,27 @@ namespace DFC.TestAutomation.UI.Helper
         /// <summary>
         /// Select an option by the option attribute.
         /// </summary>
-        /// <param name="selectLocator">The select locator for an IWebElement.</param>
+        /// <param name="selectElement">The select element.</param>
         /// <param name="attributeName">The option attribute name.</param>
         /// <param name="attribute">The option attribute value.</param>
-        public void SelectByAttribute(By selectLocator, string attributeName, string attribute)
+        public void SelectByAttribute(SelectElement selectElement, string attributeName, string attribute)
         {
-            IList<IWebElement> radios = this.WebDriver.FindElements(selectLocator);
-            var radioToSelect = radios.FirstOrDefault(radio => radio.GetAttribute(attributeName) == attribute);
-
-            if (radioToSelect != null)
+            if (selectElement == null)
             {
-                this.ClickElement(radioToSelect);
-            }
-        }
-
-        private void ClickElement(By locator)
-        {
-            this.WebDriverWaitHelper.WaitForElementToBeClickable(locator);
-            this.ClickElement(this.WebDriver.FindElement(locator));
-        }
-
-        private void ClickElement(IWebElement element)
-        {
-            Action beforeAction = () =>
-            {
-                this.WebDriver.Manage().Window.Size = new Size(1920, 1080);
-            };
-
-            Action afterAction = () =>
-            {
-                this.WebDriver.Manage().Window.Maximize();
-            };
-
-            Action<Exception, TimeSpan, int, Context> retryAction = (exception, timeSpan, retryCount, context) =>
-            {
-                if (retryCount > 1)
-                {
-                    beforeAction = null;
-                    afterAction = null;
-                }
-            };
-
-            void ClickAction()
-            {
-                beforeAction?.Invoke();
-                this.JavascriptHelper.ScrollElementIntoView(element);
-                new Actions(this.WebDriver).Click(element).Perform();
-                afterAction?.Invoke();
+                throw new ArgumentNullException(nameof(selectElement), "Unable to select an option from the select element as the element is null.");
             }
 
-            this.RetryHelper.RetryOnException(ClickAction, retryAction);
+            var selectOption = selectElement.Options.FirstOrDefault(option => option.GetAttribute(attributeName) == attribute);
+
+            if (selectOption != null)
+            {
+                this.WebDriverWaitHelper.WaitForElementToBeClickable(selectOption);
+                selectOption.Click();
+            }
+            else
+            {
+                throw new NotFoundException($"Unable to select the option with attribute {attributeName} : {attribute}. No such option was found.");
+            }
         }
     }
 }

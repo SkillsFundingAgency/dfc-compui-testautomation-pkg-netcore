@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Solution Items", "_Solutio
 		stylecop.json = stylecop.json
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DFC.TestAutomation.UI.UnitTests", "DFC.TestAutomation.UI.UnitTests\DFC.TestAutomation.UI.UnitTests.csproj", "{753D16DF-32D6-400D-B614-2CB7C3B0A4B5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,18 @@ Global
 		{12B1A410-DE8B-4F45-97E1-E0B502FDECC7}.Release|x64.Build.0 = Release|Any CPU
 		{12B1A410-DE8B-4F45-97E1-E0B502FDECC7}.Release|x86.ActiveCfg = Release|Any CPU
 		{12B1A410-DE8B-4F45-97E1-E0B502FDECC7}.Release|x86.Build.0 = Release|Any CPU
+		{753D16DF-32D6-400D-B614-2CB7C3B0A4B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{753D16DF-32D6-400D-B614-2CB7C3B0A4B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{753D16DF-32D6-400D-B614-2CB7C3B0A4B5}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{753D16DF-32D6-400D-B614-2CB7C3B0A4B5}.Debug|x64.Build.0 = Debug|Any CPU
+		{753D16DF-32D6-400D-B614-2CB7C3B0A4B5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{753D16DF-32D6-400D-B614-2CB7C3B0A4B5}.Debug|x86.Build.0 = Debug|Any CPU
+		{753D16DF-32D6-400D-B614-2CB7C3B0A4B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{753D16DF-32D6-400D-B614-2CB7C3B0A4B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{753D16DF-32D6-400D-B614-2CB7C3B0A4B5}.Release|x64.ActiveCfg = Release|Any CPU
+		{753D16DF-32D6-400D-B614-2CB7C3B0A4B5}.Release|x64.Build.0 = Release|Any CPU
+		{753D16DF-32D6-400D-B614-2CB7C3B0A4B5}.Release|x86.ActiveCfg = Release|Any CPU
+		{753D16DF-32D6-400D-B614-2CB7C3B0A4B5}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -4,6 +4,7 @@
 // </copyright>
 
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 
 namespace DFC.TestAutomation.UI.Helper
 {
@@ -64,7 +65,7 @@ namespace DFC.TestAutomation.UI.Helper
         /// </summary>
         /// <param name="selectElement">A select field IWebElement.</param>
         /// <param name="optionIndex">The option index.</param>
-        void SelectByIndex(IWebElement selectElement, int optionIndex);
+        void SelectByIndex(SelectElement selectElement, int optionIndex);
 
         /// <summary>
         /// Select an option by the option value.
@@ -76,23 +77,23 @@ namespace DFC.TestAutomation.UI.Helper
         /// <summary>
         /// Select an option by the option value.
         /// </summary>
-        /// <param name="selectElement">A select field IWebElement.</param>
+        /// <param name="selectLocator">A select field locator for an IWebElement.</param>
         /// <param name="optionValue">The option value.</param>
-        void SelectByText(By selectElement, string optionValue);
+        void SelectByText(By selectLocator, string optionValue);
 
         /// <summary>
         /// Select an option by the option text.
         /// </summary>
         /// <param name="selectElement">A select field IWebElement.</param>
         /// <param name="optionText">The option text.</param>
-        void SelectByValue(IWebElement selectElement, string optionText);
+        void SelectByValue(SelectElement selectElement, string optionText);
 
         /// <summary>
         /// Select an option by the option text.
         /// </summary>
         /// <param name="selectLocator">A select field locator for an IWebElement.</param>
         /// <param name="optionText">The option text.</param>
-        void SelectByText(IWebElement selectLocator, string optionText);
+        void SelectByText(SelectElement selectLocator, string optionText);
 
         /// <summary>
         /// Checks a checkbox IWebElement. If the checkbox is already checked then no action is taken.
@@ -103,9 +104,9 @@ namespace DFC.TestAutomation.UI.Helper
         /// <summary>
         /// Select an option by the option attribute.
         /// </summary>
-        /// <param name="selectLocator">The select locator for an IWebElement.</param>
+        /// <param name="selectElement">A select field IWebElement.</param>
         /// <param name="attributeName">The option attribute name.</param>
         /// <param name="attribute">The option attribute value.</param>
-        void SelectByAttribute(By selectLocator, string attributeName, string attribute);
+        void SelectByAttribute(SelectElement selectElement, string attributeName, string attribute);
     }
 }

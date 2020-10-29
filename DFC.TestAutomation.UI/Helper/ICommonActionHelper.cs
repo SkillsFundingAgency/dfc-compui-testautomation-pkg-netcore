@@ -92,41 +92,10 @@ namespace DFC.TestAutomation.UI.Helper
         Uri GetUrl();
 
         /// <summary>
-        /// Gets a hyperlink IWebElement with a specific text value.
-        /// </summary>
-        /// <param name="locator">The IWebElement locator.</param>
-        /// <param name="linkText">The hyperlink text.</param>
-        /// <returns>The hyperlink IWebElement with a text value equal to the link text.</returns>
-        IWebElement GetLinkByText(By locator, string linkText);
-
-        /// <summary>
-        /// Gets a hyperlink IWebElement containing a specific text value.
-        /// </summary>
-        /// <param name="locator">The IWebElement locator.</param>
-        /// <param name="linkText">The hyperlink text.</param>
-        /// <returns>The hyperlink IWebElement with a text value containing the link text.</returns>
-        IWebElement GetLinkContainingText(By locator, string linkText);
-
-        /// <summary>
-        /// Gets a table row IWebElement containing a cell with specific text.
-        /// </summary>
-        /// <param name="tableIdentifier">The table IWebElement locator.</param>
-        /// <param name="cellText">The cell text.</param>
-        /// <returns>The table row IWebElement.</returns>
-        string GetTableRowContainingCellWithText(By tableIdentifier, string cellText);
-
-        /// <summary>
-        /// Gets all table row IWebElements.
-        /// </summary>
-        /// <param name="tableIdentifier">The table IWebelement locator.</param>
-        /// <returns>All table row IWebElements.</returns>
-        List<IWebElement> GetAllTableRows(By tableIdentifier);
-
-        /// <summary>
         /// Gets all select options for a select IWebElement.
         /// </summary>
         /// <param name="locator">The IWebElement locator.</param>
         /// <returns>All select options.</returns>
-        List<string> GetAllSelectOptions(By locator);
+        IList<IWebElement> GetAllSelectOptions(By locator);
     }
 }
