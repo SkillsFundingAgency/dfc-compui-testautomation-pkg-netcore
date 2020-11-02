@@ -3,10 +3,13 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
 
+using DFC.TestAutomation.UI.Factory;
 using DFC.TestAutomation.UI.Helper;
 using DFC.TestAutomation.UI.Settings;
 using FakeItEasy;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
+using OpenQA.Selenium.Internal;
 using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
@@ -19,12 +22,19 @@ namespace DFC.TestAutomation.UI.UnitTests.HelperTests
     {
         public FormHelperTests()
         {
-            this.WebElement = A.Fake<IWebElement>();
+            this.WebElement = A.Fake<IWebElement>(x => x.Implements<ILocatable>());
             this.WebDriverWaitHelper = A.Fake<IWebDriverWaitHelper>();
-            this.WebDriver = A.Fake<IWebDriver>();
+            this.WebDriver = A.Fake<IWebDriver>(builder => builder.Implements(typeof(IHasInputDevices)).Implements(typeof(IActionExecutor)));
+
+            var action = A.Fake<IAction>();
+            this.ActionsFactory = A.Fake<IActionsFactory>();
+            var test = A.Fake<Actions>((x) => x.WithArgumentsForConstructor(() => new Actions(this.WebDriver)).Implements<IAction>());
+            A.CallTo(() => action.Perform()).DoesNothing();
+
+            A.CallTo(() => this.ActionsFactory.Create()).Returns(test);
             A.CallTo(() => this.WebDriverWaitHelper.WaitForElementToBeClickable(A<IWebElement>._)).DoesNothing();
             A.CallTo(() => this.WebDriver.FindElement(A<By>._)).Returns(this.WebElement);
-            this.FormHelper = new FormHelper(this.WebDriver, this.WebDriverWaitHelper);
+            this.FormHelper = new FormHelper(this.WebDriver, this.WebDriverWaitHelper, this.ActionsFactory);
         }
 
         public IWebElement WebElement { get; set; }
@@ -32,6 +42,8 @@ namespace DFC.TestAutomation.UI.UnitTests.HelperTests
         public IWebDriver WebDriver { get; set; }
 
         public FormHelper FormHelper { get; set; }
+
+        public IActionsFactory ActionsFactory { get; set; }
 
         public IWebDriverWaitHelper WebDriverWaitHelper { get; set; }
 
@@ -137,7 +149,7 @@ namespace DFC.TestAutomation.UI.UnitTests.HelperTests
         public void SelectByAttributeThrowsNotsFoundExceptionWhenNoOptionIsFound()
         {
             var optionOne = A.Fake<IWebElement>();
-            var optionTwo = A.Fake<IWebElement>();
+            var optionTwo = A.Fake<IWebElement>(x => x.Implements<ILocatable>());
             A.CallTo(() => optionOne.GetAttribute(A<string>._)).Returns("A different attribute value");
             A.CallTo(() => optionTwo.GetAttribute(A<string>._)).Returns("attribute");
             A.CallTo(() => this.WebElement.TagName).Returns("select");

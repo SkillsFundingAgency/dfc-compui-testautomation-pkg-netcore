@@ -3,13 +3,10 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
 
+using DFC.TestAutomation.UI.Factory;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
-using Polly;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.Globalization;
 using System.Linq;
 
@@ -25,15 +22,18 @@ namespace DFC.TestAutomation.UI.Helper
         /// </summary>
         /// <param name="webDriver">The Selenium Webdriver.</param>
         /// <param name="webDriverWaitHelper">The Selenium Webdriver wait helper.</param>
-        public FormHelper(IWebDriver webDriver, IWebDriverWaitHelper webDriverWaitHelper)
+        public FormHelper(IWebDriver webDriver, IWebDriverWaitHelper webDriverWaitHelper, IActionsFactory actionsFactory)
         {
             this.WebDriver = webDriver;
             this.WebDriverWaitHelper = webDriverWaitHelper;
+            this.ActionsFactory = actionsFactory;
         }
 
         private IWebDriver WebDriver { get; set; }
 
         private IWebDriverWaitHelper WebDriverWaitHelper { get; set; }
+
+        private IActionsFactory ActionsFactory { get; set; }
 
         /// <summary>
         /// Selects a radio button using an IWebElement. If the radio button is already selected, then it will remain selected.
@@ -47,7 +47,7 @@ namespace DFC.TestAutomation.UI.Helper
             }
 
             this.WebDriverWaitHelper.WaitForElementToBeClickable(radioButtonElement);
-            radioButtonElement.Click();
+            this.ActionsFactory.Create().MoveToElement(radioButtonElement).Click().Perform();
         }
 
         /// <summary>
@@ -214,7 +214,7 @@ namespace DFC.TestAutomation.UI.Helper
                 if (!checkboxElement.Selected)
                 {
                     this.WebDriverWaitHelper.WaitForElementToBeClickable(checkboxElement);
-                    checkboxElement.Click();
+                    this.ActionsFactory.Create().MoveToElement(checkboxElement).Click().Perform();
                 }
             }
         }
@@ -237,7 +237,7 @@ namespace DFC.TestAutomation.UI.Helper
             if (selectOption != null)
             {
                 this.WebDriverWaitHelper.WaitForElementToBeClickable(selectOption);
-                selectOption.Click();
+                this.ActionsFactory.Create().MoveToElement(selectOption).Click().Perform();
             }
             else
             {
