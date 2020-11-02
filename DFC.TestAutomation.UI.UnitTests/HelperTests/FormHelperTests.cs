@@ -25,15 +25,13 @@ namespace DFC.TestAutomation.UI.UnitTests.HelperTests
             this.WebElement = A.Fake<IWebElement>(x => x.Implements<ILocatable>());
             this.WebDriverWaitHelper = A.Fake<IWebDriverWaitHelper>();
             this.WebDriver = A.Fake<IWebDriver>(builder => builder.Implements(typeof(IHasInputDevices)).Implements(typeof(IActionExecutor)));
-
-            var action = A.Fake<IAction>();
             this.ActionsFactory = A.Fake<IActionsFactory>();
-            var test = A.Fake<Actions>((x) => x.WithArgumentsForConstructor(() => new Actions(this.WebDriver)).Implements<IAction>());
-            A.CallTo(() => action.Perform()).DoesNothing();
+            var actions = A.Fake<Actions>((x) => x.WithArgumentsForConstructor(() => new Actions(this.WebDriver)).Implements<IAction>());
 
-            A.CallTo(() => this.ActionsFactory.Create()).Returns(test);
+            A.CallTo(() => this.ActionsFactory.Create()).Returns(actions);
             A.CallTo(() => this.WebDriverWaitHelper.WaitForElementToBeClickable(A<IWebElement>._)).DoesNothing();
             A.CallTo(() => this.WebDriver.FindElement(A<By>._)).Returns(this.WebElement);
+
             this.FormHelper = new FormHelper(this.WebDriver, this.WebDriverWaitHelper, this.ActionsFactory);
         }
 
