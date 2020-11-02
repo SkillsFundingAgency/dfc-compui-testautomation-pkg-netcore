@@ -22,11 +22,11 @@ namespace DFC.TestAutomation.UI.UnitTests.HelperTests
     {
         public FormHelperTests()
         {
-            this.WebElement = A.Fake<IWebElement>(x => x.Implements<ILocatable>());
+            this.WebElement = A.Fake<IWebElement>(options => options.Implements<ILocatable>());
             this.WebDriverWaitHelper = A.Fake<IWebDriverWaitHelper>();
-            this.WebDriver = A.Fake<IWebDriver>(builder => builder.Implements(typeof(IHasInputDevices)).Implements(typeof(IActionExecutor)));
+            this.WebDriver = A.Fake<IWebDriver>(options => options.Implements(typeof(IHasInputDevices)).Implements(typeof(IActionExecutor)));
             this.ActionsFactory = A.Fake<IActionsFactory>();
-            var actions = A.Fake<Actions>((x) => x.WithArgumentsForConstructor(() => new Actions(this.WebDriver)).Implements<IAction>());
+            var actions = A.Fake<Actions>(options => options.WithArgumentsForConstructor(() => new Actions(this.WebDriver)).Implements<IAction>());
 
             A.CallTo(() => this.ActionsFactory.Create()).Returns(actions);
             A.CallTo(() => this.WebDriverWaitHelper.WaitForElementToBeClickable(A<IWebElement>._)).DoesNothing();
@@ -138,7 +138,7 @@ namespace DFC.TestAutomation.UI.UnitTests.HelperTests
             A.CallTo(() => optionTwo.GetAttribute(A<string>._)).Returns("A different attribute value");
             A.CallTo(() => this.WebElement.TagName).Returns("select");
             A.CallTo(() => this.WebElement.FindElements(A<By>._)).Returns(new ReadOnlyCollection<IWebElement>(new List<IWebElement>() { optionOne, optionTwo }));
-            var selectElement = A.Fake<SelectElement>((fake) => fake.WithArgumentsForConstructor(() => new SelectElement(this.WebElement)));
+            var selectElement = A.Fake<SelectElement>(options => options.WithArgumentsForConstructor(() => new SelectElement(this.WebElement)));
 
             Assert.Throws<NotFoundException>(() => this.FormHelper.SelectByAttribute(selectElement, "attributeName", "attribute"));
         }
@@ -147,12 +147,12 @@ namespace DFC.TestAutomation.UI.UnitTests.HelperTests
         public void SelectByAttributeThrowsNotsFoundExceptionWhenNoOptionIsFound()
         {
             var optionOne = A.Fake<IWebElement>();
-            var optionTwo = A.Fake<IWebElement>(x => x.Implements<ILocatable>());
+            var optionTwo = A.Fake<IWebElement>(options => options.Implements<ILocatable>());
             A.CallTo(() => optionOne.GetAttribute(A<string>._)).Returns("A different attribute value");
             A.CallTo(() => optionTwo.GetAttribute(A<string>._)).Returns("attribute");
             A.CallTo(() => this.WebElement.TagName).Returns("select");
             A.CallTo(() => this.WebElement.FindElements(A<By>._)).Returns(new ReadOnlyCollection<IWebElement>(new List<IWebElement>() { optionOne, optionTwo }));
-            var selectElement = A.Fake<SelectElement>((fake) => fake.WithArgumentsForConstructor(() => new SelectElement(this.WebElement)));
+            var selectElement = A.Fake<SelectElement>(options => options.WithArgumentsForConstructor(() => new SelectElement(this.WebElement)));
             this.FormHelper.SelectByAttribute(selectElement, "attributeName", "attribute");
 
             A.CallTo(() => this.WebDriverWaitHelper.WaitForElementToBeClickable(optionTwo)).MustHaveHappenedOnceExactly();
