@@ -3,6 +3,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
 
+using DFC.TestAutomation.UI.Factory;
 using DFC.TestAutomation.UI.Settings;
 using OpenQA.Selenium;
 
@@ -26,7 +27,7 @@ namespace DFC.TestAutomation.UI.Helper
             this.RetryHelper = new RetryHelper(settingsLibrary.TestExecutionSettings.RetrySettings);
             this.AxeHelper = new AxeHelper(webDriver);
             this.BrowserHelper = new BrowserHelper(settingsLibrary?.BrowserSettings.BrowserName);
-            this.FormHelper = new FormHelper(webDriver, this.WebDriverWaitHelper);
+            this.FormHelper = new FormHelper(webDriver, this.WebDriverWaitHelper, new ActionsFactory(webDriver));
             this.CommonActionHelper = new CommonActionHelper(webDriver, this.WebDriverWaitHelper, this.RetryHelper);
             this.ScreenshotHelper = new ScreenshotHelper(webDriver);
             this.BrowserStackHelper = new BrowserStackHelper<T>(settingsLibrary.BrowserStackSettings);

@@ -3,10 +3,13 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
 
+using DFC.TestAutomation.UI.Factory;
 using DFC.TestAutomation.UI.Helper;
 using DFC.TestAutomation.UI.Settings;
 using FakeItEasy;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
+using OpenQA.Selenium.Internal;
 using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
@@ -19,12 +22,17 @@ namespace DFC.TestAutomation.UI.UnitTests.HelperTests
     {
         public FormHelperTests()
         {
-            this.WebElement = A.Fake<IWebElement>();
+            this.WebElement = A.Fake<IWebElement>(options => options.Implements<ILocatable>());
             this.WebDriverWaitHelper = A.Fake<IWebDriverWaitHelper>();
-            this.WebDriver = A.Fake<IWebDriver>();
+            this.WebDriver = A.Fake<IWebDriver>(options => options.Implements(typeof(IHasInputDevices)).Implements(typeof(IActionExecutor)));
+            this.ActionsFactory = A.Fake<IActionsFactory>();
+            var actions = A.Fake<Actions>(options => options.WithArgumentsForConstructor(() => new Actions(this.WebDriver)).Implements<IAction>());
+
+            A.CallTo(() => this.ActionsFactory.Create()).Returns(actions);
             A.CallTo(() => this.WebDriverWaitHelper.WaitForElementToBeClickable(A<IWebElement>._)).DoesNothing();
             A.CallTo(() => this.WebDriver.FindElement(A<By>._)).Returns(this.WebElement);
-            this.FormHelper = new FormHelper(this.WebDriver, this.WebDriverWaitHelper);
+
+            this.FormHelper = new FormHelper(this.WebDriver, this.WebDriverWaitHelper, this.ActionsFactory);
         }
 
         public IWebElement WebElement { get; set; }
@@ -32,6 +40,8 @@ namespace DFC.TestAutomation.UI.UnitTests.HelperTests
         public IWebDriver WebDriver { get; set; }
 
         public FormHelper FormHelper { get; set; }
+
+        public IActionsFactory ActionsFactory { get; set; }
 
         public IWebDriverWaitHelper WebDriverWaitHelper { get; set; }
 
@@ -128,7 +138,7 @@ namespace DFC.TestAutomation.UI.UnitTests.HelperTests
             A.CallTo(() => optionTwo.GetAttribute(A<string>._)).Returns("A different attribute value");
             A.CallTo(() => this.WebElement.TagName).Returns("select");
             A.CallTo(() => this.WebElement.FindElements(A<By>._)).Returns(new ReadOnlyCollection<IWebElement>(new List<IWebElement>() { optionOne, optionTwo }));
-            var selectElement = A.Fake<SelectElement>((fake) => fake.WithArgumentsForConstructor(() => new SelectElement(this.WebElement)));
+            var selectElement = A.Fake<SelectElement>(options => options.WithArgumentsForConstructor(() => new SelectElement(this.WebElement)));
 
             Assert.Throws<NotFoundException>(() => this.FormHelper.SelectByAttribute(selectElement, "attributeName", "attribute"));
         }
@@ -137,12 +147,12 @@ namespace DFC.TestAutomation.UI.UnitTests.HelperTests
         public void SelectByAttributeThrowsNotsFoundExceptionWhenNoOptionIsFound()
         {
             var optionOne = A.Fake<IWebElement>();
-            var optionTwo = A.Fake<IWebElement>();
+            var optionTwo = A.Fake<IWebElement>(options => options.Implements<ILocatable>());
             A.CallTo(() => optionOne.GetAttribute(A<string>._)).Returns("A different attribute value");
             A.CallTo(() => optionTwo.GetAttribute(A<string>._)).Returns("attribute");
             A.CallTo(() => this.WebElement.TagName).Returns("select");
             A.CallTo(() => this.WebElement.FindElements(A<By>._)).Returns(new ReadOnlyCollection<IWebElement>(new List<IWebElement>() { optionOne, optionTwo }));
-            var selectElement = A.Fake<SelectElement>((fake) => fake.WithArgumentsForConstructor(() => new SelectElement(this.WebElement)));
+            var selectElement = A.Fake<SelectElement>(options => options.WithArgumentsForConstructor(() => new SelectElement(this.WebElement)));
             this.FormHelper.SelectByAttribute(selectElement, "attributeName", "attribute");
 
             A.CallTo(() => this.WebDriverWaitHelper.WaitForElementToBeClickable(optionTwo)).MustHaveHappenedOnceExactly();
