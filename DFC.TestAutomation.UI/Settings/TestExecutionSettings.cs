@@ -19,5 +19,15 @@ namespace DFC.TestAutomation.UI.Settings
         /// Gets or sets the retry settings.
         /// </summary>
         public RetrySettings RetrySettings { get; set; }
+
+        /// <summary>
+        /// Gets or sets the login for the application being tested.
+        /// </summary>
+        public string AppLoginEmail { get; set; }
+
+        /// <summary>
+        /// Gets or sets the password for the application being tested.
+        /// </summary>
+        public string AppLoginPassword { get; set; }
     }
 }
